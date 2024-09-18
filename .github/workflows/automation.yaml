@@ -23,7 +23,7 @@ jobs:
           tags: mattdv57/smartmovefront:latest
   deploy:
     needs: build
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Pull Image from docker hub
         run: sudo docker pull mattdv57/smartmovefront:latest
