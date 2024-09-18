@@ -21,3 +21,13 @@ jobs:
         with:
           push: true
           tags: mattdv57/smartmovefront:latest
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Pull Image from docker hub
+        run: sudo docker pull mattdv57/smartmovefront:latest
+      - name: Delete Old docker container
+        run: docker rm -f smartmovefront-container || true
+      - name: Run Docker Container
+        run:  docker run -d -p 8080:8080 --name smartmovefront-container mattdv57/smartmovefront
