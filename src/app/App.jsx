@@ -13,6 +13,7 @@ import { AllArbitrations } from './screens/Arbitrations/AllArbitrations'
 import { Logs } from './screens/Logs'
 import { AccessControl } from './screens/AccessControl/AccessControl'
 import { Dashboard } from '@mui/icons-material'
+import { ModalProvider } from '../context/ModalContext'
 
 
 
@@ -27,27 +28,27 @@ function App() {
   return (
     <BrowserRouter>
       <GlobalProvider>
+        <ModalProvider>
+          <ThemeProvider theme={theme}>
+            <Box display='flex' flex={1} >
+              <SideBar isCollapsed={isCollapsed} toggleSidebar={toggleSidebar} />
+              <Box flex={1} >
+                <TopBar toggleSidebar={toggleSidebar} />
 
-        <ThemeProvider theme={theme}>
-          <Box display='flex' flex={1} >
-            <SideBar isCollapsed={isCollapsed} toggleSidebar={toggleSidebar} />
-            <Box flex={1} >
-              <TopBar toggleSidebar={toggleSidebar} />
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/my-claims" element={<MyClaims />} />
+                  <Route path="/all-claims" element={<AllClaims />} />
+                  <Route path="/my-arbitrations" element={<MyArbitrations />} />
+                  <Route path="/all-arbitrations" element={<AllArbitrations />} />
+                  <Route path="/logs" element={<Logs />} />
+                  <Route path="/access-control" element={<AccessControl />} />
+                </Routes>
 
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/my-claims" element={<MyClaims />} />
-                <Route path="/all-claims" element={<AllClaims />} />
-                <Route path="/my-arbitrations" element={<MyArbitrations />} />
-                <Route path="/all-arbitrations" element={<AllArbitrations />} />
-                <Route path="/logs" element={<Logs />} />
-                <Route path="/access-control" element={<AccessControl />} />
-              </Routes>
-
+              </Box>
             </Box>
-          </Box>
-        </ThemeProvider>
-
+          </ThemeProvider>
+        </ModalProvider>
       </GlobalProvider>
     </BrowserRouter>
 
