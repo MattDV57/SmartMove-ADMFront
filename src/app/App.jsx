@@ -12,8 +12,9 @@ import { MyArbitrations } from './screens/Arbitrations/MyArbitrations'
 import { AllArbitrations } from './screens/Arbitrations/AllArbitrations'
 import { Logs } from './screens/Logs'
 import { AccessControl } from './screens/AccessControl/AccessControl'
-import { Dashboard } from '@mui/icons-material'
+import Dashboard from './screens/Dashboard/Dashboard'
 import { ModalProvider } from '../context/ModalContext'
+import Profile from './screens/Profile/Profile'
 
 
 
@@ -43,6 +44,7 @@ function App() {
                   <Route path="/all-arbitrations" element={<AllArbitrations />} />
                   <Route path="/logs" element={<Logs />} />
                   <Route path="/access-control" element={<AccessControl />} />
+                  <Route path="/profile" element={<Profile />} />
                 </Routes>
 
               </Box>

@@ -5,7 +5,7 @@ import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNone
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { theme } from '../../styles/theme';
-
+import { useNavigate } from 'react-router-dom';
 
 const CustomIconButton = ({ children, onClick, extraStyles }) => {
     return (
@@ -30,6 +30,7 @@ const TopBar = ({ toggleSidebar }) => {
 
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+    const navigate = useNavigate();
 
     return (
         <Box display='flex' justifyContent='space-between' p={2}
@@ -48,7 +49,10 @@ const TopBar = ({ toggleSidebar }) => {
                     <SettingsOutlinedIcon />
                 </CustomIconButton>
 
-                <CustomIconButton extraStyles={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <CustomIconButton 
+                    extraStyles={{ display: "flex", alignItems: "center", gap: "8px" }}
+                    onClick={()=>navigate('/profile')}
+                >
                     <AccountCircleOutlinedIcon />
                     {isMobile
                         ? null
