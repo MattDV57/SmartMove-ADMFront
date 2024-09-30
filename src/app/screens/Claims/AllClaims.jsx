@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 
 import React, { useState } from 'react';
 import CaseGrid from '../../components/CaseGrid/CaseGrid';
@@ -13,7 +14,10 @@ export const AllClaims = () => {
     const colors = tokens(theme.palette.mode);
     const { modalData, openModal, closeModal } = useModal();
 
-    const cols = caseColumns(openModal, colors.priority);
+
+
+    const cols = caseColumns(openModal, colors.priority, 'all-claims');
+
 
     return (
         <div>

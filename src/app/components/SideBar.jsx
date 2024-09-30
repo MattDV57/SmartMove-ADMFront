@@ -11,7 +11,7 @@ import AccessibilityNewOutlinedIcon from '@mui/icons-material/AccessibilityNewOu
 import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 import BugReportOutlinedIcon from '@mui/icons-material/BugReportOutlined';
 import { useTheme } from '@mui/material';
-import Logo from '../../assets/logo.png'
+import Logo from '../../assets/smarthome-logo.svg'
 import { tokens } from '../../styles/theme';
 
 
@@ -46,8 +46,8 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
     const colors = tokens(theme.palette.mode);
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [selected, setSelected] = useState('Dashboard');
-    const mainItemColor = colors.blueAccent[200];
-    const subItemColor = colors.blueAccent[300];
+    const mainItemColor = colors.blueAccent[100];
+    const subItemColor = colors.blueAccent[200];
 
     if (isMobile && isCollapsed) {
         return null;
@@ -80,9 +80,14 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
                         margin: "10px 0 20px 0",
                         color: mainItemColor,
                     }}
+
                 >
                     {!isCollapsed && (
-                        <img src={Logo} alt="SmartMove" height={'47px'} width={'70px'} style={{}} />
+                        <img src={Logo} alt="SmartMove" height={'47px'} width={'70px'}
+                            style={{
+                                margin: "10px 0 0 0",
+                                color: mainItemColor,
+                            }} />
                     )}
                 </MenuItem>
 
@@ -120,7 +125,7 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
                             subItemColor={subItemColor}
                         />
                     </SubMenu>
-                    <SubMenu label="Mediaciones" style={{ color: mainItemColor }} icon={<ErrorIcon />}
+                    <SubMenu label="Mediaciones" style={{ color: mainItemColor, backgroundColor: 'transparent' }} icon={<ErrorIcon />}
                     >
                         <Item
                             title="Mis mediaciones"
@@ -161,7 +166,6 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
                         mainItemColor={mainItemColor}
                         subItemColor={subItemColor}
                     />
-
 
                 </Box>
             </Menu>

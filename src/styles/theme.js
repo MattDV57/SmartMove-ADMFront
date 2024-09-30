@@ -1,6 +1,6 @@
 import { createTheme } from '@mui/material'
 import { createContext, useMemo, useState } from 'react';
-
+import { esES } from '@mui/x-data-grid/locales';
 
 export const tokens = (mode) => ({
         ...(mode === 'dark')
@@ -8,8 +8,8 @@ export const tokens = (mode) => ({
         grey: {
             100: "#e0e0e0",
             200: "#c2c2c2",
-            300: "#a3a3a3",
-            400: "#3d3d3d", // old value: #858585
+            300: "#626a79",
+            400: "#364053", // old value: #858585
             500: "#666666",
             600: "#525252",
             700: "#3d3d3d",
@@ -40,14 +40,14 @@ export const tokens = (mode) => ({
           },
           priority: { 
             100: "#ffdbce",
-          200: "#feb79d",
-          300: "#fe936c",
-          400: "#fd6f3b",
-          500: "#fd4b0a",
-          600: "#ca3c08",
-          700: "#982d06",
-          800: "#651e04",
-          900: "#330f02"
+            200: "#feb79d",
+            300: "#fe936c",
+            400: "#fd6f3b",
+            500: "#fd4b0a",
+            600: "#ca3c08",
+            700: "#982d06",
+            800: "#651e04",
+            900: "#330f02"
         }
     }
           :
@@ -141,7 +141,6 @@ export const themeSettings = (mode) => {
                   },
                 }),
           },
-        
 
     typography: {
         fontFamily: "Source Sans Pro, sans-serif"
@@ -165,6 +164,6 @@ export const themeSettings = (mode) => {
           []
         );
       
-        const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+        const theme = useMemo(() => createTheme(themeSettings(mode), esES), [mode]);
         return [theme, colorMode];
       };

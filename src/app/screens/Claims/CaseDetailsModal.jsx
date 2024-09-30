@@ -18,12 +18,12 @@ const CaseDetailsModal = ({ open, onClose, claim }) => {
                     <Button onClick={onClose} variant="contained" color="primary">
                         Cerrar
                     </Button>
-                    {claim.status === 'Cerrado' &&
+                    {/* {claim.status === 'Cerrado' &&
                         <Button variant="contained" color="warning" sx={{ ml: 2 }}>
                             <DownloadIcon />
                             Chat
                         </Button>
-                    }
+                    } */}
                 </Box>
             </DialogContent>
         </Dialog>

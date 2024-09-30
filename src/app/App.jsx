@@ -3,7 +3,7 @@ import { GlobalProvider } from '../context/global/globalContext'
 import SideBar from './components/SideBar'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import TopBar from './components/TopBar'
-import { Box } from '@mui/material'
+import { Box, useMediaQuery } from '@mui/material'
 import { MyClaims } from './screens/Claims/MyClaims'
 import { AllClaims } from './screens/Claims/AllClaims'
 import { MyArbitrations } from './screens/Arbitrations/MyArbitrations'
@@ -21,7 +21,10 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 function App() {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [theme, colorMode] = useMode();
-  const sidebarWidth = isCollapsed ? 80 : 250;
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const sidebarWidth = isMobile ? (isCollapsed ? 0 : 249) : (isCollapsed ? 80 : 249);
+
+
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed)
