@@ -10,23 +10,24 @@ import ErrorIcon from '@mui/icons-material/ErrorOutline';
 import AccessibilityNewOutlinedIcon from '@mui/icons-material/AccessibilityNewOutlined';
 import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 import BugReportOutlinedIcon from '@mui/icons-material/BugReportOutlined';
-import { theme } from '../../styles/theme';
+import { useTheme } from '@mui/material';
 import Logo from '../../assets/logo.png'
+import { tokens } from '../../styles/theme';
 
-
-const mainItemColor = theme.palette.primary.main;
-const subItemColor = theme.palette.primary.light;
 
 // eslint-disable-next-line react/prop-types
-const Item = ({ title, to, icon, selected, setSelected, isSubItem = false }) => {
+const Item = ({ title, to, icon, selected, setSelected, isSubItem = false, mainItemColor, subItemColor }) => {
     const navigate = useNavigate();
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
 
     return (
         <MenuItem
             active={selected === title}
             style={{
                 color: isSubItem ? subItemColor : mainItemColor,
-                backgroundColor: theme.palette.secondary.extraLight,
+                textDecoration: selected === title ? 'underline' : 'none',
+                backgroundColor: isSubItem ? colors.grey[400] : 'transparent',
             }}
             onClick={() => {
                 setSelected(title);
@@ -34,16 +35,19 @@ const Item = ({ title, to, icon, selected, setSelected, isSubItem = false }) => 
             }}
             icon={icon}
         >
-            <Typography>{title}</Typography>
+            <Typography fontSize={isSubItem ? '14px' : '16px'} >{title}</Typography>
         </MenuItem>
     );
 };
 
 
 const SideBar = ({ isCollapsed, toggleSidebar }) => {
-
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [selected, setSelected] = useState('Dashboard');
+    const mainItemColor = colors.blueAccent[200];
+    const subItemColor = colors.blueAccent[300];
 
     if (isMobile && isCollapsed) {
         return null;
@@ -56,8 +60,15 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
             rootStyles={{
                 height: '100vh',
                 display: 'flex',
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                zIndex: 100,
+                boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.2)',
+                border: 'none'
             }}
-            backgroundColor={theme.palette.secondary.extraLight}
+            backgroundColor={colors.grey[400]}
+
         >
             <Menu iconShape="square">
 
@@ -83,6 +94,8 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
                         icon={<HomeOutlinedIcon />}
                         selected={selected}
                         setSelected={setSelected}
+                        mainItemColor={mainItemColor}
+                        subItemColor={subItemColor}
                     />
                     <SubMenu label="Reclamos" style={{ color: mainItemColor }} icon={<BugReportOutlinedIcon />}
                     >
@@ -93,6 +106,8 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
                             selected={selected}
                             setSelected={setSelected}
                             isSubItem={true}
+                            mainItemColor={mainItemColor}
+                            subItemColor={subItemColor}
                         />
                         <Item
                             title="Reclamos generales"
@@ -101,6 +116,8 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
                             selected={selected}
                             setSelected={setSelected}
                             isSubItem={true}
+                            mainItemColor={mainItemColor}
+                            subItemColor={subItemColor}
                         />
                     </SubMenu>
                     <SubMenu label="Mediaciones" style={{ color: mainItemColor }} icon={<ErrorIcon />}
@@ -112,6 +129,8 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
                             selected={selected}
                             setSelected={setSelected}
                             isSubItem={true}
+                            mainItemColor={mainItemColor}
+                            subItemColor={subItemColor}
                         />
                         <Item
                             title="Mediaciones generales"
@@ -120,6 +139,8 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
                             selected={selected}
                             setSelected={setSelected}
                             isSubItem={true}
+                            mainItemColor={mainItemColor}
+                            subItemColor={subItemColor}
                         />
                     </SubMenu>
                     <Item
@@ -128,6 +149,8 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
                         icon={<ReceiptOutlinedIcon />}
                         selected={selected}
                         setSelected={setSelected}
+                        mainItemColor={mainItemColor}
+                        subItemColor={subItemColor}
                     />
                     <Item
                         title="Control de acceso"
@@ -135,6 +158,8 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
                         icon={<SecurityOutlinedIcon />}
                         selected={selected}
                         setSelected={setSelected}
+                        mainItemColor={mainItemColor}
+                        subItemColor={subItemColor}
                     />
 
 

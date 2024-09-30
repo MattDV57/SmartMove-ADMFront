@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Box } from '@mui/material'
-import Header from '../../components/Grid/Header'
+import Header from '../../components/Header'
 import ItemDashboard from '../../components/ItemDashboard/ItemDashboard'
 
 import './Dashboard.scss'

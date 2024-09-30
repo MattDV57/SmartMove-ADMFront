@@ -1,30 +1,32 @@
 import React from 'react';
 import { Box, Button, Chip } from '@mui/material';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import DownloadIcon from '@mui/icons-material/Download';
 import moment from 'moment';
-import { theme } from '../../../styles/theme';
 
 
-export const columns = (handleOpenModal) => [
+export const caseColumns = (handleOpenModal, priorityPalette) => [
     {
         field: 'timestamp',
-        headerName: 'Fecha de emisión',
-        width: 180,
-        renderCell: params => moment(params.value).format('DD/MM/YYYY h:mm:ss a')
+        headerName: 'Fecha Emisión',
+        width: 150,
+        editable: false,
+        renderCell: params => moment(params.value).format('DD/MM/YYYY hh:mm:ss')
     },
     {
         field: 'priority',
         headerName: 'Prioridad',
-        width: 80,
+        flex: 1,
         renderCell: (params) => (
             <Chip
                 label={params.value}
                 sx={{
+                    width: '55%',
                     backgroundColor:
-                        params.value === 'P4' ? theme.palette.priority[600] :
-                            params.value === 'P3' ? theme.palette.priority[400] :
-                                params.value === 'P2' ? theme.palette.priority[300] :
-                                    theme.palette.priority[100]
+                        params.value === 'Urgente' ? priorityPalette[600] :
+                            params.value === 'Alta' ? priorityPalette[400] :
+                                params.value === 'Media' ? priorityPalette[300] :
+                                    priorityPalette[100]
                 }}
             />
         )
@@ -32,12 +34,12 @@ export const columns = (handleOpenModal) => [
     {
         field: 'status',
         headerName: 'Estado',
-        width: 120,
+        flex: 1,
         renderCell: (params) => (
             <Chip
                 label={params.value}
                 sx={{
-                    width: '100%',
+                    width: '70%',
                     textAlign: 'center',
                 }}
                 color={
@@ -50,8 +52,9 @@ export const columns = (handleOpenModal) => [
     },
     {
         field: 'assignedOperator',
-        headerName: 'Operador asignado',
-        width: 180,
+        headerName: 'Operador',
+        cellClassName: "name-column--cell",
+        flex: 1,
         renderCell: (params) => params?.row?.assignedOperator ? params.row.assignedOperator : (
             <Box>
                 <Button variant='outlined'>
@@ -60,17 +63,26 @@ export const columns = (handleOpenModal) => [
             </Box>
         )
     },
-    { field: 'user', headerName: 'Username', width: 150, renderCell: params => params.row.user.username },
+    {
+        field: 'user', headerName: 'Reclamante',
+        flex: 1, renderCell: params => params.row.user.username
+    },
+    {
+        field: 'category', headerName: 'Categoría'
+        , flex: 1, renderCell: params => params.row.category.name
+    },
     {
         field: 'details',
         headerName: 'Detalles',
-        width: 150,
+        flex: 1,
         renderCell: (params) => (
             <Button
-                variant="outlined"
+
+                variant="contained"
+                color="primary"
                 onClick={() => handleOpenModal(params.row)}
             >
-                Ver Detalles
+                VER
             </Button>
         )
     }

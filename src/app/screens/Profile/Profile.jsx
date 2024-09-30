@@ -67,15 +67,15 @@ const Profile = () => {
     const handleSubmitPassword = (e) => {
         e.preventDefault();
         // Aquí iría la lógica para cambiar la contraseña
-        
+
         //TODO: chequeo que la cotraseña que ingresa como actual sea válida
-        
+
         // TODO: modal de error para ambos casos
 
-        if(password.new!==password.confirm){
+        if (password.new !== password.confirm) {
             return null
         }
-        if(password.new.length<6){
+        if (password.new.length < 6) {
             return null
         }
 
@@ -87,7 +87,13 @@ const Profile = () => {
 
     return (
         <Container>
-            <Box sx={{ my: 4 }}>
+            <Box sx={{
+                my: 4,
+                "& .MuiPaper-root": {
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                }
+            }}
+            >
                 <Typography variant="h4" component="h1" gutterBottom>
                     Perfil de Usuario
                 </Typography>
@@ -287,7 +293,7 @@ const Profile = () => {
                     </CardContent>
                 </Card>
             </Box>
-        </Container>
+        </Container >
     );
 }
 
