@@ -23,28 +23,17 @@ import {
 } from '@mui/icons-material';
 
 import './Profile.scss'
+import useAuth from '../../../hooks/useAuth';
 
-// Simulación de datos del usuario
-const userData = {
-    nombreCompleto: "Pablo Rodríguez",
-    idEmpleado: "EMP001",
-    fechaNacimiento: "1985-05-15",
-    email: "pablo@empresa.com",
-    telefono: "+5491156781234",
-    direccion: "Calle Principal 123",
-    localidad: "Capital Federal",
-    puesto: "Gerente de Proyectos",
-    departamento: "Gestión de Proyectos",
-    fechaIngreso: "2015-03-01",
-    rolAcceso: "Gerente"
-};
 
 const Profile = () => {
+
+    const { auth } = useAuth()
     const [contactInfo, setContactInfo] = useState({
-        email: userData.email,
-        telefono: userData.telefono,
-        direccion: userData.direccion,
-        localidad: userData.localidad
+        email: auth.email,
+        telefono: auth.telefono,
+        direccion: auth.direccion,
+        localidad: auth.localidad
     });
     const [password, setPassword] = useState({ current: '', new: '', confirm: '' });
     const [isEditing, setIsEditing] = useState(false);
@@ -104,37 +93,37 @@ const Profile = () => {
                         <div className='data-grid'>
                             <Grid item xs={12} sm={6}>
                                 <Typography variant="subtitle2">Nombre Completo</Typography>
-                                <Typography variant="body1" id="perfil-nombre">{userData.nombreCompleto}</Typography>
+                                <Typography variant="body1" id="perfil-nombre">{auth.nombreCompleto}</Typography>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <Typography variant="subtitle2">ID del Empleado</Typography>
-                                <Typography variant="body1" id="perfil-id">{userData.idEmpleado}</Typography>
+                                <Typography variant="body1" id="perfil-id">{auth.idEmpleado}</Typography>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <Box display="flex" alignItems="center" gap={1}>
                                     <CalendarToday fontSize="small" />
                                     <Typography variant="subtitle2">Fecha de Nacimiento</Typography>
                                 </Box>
-                                <Typography variant="body1" id="perfil-fecha-nacimiento">{userData.fechaNacimiento}</Typography>
+                                <Typography variant="body1" id="perfil-fecha-nacimiento">{auth.fechaNacimiento}</Typography>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <Box display="flex" alignItems="center" gap={1}>
                                     <CalendarToday fontSize="small" />
                                     <Typography variant="subtitle2">Fecha de Ingreso</Typography>
                                 </Box>
-                                <Typography variant="body1" id="perfil-fecha-ingreso">{userData.fechaIngreso}</Typography>
+                                <Typography variant="body1" id="perfil-fecha-ingreso">{auth.fechaIngreso}</Typography>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <Typography variant="subtitle2">Puesto</Typography>
-                                <Typography variant="body1" id="perfil-puesto">{userData.puesto}</Typography>
+                                <Typography variant="body1" id="perfil-puesto">{auth.puesto}</Typography>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <Typography variant="subtitle2">Departamento</Typography>
-                                <Typography variant="body1" id="perfil-departamento">{userData.departamento}</Typography>
+                                <Typography variant="body1" id="perfil-departamento">{auth.departamento}</Typography>
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography variant="subtitle2">Rol de Acceso</Typography>
-                                <Chip label={userData.rolAcceso} color="primary" variant="outlined" id="perfil-rol"/>
+                                <Chip label={auth.rolAcceso} color="primary" variant="outlined" id="perfil-rol"/>
                             </Grid>
                         </div>
                     </CardContent>

@@ -21,7 +21,7 @@
 /* Evitar que se salga de la pantalla */
 .notification-list {
     max-width: 600px; /* Limita el ancho para evitar desbordamiento */
-    right: 0;
+    right: -50px;
 }
 
 .notification-list p {
