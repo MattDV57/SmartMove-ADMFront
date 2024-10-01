@@ -24,6 +24,8 @@ const UseApi = (endpoint, config) => {
         let responseData = null
         let hasError = false
 
+        const token = localStorage.getItem('smartmove-token') || ''
+
         try {
 
             const completeOptions = {
@@ -31,7 +33,7 @@ const UseApi = (endpoint, config) => {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    // 'Authorization': jwt ? `Bearer ${jwt}` : ''
+                    'Authorization': token ? `Bearer ${token}` : ''
                 },
                 body: JSON.stringify(dataApi)
             }
