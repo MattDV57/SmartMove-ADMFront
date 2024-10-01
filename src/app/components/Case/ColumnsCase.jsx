@@ -1,8 +1,7 @@
 import React from 'react';
 import { Box, Button, Chip } from '@mui/material';
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import AddTaskIcon from '@mui/icons-material/AddTask';
 import ChatIcon from '@mui/icons-material/Chat';
-import DownloadIcon from '@mui/icons-material/Download';
 import moment from 'moment';
 
 const priorityOrder = {
@@ -13,13 +12,16 @@ const priorityOrder = {
 }
 
 const statusOrder = {
-    'Abierto': 3,
-    'En Proceso': 2,
+    'Abierto': 4,
+    'En Proceso': 3,
+    'Resuelto': 2,
     'Cerrado': 1
 }
 
+const pathTypes = ['my-claims', 'all-claims', 'my-arbitrations', 'all-arbitrations'];
 
-export const caseColumns = (handleOpenModal, priorityPalette, type, handleDownload) => [
+
+export const columnsCase = (handleOpenModal, priorityPalette, path, handleOpenChat) => [
     {
         field: 'timestamp',
         headerName: 'Fecha Emisión',
@@ -77,7 +79,7 @@ export const caseColumns = (handleOpenModal, priorityPalette, type, handleDownlo
             />
         )
     },
-    ...(type !== 'my-claims' ? [
+    ...(path !== pathTypes[0] && path !== pathTypes[2] ? [
         {
             field: 'assignedOperator',
             headerName: 'Operador',
@@ -86,8 +88,11 @@ export const caseColumns = (handleOpenModal, priorityPalette, type, handleDownlo
             renderCell: (params) => (
                 params?.row?.assignedOperator ? params.row.assignedOperator : (
                     <Box>
-                        <Button variant='outlined'>
-                            <AddOutlinedIcon />
+                        <Button
+                            variant='contained'
+                            onClick={() => handleOpenModal('accept-case', params.row)}
+                        >
+                            <AddTaskIcon />
                         </Button>
                     </Box>
                 )
@@ -98,10 +103,20 @@ export const caseColumns = (handleOpenModal, priorityPalette, type, handleDownlo
         field: 'user', headerName: 'Reclamante',
         flex: 1, renderCell: params => params.row.user.username
     },
-    {
-        field: 'category', headerName: 'Categoría'
-        , flex: 1, renderCell: params => params.row.category.name
-    },
+
+    ...(path === pathTypes[2] || path === pathTypes[3] ? [
+        {
+            field: 'user', headerName: 'Reclamado',
+            flex: 1, renderCell: params => params.row.user.complainted
+        }]
+        : [
+            {
+                field: 'category', headerName: 'Categoría'
+                , flex: 1, renderCell: params => params.row.category.name
+            },]
+    ),
+
+
     {
         field: 'details',
         headerName: 'Detalles',
@@ -112,31 +127,22 @@ export const caseColumns = (handleOpenModal, priorityPalette, type, handleDownlo
                 alignItems='center'
                 gap={3}
             >
-                {params.row.status === 'Cerrado' ?
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        sx={{ gap: '2px' }}
-                        onClick={() => handleDownload(params.row)}
-                    >
-                        <DownloadIcon /> HISTORIAL
-                    </Button>
-                    :
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        sx={{ marginRight: '15px' }}
-                        onClick={() => handleOpenModal(params.row)}
-                    >
-                        VER
-                    </Button>
-                }
-                {type === 'my-claims' && params.row.status !== 'Cerrado' && (
+
+                <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{ marginRight: '15px' }}
+                    onClick={() => handleOpenModal('case-details', params.row)}
+                >
+                    VER
+                </Button>
+
+                {path === 'my-claims' && (
                     <Button
                         variant="contained"
                         color="info"
                         sx={{ gap: '2px' }}
-                        onClick={() => handleOpenModal(params.row)}
+                        onClick={() => handleOpenChat(params.row)}
                     >
                         <ChatIcon />
                         CHAT

@@ -8,7 +8,7 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
-import { ColorModeContext, tokens } from '../../styles/theme';
+import { ColorModeContext, tokens } from '../../../styles/theme';
 import './TopBar.scss'
 
 const CustomIconButton = ({ children, onClick, extraStyles }) => {

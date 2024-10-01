@@ -11,8 +11,8 @@ import AccessibilityNewOutlinedIcon from '@mui/icons-material/AccessibilityNewOu
 import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 import BugReportOutlinedIcon from '@mui/icons-material/BugReportOutlined';
 import { useTheme } from '@mui/material';
-import Logo from '../../assets/smarthome-logo.svg'
-import { tokens } from '../../styles/theme';
+import Logo from '../../../assets/smarthome-logo.svg'
+import { tokens } from '../../../styles/theme';
 
 
 // eslint-disable-next-line react/prop-types
@@ -47,7 +47,7 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [selected, setSelected] = useState('Dashboard');
     const mainItemColor = colors.blueAccent[100];
-    const subItemColor = colors.blueAccent[200];
+    const subItemColor = colors.blueAccent[100];
 
     if (isMobile && isCollapsed) {
         return null;
@@ -79,6 +79,7 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
                     style={{
                         margin: "10px 0 20px 0",
                         color: mainItemColor,
+                        backgroundColor: 'transparent',
                     }}
 
                 >
@@ -87,6 +88,7 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
                             style={{
                                 margin: "10px 0 0 0",
                                 color: mainItemColor,
+                                backgroundColor: 'transparent',
                             }} />
                     )}
                 </MenuItem>
@@ -102,7 +104,7 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
                         mainItemColor={mainItemColor}
                         subItemColor={subItemColor}
                     />
-                    <SubMenu label="Reclamos" style={{ color: mainItemColor }} icon={<BugReportOutlinedIcon />}
+                    <SubMenu label="Reclamos" style={{ color: mainItemColor, backgroundColor: 'transparent' }} icon={<BugReportOutlinedIcon />}
                     >
                         <Item
                             title="Mis reclamos"

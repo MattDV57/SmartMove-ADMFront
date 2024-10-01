@@ -8,24 +8,23 @@ import { data } from './MOCK_DATA';
 import { useTheme } from '@emotion/react';
 import { tokens } from '../../../styles/theme';
 
-const CaseGrid = ({ title, columns, operatorName = "" }) => {
+const GridCase = ({ title, columns, operatorName = "", caseType }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
     const [paginationModel, setPaginationModel] = useState({ pageSize: 10, page: 0 });
 
-    // const [filterModel, setFilterModel] = useState({
-    //     items: [
-    //         { columnField: 'timestap', operatorValue: 'equals', value: '' },
-    //         { columnField: 'status', operatorValue: 'onOrAfter', value: '' },
-    //     ],
-    // });
 
-    const filterRowsByOperator = (rows, type, operatorName) => {
-        return rows.filter(row => row.assignedOperator === operatorName);
+    const filterRowsByOperator = (rows, caseType, operatorName) => {
+        if (caseType === 'arbitrations') {
+            return rows.filter((row) => row.category === "Mediaciones" && (operatorName ? row.assignedOperator === operatorName : true));
+        } else {
+            return rows.filter((row) => row.category !== "Mediaciones" && (operatorName ? row.assignedOperator === operatorName : true));
+        }
+
     };
 
-    const filteredData = operatorName !== "" ? filterRowsByOperator(data, operatorName) : data;
+    const filteredData = filterRowsByOperator(data, caseType, operatorName);
 
     return (
         <Box margin={"15px 0 0 15px"}
@@ -65,7 +64,7 @@ const CaseGrid = ({ title, columns, operatorName = "" }) => {
                 }}
             >
                 <DataGrid
-                    rows={data}
+                    rows={filteredData}
                     columns={columns}
                     pageSizeOptions={[5, 10, 20]}
                     pagination
@@ -87,4 +86,4 @@ const CaseGrid = ({ title, columns, operatorName = "" }) => {
 
 
 
-export default CaseGrid;
+export default GridCase;

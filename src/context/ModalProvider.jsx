@@ -8,19 +8,18 @@ const ModalContext = createContext();
 export const useModal = () => useContext(ModalContext);
 
 export const ModalProvider = ({ children }) => {
-    const [modalData, setModalData] = useState({ open: false, claim: null });
+    const [modal, setModal] = useState(null);
 
-    const openModal = (claim) => {
-        setModalData({ open: true, claim })
-        document.body.style.overflow = 'hidden';
+    const openModal = (type, data = {}) => {
+        setModal({ type, data });
     };
+
     const closeModal = () => {
-        setModalData({ open: false, claim: null })
-        document.body.style.overflow = 'auto';
+        setModal(null);
     };
 
     return (
-        <ModalContext.Provider value={{ modalData, openModal, closeModal }}>
+        <ModalContext.Provider value={{ modal, openModal, closeModal }}>
             {children}
         </ModalContext.Provider>
     );

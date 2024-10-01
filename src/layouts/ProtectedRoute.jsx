@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 
 import { Outlet, Navigate } from 'react-router-dom'
 
-import SideBar from '../app/components/SideBar'
+import SideBar from '../app/components/global/SideBar'
 
-import { Box,useMediaQuery } from '@mui/material'
+import { Box, useMediaQuery } from '@mui/material'
 
-import TopBar from '../app/components/TopBar'
+import TopBar from '../app/components/global/TopBar'
 
 import useAuth from '../hooks/useAuth'
 
@@ -15,13 +15,13 @@ import { useMode } from '../styles/theme'
 const ProtectedRoute = () => {
 
     const { auth, cargando } = useAuth();
-    
+
     const [theme] = useMode()
 
     const [isCollapsed, setIsCollapsed] = useState(false)
-    
+
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    
+
     const sidebarWidth = isMobile ? (isCollapsed ? 0 : 249) : (isCollapsed ? 80 : 249);
 
     const toggleSidebar = () => {
