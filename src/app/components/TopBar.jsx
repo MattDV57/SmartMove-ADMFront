@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { useContext, useState } from 'react';
 import { Box, IconButton, Typography, useMediaQuery } from '@mui/material'
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
@@ -7,8 +8,8 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
-import { useContext } from 'react';
 import { ColorModeContext, tokens } from '../../styles/theme';
+import './TopBar.scss'
 
 const CustomIconButton = ({ children, onClick, extraStyles }) => {
     const theme = useTheme();
@@ -40,6 +41,14 @@ const TopBar = ({ toggleSidebar }) => {
 
     const navigate = useNavigate();
 
+    const [showNotifications, setShowNotifications] = useState(false);
+
+    const mockNotifications = [
+        'You have a new message.',
+        'Your order has been shipped.',
+        'Don\'t forget to check your schedule.',
+    ];
+
     return (
         <Box display='flex' justifyContent='space-between' p={2}
             backgroundColor={colors.grey[400]}
@@ -50,9 +59,29 @@ const TopBar = ({ toggleSidebar }) => {
             </CustomIconButton>
 
             <Box display='flex'>
-                <CustomIconButton >
-                    <NotificationsNoneOutlinedIcon />
-                </CustomIconButton>
+
+                <div
+                    className="nav-item notifications"
+                    onMouseEnter={() => setShowNotifications(true)}
+                    onMouseLeave={() => setShowNotifications(false)}
+                >
+                    <CustomIconButton >
+                        <NotificationsNoneOutlinedIcon />
+                    </CustomIconButton>
+                    {showNotifications && (
+                        <div className="notification-list">
+                            {mockNotifications.length > 0 ? (
+                                mockNotifications.map((notification, index) => (
+                                    <p key={index}>{notification}</p>
+                                ))
+                            ) : (
+                                <p>No new notifications</p>
+                            )}
+                        </div>
+                    )}
+                </div>
+
+
 
                 <CustomIconButton onClick={colorMode.toggleColorMode}>
                     {theme.palette.mode === "dark" ? (
