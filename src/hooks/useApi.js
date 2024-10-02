@@ -4,7 +4,7 @@ const UseApi = (endpoint, config) => {
 
     const [isLoading, setIsLoading] = useState(false)
 
-    const [data, setData] = useState<any>(null)
+    const [data, setData] = useState(null)
 
     const [isError, setIsError] = useState(false)
 

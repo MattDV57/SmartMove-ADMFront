@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
 import { ColorModeContext, tokens } from '../../../styles/theme';
 import './TopBar.scss'
+import useAuth from '../../../hooks/useAuth';
 
 const CustomIconButton = ({ children, onClick, extraStyles }) => {
     const theme = useTheme();
@@ -34,6 +35,8 @@ const CustomIconButton = ({ children, onClick, extraStyles }) => {
 
 
 const TopBar = ({ toggleSidebar }) => {
+    const { auth } = useAuth();
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
@@ -98,7 +101,7 @@ const TopBar = ({ toggleSidebar }) => {
                     <AccountCircleOutlinedIcon />
                     {isMobile
                         ? null
-                        : <Typography>Juan Doe</Typography>}
+                        : <Typography>{auth.fullName}</Typography>}
 
                 </CustomIconButton>
             </Box>

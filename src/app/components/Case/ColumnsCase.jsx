@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Button, Chip } from '@mui/material';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import ChatIcon from '@mui/icons-material/Chat';
+import EditIcon from '@mui/icons-material/Edit';
 import moment from 'moment';
 
 const priorityOrder = {
@@ -58,7 +59,7 @@ export const columnsCase = (handleOpenModal, priorityPalette, path, handleOpenCh
         field: 'status',
         headerName: 'Estado',
         type: 'singleSelect',
-        valueOptions: ['Abierto', 'En Proceso', 'Cerrado'],
+        valueOptions: ['Abierto', 'En Proceso', 'Resuelto', 'Cerrado'],
         sortComparator: (v1, v2) => {
             return statusOrder[v1] - statusOrder[v2];
         },
@@ -79,11 +80,12 @@ export const columnsCase = (handleOpenModal, priorityPalette, path, handleOpenCh
             />
         )
     },
-    ...(path !== pathTypes[0] && path !== pathTypes[2] ? [
+    ...(path !== pathTypes[0] && path !== pathTypes[2] ? [ // AllClaims and AllArbitrations columns only.
         {
             field: 'assignedOperator',
             headerName: 'Operador',
             cellClassName: 'name-column--cell',
+            type: 'string',
             flex: 1,
             renderCell: (params) => (
                 params?.row?.assignedOperator ? params.row.assignedOperator : (
@@ -104,7 +106,7 @@ export const columnsCase = (handleOpenModal, priorityPalette, path, handleOpenCh
         flex: 1, renderCell: params => params.row.user.username
     },
 
-    ...(path === pathTypes[2] || path === pathTypes[3] ? [
+    ...(path === pathTypes[2] || path === pathTypes[3] ? [ // Arbitrations column only.
         {
             field: 'user', headerName: 'Reclamado',
             flex: 1, renderCell: params => params.row.user.complainted
@@ -120,6 +122,9 @@ export const columnsCase = (handleOpenModal, priorityPalette, path, handleOpenCh
     {
         field: 'details',
         headerName: 'Detalles',
+        sortable: false,
+        filterable: false,
+        resizable: false,
         flex: 1,
         renderCell: (params) => (
             <Box
@@ -130,7 +135,7 @@ export const columnsCase = (handleOpenModal, priorityPalette, path, handleOpenCh
 
                 <Button
                     variant="contained"
-                    color="primary"
+                    color="warning"
                     sx={{ marginRight: '15px' }}
                     onClick={() => handleOpenModal('case-details', params.row)}
                 >
@@ -141,7 +146,12 @@ export const columnsCase = (handleOpenModal, priorityPalette, path, handleOpenCh
                     <Button
                         variant="contained"
                         color="info"
-                        sx={{ gap: '2px' }}
+                        sx={{
+                            // display: 'flex',
+                            // justifyContent: 'center',
+                            // alignItems: 'center',
+                            // gap: '5px'
+                        }}
                         onClick={() => handleOpenChat(params.row)}
                     >
                         <ChatIcon />
@@ -152,6 +162,25 @@ export const columnsCase = (handleOpenModal, priorityPalette, path, handleOpenCh
 
             </Box>
         )
+    },
+    ...(path === pathTypes[0] || path === pathTypes[2] ? [
+        {
+            field: "edit",
+            headerName: "Editar",
+            width: 100,
+            sortable: false,
+            filterable: false,
+            resizable: false,
+            renderCell: (params) => (
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleOpenModal('edit-case', params.row)}
+                >
+                    <EditIcon />
+                </Button>
+            )
+        }
+    ] : [])
 
-    }
 ];

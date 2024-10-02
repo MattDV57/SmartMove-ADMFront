@@ -31,9 +31,9 @@ const Profile = () => {
     const { auth } = useAuth()
     const [contactInfo, setContactInfo] = useState({
         email: auth.email,
-        telefono: auth.telefono,
-        direccion: auth.direccion,
-        localidad: auth.localidad
+        phone: auth.phone,
+        address: auth.address,
+        location: auth.location
     });
     const [password, setPassword] = useState({ current: '', new: '', confirm: '' });
     const [isEditing, setIsEditing] = useState(false);
@@ -88,49 +88,49 @@ const Profile = () => {
                 </Typography>
 
                 <Card sx={{ mb: 4 }} variant='outlined'>
-                    <CardHeader title="Información General" id='perfil-informacion-general'/>
+                    <CardHeader title="Información General" id='perfil-informacion-general' />
                     <CardContent>
                         <div className='data-grid'>
                             <Grid item xs={12} sm={6}>
                                 <Typography variant="subtitle2">Nombre Completo</Typography>
-                                <Typography variant="body1" id="perfil-nombre">{auth.nombreCompleto}</Typography>
+                                <Typography variant="body1" id="perfil-nombre">{auth.fullName}</Typography>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <Typography variant="subtitle2">ID del Empleado</Typography>
-                                <Typography variant="body1" id="perfil-id">{auth.idEmpleado}</Typography>
+                                <Typography variant="body1" id="perfil-id">{auth.employeeId}</Typography>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <Box display="flex" alignItems="center" gap={1}>
                                     <CalendarToday fontSize="small" />
                                     <Typography variant="subtitle2">Fecha de Nacimiento</Typography>
                                 </Box>
-                                <Typography variant="body1" id="perfil-fecha-nacimiento">{auth.fechaNacimiento}</Typography>
+                                <Typography variant="body1" id="perfil-fecha-nacimiento">{auth.birthDate}</Typography>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <Box display="flex" alignItems="center" gap={1}>
                                     <CalendarToday fontSize="small" />
                                     <Typography variant="subtitle2">Fecha de Ingreso</Typography>
                                 </Box>
-                                <Typography variant="body1" id="perfil-fecha-ingreso">{auth.fechaIngreso}</Typography>
+                                <Typography variant="body1" id="perfil-fecha-ingreso">{auth.entryDate}</Typography>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <Typography variant="subtitle2">Puesto</Typography>
-                                <Typography variant="body1" id="perfil-puesto">{auth.puesto}</Typography>
+                                <Typography variant="body1" id="perfil-position">{auth.position}</Typography>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <Typography variant="subtitle2">Departamento</Typography>
-                                <Typography variant="body1" id="perfil-departamento">{auth.departamento}</Typography>
+                                <Typography variant="body1" id="perfil-department">{auth.department}</Typography>
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography variant="subtitle2">Rol de Acceso</Typography>
-                                <Chip label={auth.rolAcceso} color="primary" variant="outlined" id="perfil-rol"/>
+                                <Chip label={auth.accessRole} color="primary" variant="outlined" id="perfil-rol" />
                             </Grid>
                         </div>
                     </CardContent>
                 </Card>
 
                 <Card sx={{ mb: 4 }} variant='outlined'>
-                    <CardHeader title="Información de Contacto" id="perfil-contacto"/>
+                    <CardHeader title="Información de Contacto" id="perfil-contacto" />
                     <CardContent>
                         {isEditing ? (
                             <form onSubmit={handleSubmitContact}>
@@ -150,33 +150,33 @@ const Profile = () => {
                                         <TextField
                                             fullWidth
                                             label="Teléfono"
-                                            name="telefono"
-                                            value={contactInfo.telefono}
+                                            name="phone"
+                                            value={contactInfo.phone}
                                             onChange={handleContactChange}
                                             required
-                                            id="perfil-edit-telefono"
+                                            id="perfil-edit-phone"
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
                                         <TextField
                                             fullWidth
                                             label="Dirección"
-                                            name="direccion"
-                                            value={contactInfo.direccion}
+                                            name="address"
+                                            value={contactInfo.address}
                                             onChange={handleContactChange}
                                             required
-                                            id="perfil-edit-direccion"
+                                            id="perfil-edit-address"
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
                                         <TextField
                                             fullWidth
                                             label="Localidad"
-                                            name="localidad"
-                                            value={contactInfo.localidad}
+                                            name="location"
+                                            value={contactInfo.location}
                                             onChange={handleContactChange}
                                             required
-                                            id="perfil-edit-localidad"
+                                            id="perfil-edit-location"
                                         />
                                     </Grid>
                                 </div>
@@ -200,19 +200,19 @@ const Profile = () => {
                                 <Grid item xs={12}>
                                     <Box display="flex" alignItems="center" gap={1}>
                                         <Phone fontSize="small" />
-                                        <Typography id="perfil-telefono">{contactInfo.telefono}</Typography>
+                                        <Typography id="perfil-phone">{contactInfo.phone}</Typography>
                                     </Box>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Box display="flex" alignItems="center" gap={1}>
                                         <LocationOn fontSize="small" />
-                                        <Typography id="perfil-direccion">{contactInfo.direccion}</Typography>
+                                        <Typography id="perfil-address">{contactInfo.address}</Typography>
                                     </Box>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Box display="flex" alignItems="center" gap={1}>
                                         <LocationOn fontSize="small" />
-                                        <Typography id="perfil-localidad">{contactInfo.localidad}</Typography>
+                                        <Typography id="perfil-location">{contactInfo.location}</Typography>
                                     </Box>
                                 </Grid>
                                 <Grid item xs={12}>
@@ -226,7 +226,7 @@ const Profile = () => {
                 </Card>
 
                 <Card variant='outlined'>
-                    <CardHeader title="Cambiar Contraseña" id="perfil-contrasena"/>
+                    <CardHeader title="Cambiar Contraseña" id="perfil-contrasena" />
                     <CardContent>
                         {isChangingPassword ? (
                             <form onSubmit={handleSubmitPassword}>

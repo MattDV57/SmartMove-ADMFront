@@ -8,7 +8,7 @@ const ModalDetails = ({ open, onClose, claim }) => {
     if (!claim) return null;
 
     return (
-        <Dialog open={open} onClose={onClose} maxWidth="sm">
+        <Dialog open={open} onClose={onClose} maxWidth="sm" >
             <DialogTitle>Detalles del Caso</DialogTitle>
             <DialogContent>
                 <Typography><strong>Categoría:</strong> {claim.category}</Typography>

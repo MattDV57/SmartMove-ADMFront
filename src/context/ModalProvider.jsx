@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-// ModalContext.js
 import React, { createContext, useState, useContext } from 'react';
+import useAuth from '../hooks/useAuth';
 
 const ModalContext = createContext();
 
@@ -8,10 +8,13 @@ const ModalContext = createContext();
 export const useModal = () => useContext(ModalContext);
 
 export const ModalProvider = ({ children }) => {
+
+    const { auth } = useAuth();
+
     const [modal, setModal] = useState(null);
 
     const openModal = (type, data = {}) => {
-        setModal({ type, data });
+        setModal({ type, data, employeeId: auth.employeeId });
     };
 
     const closeModal = () => {

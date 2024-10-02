@@ -33,8 +33,9 @@ const GridCase = ({ title, columns, operatorName = "", caseType }) => {
             <Box
                 m="0 0 0 0"
                 height="75vh"
-
                 sx={{
+                    width: { xs: "270%", sm: "100%" },
+                    overflowX: "auto",
                     "& .MuiDataGrid-root": {
                         border: "none",
                     },
@@ -64,6 +65,7 @@ const GridCase = ({ title, columns, operatorName = "", caseType }) => {
                 }}
             >
                 <DataGrid
+
                     rows={filteredData}
                     columns={columns}
                     pageSizeOptions={[5, 10, 20]}

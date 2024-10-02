@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Box, Typography, useMediaQuery } from '@mui/material';
+import { Box, hexToRgb, IconButton, Typography, useMediaQuery } from '@mui/material';
 import { useState } from 'react';
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
@@ -26,8 +26,15 @@ const Item = ({ title, to, icon, selected, setSelected, isSubItem = false, mainI
             active={selected === title}
             style={{
                 color: isSubItem ? subItemColor : mainItemColor,
-                textDecoration: selected === title ? 'underline' : 'none',
-                backgroundColor: isSubItem ? colors.grey[400] : 'transparent',
+                textDecoration: isSubItem && selected === title ? 'underline' : 'none',
+                backgroundColor: !isSubItem && selected === title ? 'rgba(0, 0, 0, 0.1)' : colors.grey[400],
+                marginLeft: isSubItem ? '0' : '0',
+            }}
+            rootStyles={{
+                "&:hover": {
+                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                },
+
             }}
             onClick={() => {
                 setSelected(title);
@@ -36,7 +43,7 @@ const Item = ({ title, to, icon, selected, setSelected, isSubItem = false, mainI
             icon={icon}
         >
             <Typography fontSize={isSubItem ? '14px' : '16px'} >{title}</Typography>
-        </MenuItem>
+        </MenuItem >
     );
 };
 
@@ -104,7 +111,11 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
                         mainItemColor={mainItemColor}
                         subItemColor={subItemColor}
                     />
-                    <SubMenu label="Reclamos" style={{ color: mainItemColor, backgroundColor: 'transparent' }} icon={<BugReportOutlinedIcon />}
+                    <SubMenu label="Reclamos" style={{
+                        color: mainItemColor,
+                        backgroundColor: ["Mis reclamos", "Reclamos generales"].includes(selected) ? 'rgba(0, 0, 0, 0.1)' : 'transparent'
+                    }}
+                        icon={<BugReportOutlinedIcon />}
                     >
                         <Item
                             title="Mis reclamos"
@@ -127,7 +138,12 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
                             subItemColor={subItemColor}
                         />
                     </SubMenu>
-                    <SubMenu label="Mediaciones" style={{ color: mainItemColor, backgroundColor: 'transparent' }} icon={<ErrorIcon />}
+                    <SubMenu label="Mediaciones" style={{
+                        color: mainItemColor,
+                        backgroundColor: ["Mis mediaciones", "Mediaciones generales"].includes(selected) ? 'rgba(0, 0, 0, 0.1)' : 'transparent'
+                    }}
+
+                        icon={<ErrorIcon />}
                     >
                         <Item
                             title="Mis mediaciones"

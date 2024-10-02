@@ -6,17 +6,17 @@ const AuthProvider = ({ children }) => {
 
     const userData = {
         id: '1234',
-        nombreCompleto: "Pablo Rodríguez",
-        idEmpleado: "EMP-001",
-        fechaNacimiento: "1985-05-15",
+        fullName: "Pablo Rodríguez",
+        employeeId: "EMP-001",
+        birthDate: "1985-05-15",
         email: "pablo@empresa.com",
-        telefono: "+5491156781234",
-        direccion: "Calle Principal 123",
+        phone: "+5491156781234",
+        address: "Calle Principal 123",
         localidad: "Capital Federal",
-        puesto: "Gerente de Proyectos",
-        departamento: "Gestión de Proyectos",
-        fechaIngreso: "2015-03-01",
-        rolAcceso: "Gerente"
+        position: "Gerente de Proyectos",
+        department: "Gestión de Proyectos",
+        entryDate: "2015-03-01",
+        accessRole: "Gerente"
     };
 
     const [auth, setAuth] = useState({

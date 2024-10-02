@@ -13,6 +13,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import AuthLayout from '../layouts/AuthLayout';
 import ProtectedRoute from '../layouts/ProtectedRoute';
 import { AuthProvider } from '../context/AuthProvider'
+import { AlertProvider } from '../context/AlertProvider'
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -24,39 +25,42 @@ function App() {
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <GlobalProvider>
+
               <ModalProvider>
+                <AlertProvider>
 
-                <Routes>
+                  <Routes>
 
-                  <Route path='/auth' element={<AuthLayout />}>
+                    <Route path='/auth' element={<AuthLayout />}>
 
-                    <Route index element={<Login />} />
+                      <Route index element={<Login />} />
 
-                  </Route>
+                    </Route>
 
-                  <Route path="/" element={<ProtectedRoute />}>
+                    <Route path="/" element={<ProtectedRoute />}>
 
-                    <Route index element={<Dashboard />} />
+                      <Route index element={<Dashboard />} />
 
-                    <Route path="/my-claims" element={<MyClaims />} />
+                      <Route path="/my-claims" element={<MyClaims />} />
 
-                    <Route path="/all-claims" element={<AllClaims />} />
+                      <Route path="/all-claims" element={<AllClaims />} />
 
-                    <Route path="/my-arbitrations" element={<MyArbitrations />} />
+                      <Route path="/my-arbitrations" element={<MyArbitrations />} />
 
-                    <Route path="/all-arbitrations" element={<AllArbitrations />} />
+                      <Route path="/all-arbitrations" element={<AllArbitrations />} />
 
-                    <Route path="/logs" element={<Logs />} />
+                      <Route path="/logs" element={<Logs />} />
 
-                    <Route path="/access-control" element={<AccessControl />} />
+                      <Route path="/access-control" element={<AccessControl />} />
 
-                    <Route path="/profile" element={<Profile />} />
+                      <Route path="/profile" element={<Profile />} />
 
-                  </Route>
+                    </Route>
 
-                </Routes>
-
+                  </Routes>
+                </AlertProvider>
               </ModalProvider>
+
             </GlobalProvider>
           </ThemeProvider>
         </ColorModeContext.Provider>

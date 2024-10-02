@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material'
+import { createTheme, Paper } from '@mui/material'
 import { createContext, useMemo, useState } from 'react';
 import { esES } from '@mui/x-data-grid/locales';
 
@@ -6,15 +6,15 @@ export const tokens = (mode) => ({
         ...(mode === 'dark')
         ? {
         grey: {
-            100: "#e0e0e0",
-            200: "#c2c2c2",
-            300: "#626a79",
+            100: "#727987",
+            200: "#5d6575",
+            300: "#495264",
             400: "#364053", // old value: #858585
-            500: "#666666",
-            600: "#525252",
-            700: "#3d3d3d",
-            800: "#292929",
-            900: "#141414",
+            500: "#30394b",
+            600: "#2a3242",
+            700: "#252c3a",
+            800: "#202632",
+            900: "#1b202a",
         },
         primary: {
             100: "#d0d1d5",
@@ -121,6 +121,7 @@ export const themeSettings = (mode) => {
                   },
                   background: {
                     default: colors.primary[500],
+                    modal: colors.grey[700],
                   },
                 }
               : {
@@ -138,10 +139,12 @@ export const themeSettings = (mode) => {
                   },
                   background: {
                     default: "#fcfcfc",
+                    modal: colors.grey[400],
                   },
                 }),
           },
-
+    
+          
     typography: {
         fontFamily: "Source Sans Pro, sans-serif"
     }
