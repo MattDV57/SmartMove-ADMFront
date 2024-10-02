@@ -34,7 +34,7 @@ const GridCase = ({ title, columns, operatorName = "", caseType }) => {
                 m="0 0 0 0"
                 height="75vh"
                 sx={{
-                    width: { xs: "270%", sm: "100%" },
+                    // width: { xs: "270%", sm: "100%" },
                     overflowX: "auto",
                     "& .MuiDataGrid-root": {
                         border: "none",

@@ -2,8 +2,10 @@
 import React from 'react';
 import ModalDetails from './Case/ModalDetails';
 import ModalOperatorAccept from './Case/ModalOperatorAccept';
-import { useModal } from '../../context/ModalProvider';
 import ModalEditCase from './Case/ModalEditCase';
+import { MODALS_TYPES } from '../../common/types';
+import { useModal } from '../../context/ModalProvider';
+
 
 const ModalManager = () => {
     const { modal, closeModal } = useModal();
@@ -11,12 +13,12 @@ const ModalManager = () => {
     if (!modal) return null;
 
     switch (modal.type) {
-        case 'case-details':
+        case MODALS_TYPES.DETAILS_CASE:
             return <ModalDetails open={true} claim={modal.data} onClose={closeModal} />;
-        case 'accept-case':
+        case MODALS_TYPES.OPERATOR_ACCEPT_CASE:
             return <ModalOperatorAccept open={true} claim={modal.data} onClose={closeModal} employeeId={modal.employeeId} />;
-        case 'edit-case':
-            return <ModalEditCase isOpen={true} claim={modal.data} handleClose={closeModal} handleSaveChanges={closeModal} />
+        case MODALS_TYPES.EDIT_CASE:
+            return <ModalEditCase isOpen={true} claim={modal.data} onClose={closeModal} />
         default:
             return null;
     }

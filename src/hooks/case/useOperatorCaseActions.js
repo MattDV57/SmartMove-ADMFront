@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
 import { usePutOperatorInCase } from "../../services/case/usePutCase"; 
 import { useAlert } from "../../context/AlertProvider";
 
 
-const usePutOperatorActions = ({ claimId, employeeId }) => {
+const useOperatorCaseActions = ({ claimId, employeeId }) => {
 
     const { callApi, isLoading, data, isError } = usePutOperatorInCase({ claimId, employeeId });
     const { showAlert } = useAlert();
@@ -28,4 +27,4 @@ const usePutOperatorActions = ({ claimId, employeeId }) => {
     };
     };
 
-export default usePutOperatorActions;
+export default useOperatorCaseActions;

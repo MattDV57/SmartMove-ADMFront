@@ -7,12 +7,12 @@ import { tokens } from '../../../styles/theme';
 import ModalManager from '../../components/ModalManager';
 import GridCase from '../../components/Case/GridCase';
 
-export const CaseView = ({ title, path, operatorName, caseType }) => {
+export const CaseView = ({ title, casePath, operatorName, caseType }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const { openModal } = useModal();
 
-    const cols = columnsCase(openModal, colors.priority, path);
+    const cols = columnsCase(openModal, colors.priority, casePath);
 
     //TODO: Implementar el modal de aceptar caso
     //TODO: Diseñar el chat (Modal(?))

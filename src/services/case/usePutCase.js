@@ -3,7 +3,7 @@ import UseApi from "../../hooks/useApi";
 
 
 // No existe el endpoint, pero no tiene sentido que haya varios put endpoints para una row.
-export const usePutCase = ( {claimId} ) => UseApi(
+export const useEditCase = ( {claimId} ) => UseApi(
     `/claims/${claimId}`,
     {
         method: 'PUT',

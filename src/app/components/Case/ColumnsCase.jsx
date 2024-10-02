@@ -1,16 +1,14 @@
 import React from 'react';
 import { Box, Button, Chip } from '@mui/material';
-import { LIST_PRIORITIES, LIST_STATUS } from '../../../common/types';
+import { LIST_PRIORITIES, LIST_STATUS, CASE_PATHS, MODALS_TYPES } from '../../../common/types';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import ChatIcon from '@mui/icons-material/Chat';
 import EditIcon from '@mui/icons-material/Edit';
 import moment from 'moment';
 
 
-const pathTypes = ['my-claims', 'all-claims', 'my-arbitrations', 'all-arbitrations'];
 
-
-export const columnsCase = (handleOpenModal, priorityPalette, path, handleOpenChat) => [
+export const columnsCase = (handleOpenModal, priorityPalette, casePath, handleOpenChat) => [
     {
         field: 'timestamp',
         headerName: 'Fecha Emisión',
@@ -35,9 +33,9 @@ export const columnsCase = (handleOpenModal, priorityPalette, path, handleOpenCh
                     width: '55%',
                     color: '#0A0A0A',
                     backgroundColor:
-                        params.value === 'Urgente' ? priorityPalette[600] :
-                            params.value === 'Alta' ? priorityPalette[400] :
-                                params.value === 'Media' ? priorityPalette[300] :
+                        params.value === LIST_PRIORITIES[3] ? priorityPalette[600] :
+                            params.value === LIST_PRIORITIES[2] ? priorityPalette[400] :
+                                params.value === LIST_PRIORITIES[1] ? priorityPalette[300] :
                                     priorityPalette[100]
                 }}
             />
@@ -47,7 +45,7 @@ export const columnsCase = (handleOpenModal, priorityPalette, path, handleOpenCh
         field: 'status',
         headerName: 'Estado',
         type: 'singleSelect',
-        valueOptions: ['Abierto', 'En Proceso', 'Resuelto', 'Cerrado'],
+        valueOptions: LIST_STATUS,
         sortComparator: (v1, v2) => {
             return LIST_STATUS.indexOf(v1) - LIST_STATUS.indexOf(v2);
         },
@@ -61,14 +59,14 @@ export const columnsCase = (handleOpenModal, priorityPalette, path, handleOpenCh
                     color: '#0A0A0A',
                 }}
                 color={
-                    params.value === 'Abierto' ? 'success' :
-                        params.value === 'En Proceso' ? 'info' :
+                    params.value === LIST_STATUS[0] ? 'success' :
+                        params.value === LIST_STATUS[1] ? 'info' :
                             'secondary'
                 }
             />
         )
     },
-    ...(path !== pathTypes[0] && path !== pathTypes[2] ? [ // AllClaims and AllArbitrations columns only.
+    ...([CASE_PATHS.ALL_CLAIMS, CASE_PATHS.ALL_ARBITRATIONS].includes(casePath) ? [ // AllClaims and AllArbitrations columns only.
         {
             field: 'assignedOperator',
             headerName: 'Operador',
@@ -80,7 +78,7 @@ export const columnsCase = (handleOpenModal, priorityPalette, path, handleOpenCh
                     <Box>
                         <Button
                             variant='contained'
-                            onClick={() => handleOpenModal('accept-case', params.row)}
+                            onClick={() => handleOpenModal(MODALS_TYPES.OPERATOR_ACCEPT_CASE, params.row)}
                         >
                             <AddTaskIcon />
                         </Button>
@@ -94,7 +92,7 @@ export const columnsCase = (handleOpenModal, priorityPalette, path, handleOpenCh
         flex: 1, renderCell: params => params.row.user.username
     },
 
-    ...(path === pathTypes[2] || path === pathTypes[3] ? [ // Arbitrations column only.
+    ...([CASE_PATHS.ALL_ARBITRATIONS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath) ? [ // Arbitrations column only.
         {
             field: 'complainted', headerName: 'Reclamado',
             flex: 1, renderCell: params => params.row.user.complainted
@@ -125,12 +123,12 @@ export const columnsCase = (handleOpenModal, priorityPalette, path, handleOpenCh
                     variant="contained"
                     color="warning"
                     sx={{ marginRight: '15px' }}
-                    onClick={() => handleOpenModal('case-details', params.row)}
+                    onClick={() => handleOpenModal(MODALS_TYPES.DETAILS_CASE, params.row)}
                 >
                     VER
                 </Button>
 
-                {path === 'my-claims' && (
+                {casePath === CASE_PATHS.MY_CLAIMS && (
                     <Button
                         variant="contained"
                         color="info"
@@ -151,7 +149,7 @@ export const columnsCase = (handleOpenModal, priorityPalette, path, handleOpenCh
             </Box>
         )
     },
-    ...(path === pathTypes[0] || path === pathTypes[2] ? [
+    ...([CASE_PATHS.MY_CLAIMS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath) ? [ // MyClaims and MyArbitrations columns only.
         {
             field: "edit",
             headerName: "Editar",
@@ -163,7 +161,7 @@ export const columnsCase = (handleOpenModal, priorityPalette, path, handleOpenCh
                 <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => handleOpenModal('edit-case', params.row)}
+                    onClick={() => handleOpenModal(MODALS_TYPES.EDIT_CASE, params.row)}
                 >
                     <EditIcon />
                 </Button>

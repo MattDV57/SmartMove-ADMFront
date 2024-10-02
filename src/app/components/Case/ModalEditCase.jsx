@@ -1,37 +1,58 @@
 import React, { useState } from 'react';
 import { LIST_PRIORITIES, LIST_STATUS } from '../../../common/types';
-import { Box, Button, TextField, Checkbox, FormControlLabel, Modal, Typography } from '@mui/material';
+import { Box, Button, TextField, Checkbox, FormControlLabel, Dialog, DialogTitle, DialogContent, Typography, CircularProgress } from '@mui/material';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ChatIcon from '@mui/icons-material/Chat';
 import ListIcon from '@mui/icons-material/List';
 import moment from 'moment';
+import useEditCaseActions from '../../../hooks/case/useEditCaseActions';
 
+const ModalEditCase = ({ isOpen, onClose, claim }) => {
 
-const ModalEditCase = ({ isOpen, handleClose, claim, handleSaveChanges }) => {
+    const { isLoading, handleEditCase, isError } = useEditCaseActions({ claimId: claim._id["$oid"] });
+
+    const [oldStatus, setOldStatus] = useState(claim.status);
     const [newStatus, setNewStatus] = useState(claim.status);
     const [newPriority, setNewPriority] = useState(claim.priority);
 
     const [actionTaken, setActionTaken] = useState('');
     const [showActionFields, setShowActionFields] = useState(false);
 
-    const [resolutionDetails, setResolutionDetails] = useState('');
+    const [oldResolution, _] = useState(claim.resolution || '');
+    const [resolutionDetails, setResolutionDetails] = useState(claim.resolution || '');
     const [showResolutionFields, setShowResolutionFields] = useState(false);
 
     const [showHistoryActions, setShowHistoryActions] = useState(false);
     const [historyActions, setHistoryActions] = useState(claim.actionHistory || []);
 
-    const handleSave = () => {
-        handleSaveChanges(claim.id, newStatus, newPriority, actionTaken, resolutionDetails);
-        // Guardar la acción tomada en el historial
+
+
+    const handleSave = async () => {
+
+        let hasChanged = actionTaken;
+
         if (actionTaken) {
             setHistoryActions(prev => [...prev, { action: actionTaken, timestamp: Date.now() }]);
             setActionTaken(''); // Limpiar el campo de acción después de guardarla
         }
-        handleClose();
+
+        const newClaim = {
+            ...claim,
+            status: newStatus,
+            priority: newPriority,
+            actionHistory: historyActions,
+            resolution: resolutionDetails,
+            resolutionDate: resolutionDetails !== claim.resolution ? Date.now() : claim.resolutionDate
+        };
+
+        hasChanged = hasChanged || JSON.stringify(newClaim) !== JSON.stringify(claim);
+
+        await handleEditCase({ newClaim, hasChanged });
+
+        if (hasChanged) onClose(); // Si hubo cambios se cierra el modal, sino se mantiene abierto.
+
     };
-
-
 
     const toggleActionFields = () => {
         setShowActionFields(prev => !prev);
@@ -39,21 +60,21 @@ const ModalEditCase = ({ isOpen, handleClose, claim, handleSaveChanges }) => {
     }
 
     const toggleResolutionFields = () => {
-        setShowResolutionFields(prev => !prev);
-        setResolutionDetails(''); // Limpiar el campo de resolución si se oculta
+        if (showResolutionFields) {
+            setShowResolutionFields(false);
+            setResolutionDetails(oldResolution);
+            setNewStatus(oldStatus);
+        } else {
+            setShowResolutionFields(true);
+            setNewStatus('Resuelto');
+        }
     }
 
-
     return (
-        <Modal open={isOpen} onClose={handleClose} maxWidth='sm'>
-            <Box sx={{
-                p: 3, backgroundColor: 'background.modal', color: 'text.primary', maxWidth: 800, margin: 'auto',
-                mt: showHistoryActions ? 5 : 10
-            }}>
-                <Typography variant="h6" gutterBottom>
-                    Editar Reclamo
-                </Typography>
+        <Dialog open={isOpen} onClose={!isLoading ? onClose : null} maxWidth='sm' fullWidth>
+            <DialogTitle fontWeight={'bold'}>Editar Reclamo</DialogTitle>
 
+            <DialogContent>
 
                 {/* Cambiar prioridad */}
                 <TextField
@@ -64,7 +85,6 @@ const ModalEditCase = ({ isOpen, handleClose, claim, handleSaveChanges }) => {
                     variant="outlined"
                     fullWidth
                     margin="normal"
-                    defaultValue={claim.priority}
                     SelectProps={{ native: true }}
                 >
                     {LIST_PRIORITIES.map((priority) => (
@@ -74,20 +94,22 @@ const ModalEditCase = ({ isOpen, handleClose, claim, handleSaveChanges }) => {
 
                 {/* Cambiar estado */}
                 <TextField
-                    select={{ native: true }}
+                    select
                     label="Estado"
+                    disabled={showResolutionFields}
                     value={newStatus}
-                    onChange={(e) => setNewStatus(e.target.value)}
+                    onChange={(e) => {
+                        setNewStatus(e.target.value);
+                        setOldStatus(e.target.value);
+                    }}
                     variant="outlined"
                     fullWidth
                     margin="normal"
-                    defaultValue={claim.status}
                     SelectProps={{ native: true }}
                 >
                     {LIST_STATUS.map((status) => (
                         <option key={status} value={status}>{status}</option>
                     ))}
-
                 </TextField>
 
                 {/* Botones para mostrar/ocultar campos de acción y historial */}
@@ -101,7 +123,6 @@ const ModalEditCase = ({ isOpen, handleClose, claim, handleSaveChanges }) => {
                 >
                     {showHistoryActions ? 'Ocultar Acciones' : 'Ver Acciones'}
                 </Button>
-
 
                 {showHistoryActions && (
                     <Box mb={2} sx={{
@@ -125,8 +146,7 @@ const ModalEditCase = ({ isOpen, handleClose, claim, handleSaveChanges }) => {
                     </Box>
                 )}
 
-
-                {/* Botones de acciones y resolución en una fila */}
+                {/* Botones de acciones y resolución */}
                 <Box display={'flex'} justifyContent="space-between" mb={1}>
                     <Button
                         variant="outlined"
@@ -147,7 +167,9 @@ const ModalEditCase = ({ isOpen, handleClose, claim, handleSaveChanges }) => {
                         startIcon={showResolutionFields ? <CancelIcon /> : <ChatIcon />}
                         sx={{ mt: 2 }}
                     >
-                        {showResolutionFields ? 'Eliminar Resolución' : 'Establecer Resolución'}
+                        {showResolutionFields && !oldResolution
+                            ? 'Eliminar Resolución'
+                            : (oldResolution ? 'Modificar Resolución' : 'Establecer Resolución')}
                     </Button>
                 </Box>
 
@@ -155,7 +177,6 @@ const ModalEditCase = ({ isOpen, handleClose, claim, handleSaveChanges }) => {
                 {showActionFields && (
                     <TextField
                         label="Acción realizada"
-                        backgroundColor='primary'
                         value={actionTaken}
                         onChange={(e) => setActionTaken(e.target.value)}
                         variant="outlined"
@@ -165,6 +186,7 @@ const ModalEditCase = ({ isOpen, handleClose, claim, handleSaveChanges }) => {
                         margin="normal"
                     />
                 )}
+
                 {showResolutionFields &&
                     <TextField
                         label="Detalles de resolución"
@@ -178,18 +200,27 @@ const ModalEditCase = ({ isOpen, handleClose, claim, handleSaveChanges }) => {
                         margin="normal"
                     />
                 }
+
+
                 <Box mt={3}>
-                    <Button variant="contained" color="primary" onClick={handleSave}>
-                        Guardar Cambios
+
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleSave}
+                        disabled={isLoading}
+                        startIcon={isLoading ? <CircularProgress size={20} color="primary" /> : null}
+                    >
+                        {!isLoading ? 'Guardar Cambios' : 'Guardando...'}
                     </Button>
-                    <Button variant="contained" color="secondary" onClick={handleClose} sx={{ ml: 2 }}>
+
+                    <Button variant="contained" color="secondary" disabled={isLoading} onClick={onClose} sx={{ ml: 2 }}>
                         Cancelar
                     </Button>
                 </Box>
-            </Box>
-        </Modal >
+            </DialogContent>
+        </Dialog>
     );
 };
 
 export default ModalEditCase;
-
