@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { LIST_PRIORITIES, LIST_STATUS } from '../../../common/types';
 import { Box, Button, TextField, Checkbox, FormControlLabel, Modal, Typography } from '@mui/material';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ChatIcon from '@mui/icons-material/Chat';
 import ListIcon from '@mui/icons-material/List';
 import moment from 'moment';
+
 
 const ModalEditCase = ({ isOpen, handleClose, claim, handleSaveChanges }) => {
     const [newStatus, setNewStatus] = useState(claim.status);
@@ -62,27 +64,30 @@ const ModalEditCase = ({ isOpen, handleClose, claim, handleSaveChanges }) => {
                     variant="outlined"
                     fullWidth
                     margin="normal"
+                    defaultValue={claim.priority}
+                    SelectProps={{ native: true }}
                 >
-                    <option value="Urgente">Urgente</option>
-                    <option value="Alta">Alta</option>
-                    <option value="Media">Media</option>
-                    <option value="Consulta">Consulta</option>
+                    {LIST_PRIORITIES.map((priority) => (
+                        <option key={priority} value={priority}>{priority}</option>
+                    ))}
                 </TextField>
 
                 {/* Cambiar estado */}
                 <TextField
-                    select
+                    select={{ native: true }}
                     label="Estado"
                     value={newStatus}
                     onChange={(e) => setNewStatus(e.target.value)}
                     variant="outlined"
                     fullWidth
                     margin="normal"
+                    defaultValue={claim.status}
+                    SelectProps={{ native: true }}
                 >
-                    <option value="Abierto">Abierto</option>
-                    <option value="En Proceso">En Proceso</option>
-                    <option value="Resuelto">Resuelto</option>
-                    <option value="Cerrado">Cerrado</option>
+                    {LIST_STATUS.map((status) => (
+                        <option key={status} value={status}>{status}</option>
+                    ))}
+
                 </TextField>
 
                 {/* Botones para mostrar/ocultar campos de acción y historial */}

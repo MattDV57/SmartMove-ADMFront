@@ -1,23 +1,11 @@
 import React from 'react';
 import { Box, Button, Chip } from '@mui/material';
+import { LIST_PRIORITIES, LIST_STATUS } from '../../../common/types';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import ChatIcon from '@mui/icons-material/Chat';
 import EditIcon from '@mui/icons-material/Edit';
 import moment from 'moment';
 
-const priorityOrder = {
-    'Urgente': 4,
-    'Alta': 3,
-    'Media': 2,
-    'Consulta': 1
-}
-
-const statusOrder = {
-    'Abierto': 4,
-    'En Proceso': 3,
-    'Resuelto': 2,
-    'Cerrado': 1
-}
 
 const pathTypes = ['my-claims', 'all-claims', 'my-arbitrations', 'all-arbitrations'];
 
@@ -38,7 +26,7 @@ export const columnsCase = (handleOpenModal, priorityPalette, path, handleOpenCh
         headerName: 'Prioridad',
         flex: 1,
         sortComparator: (v1, v2) => {
-            return priorityOrder[v1] - priorityOrder[v2];
+            return LIST_PRIORITIES.indexOf(v1) - LIST_PRIORITIES.indexOf(v2);
         },
         renderCell: (params) => (
             <Chip
@@ -61,7 +49,7 @@ export const columnsCase = (handleOpenModal, priorityPalette, path, handleOpenCh
         type: 'singleSelect',
         valueOptions: ['Abierto', 'En Proceso', 'Resuelto', 'Cerrado'],
         sortComparator: (v1, v2) => {
-            return statusOrder[v1] - statusOrder[v2];
+            return LIST_STATUS.indexOf(v1) - LIST_STATUS.indexOf(v2);
         },
         flex: 1,
         renderCell: (params) => (
