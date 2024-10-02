@@ -79,6 +79,8 @@ const UseApi = (endpoint, config) => {
 
             setIsError(true)
 
+            hasError = true 
+
             setIsLoading(false)
 
         }

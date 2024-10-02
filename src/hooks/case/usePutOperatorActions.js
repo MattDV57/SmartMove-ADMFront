@@ -12,7 +12,6 @@ const usePutOperatorActions = ({ claimId, employeeId }) => {
     const assignOperator = async () => {
         const response = await callApi();
         
-        // hasError no se pasa correctamente desde useApi, ni tampoco isError se actualiza correctamente
 
         if(response.hasError){
             showAlert('Error al asignar operador', 'error');

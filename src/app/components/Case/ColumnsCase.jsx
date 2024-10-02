@@ -96,7 +96,7 @@ export const columnsCase = (handleOpenModal, priorityPalette, path, handleOpenCh
 
     ...(path === pathTypes[2] || path === pathTypes[3] ? [ // Arbitrations column only.
         {
-            field: 'user', headerName: 'Reclamado',
+            field: 'complainted', headerName: 'Reclamado',
             flex: 1, renderCell: params => params.row.user.complainted
         }]
         : [
