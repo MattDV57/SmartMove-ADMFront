@@ -3,6 +3,7 @@ import React from 'react'
 import { Outlet, Navigate } from 'react-router-dom'
 
 import useAuth from '../hooks/useAuth'
+import { LinearProgress } from '@mui/material';
 
 const AuthLayout = () => {
 
@@ -11,7 +12,7 @@ const AuthLayout = () => {
     if (cargando) {
         return (
             <div style={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <p>Cargando...</p>
+                <LinearProgress />
             </div>
         )
     }

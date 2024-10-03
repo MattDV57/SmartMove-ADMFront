@@ -4,7 +4,7 @@ import { Outlet, Navigate } from 'react-router-dom'
 
 import SideBar from '../app/components/global/SideBar'
 
-import { Box, useMediaQuery } from '@mui/material'
+import { Box, LinearProgress, useMediaQuery } from '@mui/material'
 
 import TopBar from '../app/components/global/TopBar'
 
@@ -12,9 +12,9 @@ import useAuth from '../hooks/useAuth'
 
 import { useMode } from '../styles/theme'
 
-const ProtectedRoute = () => {
+const ProtectedRoute = ({ allowedRoles = [] }) => {
 
-    const { auth, cargando } = useAuth();
+    const { auth, isLoading } = useAuth();
 
     const [theme] = useMode()
 
@@ -29,18 +29,20 @@ const ProtectedRoute = () => {
     }
 
 
-    if (cargando) {
+    if (isLoading) {
         return (
             <div style={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <p>Cargando...</p>
+                <LinearProgress />
             </div>
         )
     }
 
+
     return (
         <>
             {
-                auth?.id ?
+                auth?.id && allowedRoles.length === 0
+                    ?
                     (
                         <Box width="100%" height="100%" display='flex' position='relative'>
                             <SideBar isCollapsed={isCollapsed} toggleSidebar={toggleSidebar} />
@@ -56,9 +58,17 @@ const ProtectedRoute = () => {
                                 <Outlet />
                             </Box>
                         </Box>
-                    ) : (
-                        <Navigate to={'/auth'} />
-                    )
+                    ) :
+
+                    allowedRoles.length > 0 && allowedRoles.includes(auth?.accessRole)
+                        ?
+                        (
+                            <Outlet />
+                        )
+                        :
+                        (
+                            <Navigate to={'/auth'} />
+                        )
             }
         </>
     )

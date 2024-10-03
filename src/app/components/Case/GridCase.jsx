@@ -8,11 +8,12 @@ import { data } from './MOCK_DATA';
 import { useTheme } from '@emotion/react';
 import { tokens } from '../../../styles/theme';
 
-const GridCase = ({ title, columns, operatorName = "", caseType }) => {
+const GridCase = ({ title, columns, operatorName = "", caseType, pagination, data: cases }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    const [paginationModel, setPaginationModel] = useState({ pageSize: 10, page: 0 });
+    // const { page, setPage, limit, setLimit, totalPages } = pagination;
+    const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
 
 
     const filterRowsByOperator = (rows, caseType, operatorName) => {
@@ -68,11 +69,20 @@ const GridCase = ({ title, columns, operatorName = "", caseType }) => {
 
                     rows={filteredData}
                     columns={columns}
-                    pageSizeOptions={[5, 10, 20]}
-                    pagination
                     getRowId={(row) => row._id.$oid}
+
+                    pageSizeOptions={[5, 10, 20, 25]}
+                    pagination
                     paginationModel={paginationModel}
                     onPaginationModelChange={setPaginationModel}
+
+                    // paginationMode='server'
+                    // page={page - 1}
+                    // rowCount={totalPages * limit}
+                    // pageSize={limit}
+                    // onPageChange={(newPage) => setPage(newPage + 1)}
+                    // onPageSizeChange={(newPageSize) => setLimit(newPageSize)}
+
                     slots={{ toolbar: GridToolbar }}
 
                 // filterModel={filterModel}

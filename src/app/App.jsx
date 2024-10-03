@@ -51,7 +51,9 @@ function App() {
 
                       <Route path="/logs" element={<Logs />} />
 
-                      <Route path="/access-control" element={<AccessControl />} />
+                      <Route path="/access-control" element={<ProtectedRoute allowedRoles={['admin', 'Gerente']} />} >
+                        <Route index element={<AccessControl />} />
+                      </Route>
 
                       <Route path="/profile" element={<Profile />} />
 

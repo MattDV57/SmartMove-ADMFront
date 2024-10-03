@@ -23,7 +23,7 @@ const AuthProvider = ({ children }) => {
         id: '',
         ...userData,
     })
-    const [cargando, setCargando] = useState(true)
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         autenticarUsuario()
@@ -34,7 +34,7 @@ const AuthProvider = ({ children }) => {
         const token = localStorage.getItem('smartmove-token')
 
         if (!token) {
-            setCargando(false)
+            setIsLoading(false)
             return
         }
 
@@ -62,7 +62,7 @@ const AuthProvider = ({ children }) => {
 
         }
 
-        setCargando(false)
+        setIsLoading(false)
 
 
     }
@@ -77,7 +77,7 @@ const AuthProvider = ({ children }) => {
             value={{
                 auth,
                 setAuth,
-                cargando,
+                isLoading,
                 cerrarSesionAuth,
                 autenticarUsuario,
             }}

@@ -4,7 +4,7 @@ import { useAlert } from "../../context/AlertProvider";
 
 const useOperatorCaseActions = ({ claimId, employeeId }) => {
 
-    const { callApi, isLoading, data, isError } = usePutOperatorInCase({ claimId, employeeId });
+    const { callApi, isLoading } = usePutOperatorInCase({ claimId, employeeId });
     const { showAlert } = useAlert();
 
 
