@@ -3,8 +3,14 @@ import { GridEmployees } from '../../components/EmployeesGrid/GridEmployees'
 import Header from '../../components/Header'
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { Box, Button } from '@mui/material'
+import useAuth from '../../../hooks/useAuth';
+import useUserActions from '../../../hooks/user/useUserActions';
+import ModalManager from '../../components/ModalManager';
 
 export const AccessControl = () => {
+  const { auth } = useAuth();
+
+  const { isLoading, postUser, getUsers, putUser, deleteUser } = useUserActions(auth.id);
 
   const [isAddingNewRow, setIsAddingNewRow] = useState(false);
   const [disableAddNewRow, setDisableAddNewRow] = useState(false);
@@ -20,8 +26,8 @@ export const AccessControl = () => {
             setIsAddingNewRow(true)
             setDisableAddNewRow(true)
           }}
-          disabled={disableAddNewRow}
 
+          disabled={disableAddNewRow}
           variant="contained"
           color="primary"
           sx={{
@@ -31,7 +37,18 @@ export const AccessControl = () => {
           startIcon={<PersonAddIcon />}>
           Agregar Empleado</Button>
       </Box>
-      <GridEmployees isAddingNewRow={isAddingNewRow} setIsAddingNewRow={setIsAddingNewRow} setDisableAddNewRow={setDisableAddNewRow} />
+      <GridEmployees
+        isAddingNewRow={isAddingNewRow}
+        setIsAddingNewRow={setIsAddingNewRow}
+        setDisableAddNewRow={setDisableAddNewRow}
+        postUser={postUser}
+        getUsers={getUsers}
+        putUser={putUser}
+        deleteUser={deleteUser}
+        isLoading={isLoading}
+
+      />
+      <ModalManager />
     </Box>
   )
 

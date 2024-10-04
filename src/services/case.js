@@ -4,7 +4,7 @@ import UseApi from "../hooks/useApi";
 export const caseService = {
 
     useGetAllCases: ( { caseType, page, limit } ) => UseApi(
-    `/claims/${caseType}?page=${page}&limit=${limit}`,
+    `/claims/${caseType}`,
     {
         method: 'GET',
         callOnLoad: true,

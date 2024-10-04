@@ -1,11 +1,9 @@
 import UseApi from "../hooks/useApi";
 
 
-
-
 export const userService = {
 
-    useGetUsers: ( { page, limit } ) => UseApi (
+    useGetUsers: () => UseApi (
         `/users`,
         {
             method: "GET",
@@ -14,21 +12,21 @@ export const userService = {
     ),
 
     usePostUser: () => UseApi (
-        `users`,
+        `/users`,
         {
             method: "POST"
         }
     ),
 
-    useDeleteUser: ( { adminId, userId } ) => UseApi (
-        `/users/${userId}?adminId=${adminId}`,
+    useDeleteUser: () => UseApi (
+        `/users`,
         {
             method: 'DELETE',
         }
     ),
 
-    usePutUser: ( { adminId, userId } ) => UseApi (
-        `/users/${userId}?adminId=${adminId}`,
+    usePutUser: () => UseApi (
+        `/users`,
         {
             method: 'PUT'
         }

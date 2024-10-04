@@ -14,7 +14,7 @@ export const useGetCasesActions = ( {caseType, employeeId = "", page, limit} ) =
 
     useEffect(() => {
         const fetchData = async () => {
-            await callApi()
+            await callApi({ addEndpoint: `?page=${page}&limit=${limit}` });
         }
 
         fetchData();

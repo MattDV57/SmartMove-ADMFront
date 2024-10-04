@@ -11,6 +11,7 @@ export const initialState = {
     isAddingNewRow: false,
     newRow: NEW_ROW_EMPLOYEE,
     disableAddNewRow: false,
+    isSavingSuccess: false,
     paginationModel: { page: 0, pageSize: 10 },
     totalRows: 0
 };
@@ -29,7 +30,8 @@ export const gridReducer = (state, action) => {
                 ...state,
                 editableRowId: action.payload,
                 rowBackup: action.rowBackup || null,
-                disableAddNewRow: action.disableAddNewRow || false
+                disableAddNewRow: action.disableAddNewRow || false,
+                isSavingSuccess: false
             };
         case 'CANCEL_OPERATION':
             return {
@@ -49,11 +51,17 @@ export const gridReducer = (state, action) => {
                 editableRowId: state.newRow.id,
                 isAddingNewRow: true
             };
-        case 'UPDATE_ROW':
+        case 'SHOW_SUCCESS':
+            return {
+                ...state,
+                isSavingSuccess: true
+            };
+        case 'SAVE_ROW':
             return {
                 ...state,
                 rows: state.rows.map((row) => row.id === action.payload.id ? action.payload : row),
-                editableRowId: null
+                editableRowId: null,
+                isSavingSuccess: false
             };
         case 'SET_PAGINATION':
             return {

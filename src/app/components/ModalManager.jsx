@@ -5,6 +5,7 @@ import ModalOperatorAccept from './Case/ModalOperatorAccept';
 import ModalEditCase from './Case/ModalEditCase';
 import { MODALS_TYPES } from '../../common/types';
 import { useModal } from '../../context/ModalProvider';
+import { ModalDeleteEmployee } from './EmployeesGrid/ModalDeleteEmployee';
 
 
 const ModalManager = () => {
@@ -16,9 +17,11 @@ const ModalManager = () => {
         case MODALS_TYPES.DETAILS_CASE:
             return <ModalDetails open={true} claim={modal.data} onClose={closeModal} />;
         case MODALS_TYPES.OPERATOR_ACCEPT_CASE:
-            return <ModalOperatorAccept open={true} claim={modal.data} onClose={closeModal} employeeId={modal.employeeId} />;
+            return <ModalOperatorAccept open={true} claim={modal.data} onClose={closeModal} employeeId={modal.userId} />;
         case MODALS_TYPES.EDIT_CASE:
             return <ModalEditCase isOpen={true} claim={modal.data} onClose={closeModal} />
+        case MODALS_TYPES.DELETE_EMPLOYEE:
+            return <ModalDeleteEmployee open={true} employee={modal.data} onClose={closeModal} adminId={modal.userId} />
         default:
             return null;
     }

@@ -15,7 +15,7 @@ const useEditCaseActions = ({ claimId }) => {
             return;
         }
 
-        const response = await callApi( newClaim );
+        const response = await callApi( {dataApi: newClaim} );
         
         if(response.hasError){
             showAlert('Error al editar caso', 'error');
