@@ -7,6 +7,7 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { data } from './MOCK_DATA';
 import { useTheme } from '@emotion/react';
 import { tokens } from '../../../styles/theme';
+import { GridContainer } from '../GridContainer';
 
 const GridCase = ({ title, columns, operatorName = "", caseType, pagination, data: cases }) => {
     const theme = useTheme();
@@ -31,40 +32,7 @@ const GridCase = ({ title, columns, operatorName = "", caseType, pagination, dat
         <Box margin={"15px 0 0 15px"}
         >
             <Header title={title} />
-            <Box
-                m="0 0 0 0"
-                height="75vh"
-                sx={{
-                    // width: { xs: "270%", sm: "100%" },
-                    overflowX: "auto",
-                    "& .MuiDataGrid-root": {
-                        border: "none",
-                    },
-                    "& .MuiDataGrid-cell": {
-                        borderBottom: "none",
-                    },
-                    "& .name-column--cell": {
-                        color: colors.blueAccent[400],
-                    },
-                    "& .MuiDataGrid-columnHeader": {
-                        backgroundColor: `${colors.blueAccent[900]} !important`,
-                        borderBottom: "none",
-                    },
-                    "& .MuiDataGrid-columnHeaderTitle": {
-                        fontSize: ".7rem",
-                        fontWeight: "bold",
-                        textTransform: "uppercase",
-                    },
-                    "& .MuiDataGrid-virtualScroller": {
-                        // backgroundColor: colors.primary[300],
-                    },
-                    "& .MuiDataGrid-footerContainer": {
-                        borderTop: "none",
-                        backgroundColor: colors.blueAccent[900],
-                    },
-
-                }}
-            >
+            <GridContainer>
                 <DataGrid
 
                     rows={filteredData}
@@ -84,13 +52,14 @@ const GridCase = ({ title, columns, operatorName = "", caseType, pagination, dat
                     // onPageSizeChange={(newPageSize) => setLimit(newPageSize)}
 
                     slots={{ toolbar: GridToolbar }}
+                    hideFooterSelectedRowCount
 
                 // filterModel={filterModel}
                 // onFilterModelChange={(model) => setFilterModel(model)}
 
                 // checkboxSelection
                 />
-            </Box>
+            </GridContainer>
         </Box>
     )
 }

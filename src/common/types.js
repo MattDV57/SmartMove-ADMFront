@@ -9,6 +9,25 @@ export const CASE_PATHS = { ALL_CLAIMS: "all-claims", MY_CLAIMS: "my-claims",
     ALL_ARBITRATIONS: "all-arbitrations", MY_ARBITRATIONS: "my-arbitrations" }
 
 export const MODALS_TYPES = { 
-        OPERATOR_ACCEPT_CASE: "operator-accept-case", 
-        EDIT_CASE: "edit-case", 
-        DETAILS_CASE: "details-case" }
+    OPERATOR_ACCEPT_CASE: "operator-accept-case", 
+    EDIT_CASE: "edit-case", 
+    DETAILS_CASE: "details-case",
+}
+
+export const ACCESS_ROLES = ["Admin", "Gerente", 'Soporte']
+
+
+
+export const NEW_ROW_EMPLOYEE = {
+    id: Date.now(),
+    fullName: '',
+    birthDate: '',
+    email: '',
+    phone: '',
+    address: '',
+    localidad: '',
+    position: '',
+    department: '',
+    entryDate: '',
+    accessRole: '',
+}

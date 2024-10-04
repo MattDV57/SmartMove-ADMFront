@@ -1,10 +1,10 @@
-import { usePutOperatorInCase } from "../../services/case/usePutCase"; 
 import { useAlert } from "../../context/AlertProvider";
+import { caseService } from "../../services/case";
 
 
 const useOperatorCaseActions = ({ claimId, employeeId }) => {
 
-    const { callApi, isLoading } = usePutOperatorInCase({ claimId, employeeId });
+    const { callApi, isLoading } = caseService.usePutOperatorInCase({ claimId, employeeId });
     const { showAlert } = useAlert();
 
 

@@ -1,77 +1,79 @@
-import { DataGrid, GridToolbar } from '@mui/x-data-grid'
-import React, { useState } from 'react'
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import React, { useEffect, useReducer } from 'react';
 import { columnsEmployees } from './columnsEmployees';
-import { data } from './EMPLOYEES_DATA';
 import { useTheme } from '@emotion/react';
+import { data } from './EMPLOYEES_DATA';
 import { tokens } from '../../../styles/theme';
-import { Box } from '@mui/material';
+import { GridContainer } from '../GridContainer';
+import { gridReducer, initialState } from './GridReducer';
 
-export const GridEmployees = () => {
+
+
+export const GridEmployees = ({ isAddingNewRow, setIsAddingNewRow, setDisableAddNewRow }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
+    const [state, dispatch] = useReducer(gridReducer, initialState);
 
-    const cols = columnsEmployees();
+
+    useEffect(() => {
+        if (data) {
+            dispatch({
+                type: 'SET_ROWS',
+                payload: {
+                    rows: data,
+                    // totalRows: totalEmployees
+                }
+            });
+        }
+        // }, [employeesData, totalEmployees]);
+    }, []);
+
+
+    useEffect(() => {
+        if (isAddingNewRow && state.editableRowId === null) { // Boton Agregar Empleado
+            dispatch({ type: 'ADD_NEW_ROW' });
+        }
+    }, [isAddingNewRow, state.editableRowId]);
+
+    const handleCancelOperation = () => {
+        dispatch({ type: 'CANCEL_OPERATION' });
+        setIsAddingNewRow(false);
+        setDisableAddNewRow(false);
+    };
+
+    const handleClickOnEdit = (row) => {
+        setDisableAddNewRow(true);
+        dispatch({ type: 'SET_EDITABLE_ROW', payload: row.id, rowBackup: { ...row } });
+
+    };
+
+    const handleProcessRowUpdate = (newRow) => {
+        dispatch({ type: 'UPDATE_ROW', payload: newRow });
+    };
+
+    const cols = columnsEmployees({ editableRowId: state.editableRowId, handleClickOnEdit, handleCancelOperation });
 
     return (
         <div>
-
-            <Box
-                m="0 0 0 0"
-                height="75vh"
-                sx={{
-                    // width: { xs: "270%", sm: "100%" },
-                    overflowX: "auto",
-                    "& .MuiDataGrid-root": {
-                        border: "none",
-                    },
-                    "& .MuiDataGrid-cell": {
-                        borderBottom: "none",
-                    },
-                    "& .name-column--cell": {
-                        color: colors.blueAccent[400],
-                    },
-                    "& .MuiDataGrid-columnHeader": {
-                        backgroundColor: `${theme.palette.primary.secondary} !important`,
-                        color: '#fafafa',
-                        borderBottom: "none",
-                    },
-                    "& .MuiDataGrid-columnHeaderTitle": {
-                        fontSize: ".7rem",
-                        fontWeight: "bold",
-                        textTransform: "uppercase",
-                    },
-                    "& .MuiDataGrid-virtualScroller": {
-                        // backgroundColor: colors.primary[300],
-                    },
-                    "& .MuiDataGrid-footerContainer": {
-                        borderTop: "none",
-                        backgroundColor: `${theme.palette.primary.secondary} !important`,
-                    },
-                    "& .MuiTablePagination-root": {
-                        color: '#fafafa',
-                    },
-
-                }}
-
-            >
+            <GridContainer>
                 <DataGrid
                     columns={cols}
-                    rows={data}
+                    rows={state.rows}
                     getRowId={(row) => row.id}
-
                     rowsPerPageOptions={[5, 10, 20]}
                     pagination
-                    paginationModel={paginationModel}
-                    onPaginationModelChange={setPaginationModel}
+                    // paginationMode="server"
+                    // rowCount={state.totalRows} 
+                    paginationModel={state.paginationModel}
+                    onPaginationModelChange={(newModel) => dispatch({ type: 'SET_PAGINATION', payload: newModel })}
+                    // loading={isLoading}
                     slots={{ toolbar: GridToolbar }}
-
-                // So how do i make the fields for them to expand when clicked?
-
+                    disableRowSelectionOnClick
+                    hideFooterSelectedRowCount
+                    isCellEditable={(params) => params.row.id === state.editableRowId}
                 />
-            </Box>
-
+            </GridContainer>
         </div>
-    )
-}
+    );
+};

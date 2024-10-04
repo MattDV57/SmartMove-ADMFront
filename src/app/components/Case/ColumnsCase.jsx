@@ -22,7 +22,7 @@ export const columnsCase = (handleOpenModal, priorityPalette, casePath, handleOp
     {
         field: 'priority',
         headerName: 'Prioridad',
-        flex: 1,
+        width: 150,
         sortComparator: (v1, v2) => {
             return LIST_PRIORITIES.indexOf(v1) - LIST_PRIORITIES.indexOf(v2);
         },
@@ -30,7 +30,8 @@ export const columnsCase = (handleOpenModal, priorityPalette, casePath, handleOp
             <Chip
                 label={params.value}
                 sx={{
-                    width: '55%',
+                    width: '60%',
+                    textAlign: 'center',
                     color: '#0A0A0A',
                     backgroundColor:
                         params.value === LIST_PRIORITIES[3] ? priorityPalette[600] :
@@ -121,17 +122,17 @@ export const columnsCase = (handleOpenModal, priorityPalette, casePath, handleOp
 
                 <Button
                     variant="contained"
-                    color="warning"
+                    color="info"
                     sx={{ marginRight: '15px' }}
                     onClick={() => handleOpenModal(MODALS_TYPES.DETAILS_CASE, params.row)}
                 >
                     VER
                 </Button>
 
-                {casePath === CASE_PATHS.MY_CLAIMS && (
+                {[CASE_PATHS.MY_CLAIMS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath) && ( // MyClaims and MyArbitrations columns only.
                     <Button
                         variant="contained"
-                        color="info"
+                        color="warning"
                         sx={{
                             // display: 'flex',
                             // justifyContent: 'center',
@@ -170,3 +171,6 @@ export const columnsCase = (handleOpenModal, priorityPalette, casePath, handleOp
     ] : [])
 
 ];
+
+
+

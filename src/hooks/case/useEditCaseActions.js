@@ -1,10 +1,10 @@
-import { useEditCase } from "../../services/case/usePutCase";
 import { useAlert } from "../../context/AlertProvider";
+import { caseService } from "../../services/case";
 
 
 const useEditCaseActions = ({ claimId }) => {
 
-    const { callApi, isLoading, data, isError } = useEditCase({ claimId });
+    const { callApi, isLoading, data, isError } = caseService.useEditCase({ claimId });
     const { showAlert } = useAlert();
 
 
