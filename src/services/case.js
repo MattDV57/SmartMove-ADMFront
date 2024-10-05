@@ -3,7 +3,7 @@ import UseApi from "../hooks/useApi";
 
 export const caseService = {
 
-    useGetAllCases: ( { caseType, page, limit } ) => UseApi(
+    useGetAllCases: ( { caseType } ) => UseApi(
     `/claims/${caseType}`,
     {
         method: 'GET',
@@ -11,8 +11,8 @@ export const caseService = {
     }
     ),
 
-    useGetMyCases: ( { caseType, employeeId, page, limit } ) => UseApi(
-        `/claims/${caseType}/operators/${employeeId}?page=${page}&limit=${limit}`,
+    useGetMyCases: ( { caseType, employeeId } ) => UseApi(
+        `/claims/${caseType}/operators/${employeeId}`,
         {
             method: 'GET',
             callOnLoad: true,
@@ -38,4 +38,13 @@ export const caseService = {
 }
 
 
+{/*
 
+const endpoints = { 
+    getAllCases:`/claims/${caseType}?page=${page}&limit=${limit}`,
+    getMyCases: `/claims/${caseType}/operators/${userId}?page=${page}&limit=${limit}`,
+    editCase: `/claims/${claimId}`,
+    putOperatorInCase: `/claims/${claimId}/operators/${userId}`
+}
+
+*/}

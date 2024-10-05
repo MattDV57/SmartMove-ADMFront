@@ -8,8 +8,8 @@ export const useGetCasesActions = ( {caseType, employeeId = "", page, limit} ) =
     const [totalPages, setTotalPages] = useState(1);
 
     const { callApi, isLoading, data, isError } = employeeId 
-            ? caseService.useGetMyCases({ caseType, employeeId, page, limit })
-            : caseService.useGetAllCases({ caseType, page, limit });
+            ? caseService.useGetMyCases({ caseType, employeeId })
+            : caseService.useGetAllCases({ caseType });
 
 
     useEffect(() => {

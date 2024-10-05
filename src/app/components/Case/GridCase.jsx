@@ -31,7 +31,7 @@ const GridCase = ({ title, columns, operatorName = "", caseType, pagination, dat
     return (
         <Box margin={"15px 0 0 15px"}
         >
-            <Header title={title} />
+            {/* <Header title={title} /> */}
             <GridContainer>
                 <DataGrid
 

@@ -22,7 +22,7 @@ const ProtectedRoute = ({ allowedRoles = [] }) => {
 
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const sidebarWidth = isMobile ? (isCollapsed ? 0 : 249) : (isCollapsed ? 80 : 249);
+    const sidebarWidth = isMobile ? (isCollapsed ? 0 : 235) : (isCollapsed ? 80 : 235);
 
     const toggleSidebar = () => {
         setIsCollapsed(!isCollapsed)
@@ -44,6 +44,7 @@ const ProtectedRoute = ({ allowedRoles = [] }) => {
                 auth?.id && allowedRoles.length === 0
                     ?
                     (
+
                         <Box width="100%" height="100%" display='flex' position='relative'>
                             <SideBar isCollapsed={isCollapsed} toggleSidebar={toggleSidebar} />
                             <Box width="100%" height="100%"

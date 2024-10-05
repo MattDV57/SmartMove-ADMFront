@@ -11,10 +11,10 @@ export const usePutUserActions = ( { adminId } ) => {
     
             if(response.hasError){
                 showAlert('Error al actualizar usuario', 'error');
-                return;
+                
+            } else {
+                showAlert('Usuario actualizado correctamente', 'success');
             }
-    
-            showAlert('Usuario actualizado correctamente', 'success');
             
             return response.hasError;
         }

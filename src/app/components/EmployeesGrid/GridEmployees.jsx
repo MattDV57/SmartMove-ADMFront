@@ -56,6 +56,7 @@ export const GridEmployees = ({ isAddingNewRow, setIsAddingNewRow, setDisableAdd
     };
 
     const handleClickOnSave = async (newRow) => {
+
         const hasError = state.isAddingNewRow
             ? await postUser(newRow)
             : await putUser(newRow);

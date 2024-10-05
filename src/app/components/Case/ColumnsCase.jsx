@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Chip } from '@mui/material';
+import { Box, Button, Chip, Tooltip } from '@mui/material';
 import { LIST_PRIORITIES, LIST_STATUS, CASE_PATHS, MODALS_TYPES } from '../../../common/types';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import ChatIcon from '@mui/icons-material/Chat';
@@ -16,8 +16,14 @@ export const columnsCase = (handleOpenModal, priorityPalette, casePath, handleOp
         type: 'date',
         valueGetter: value => new Date(value),
         editable: false,
-        renderCell: params => moment(params.value).format('DD/MM/YYYY hh:mm:ss'),
-
+        renderCell: (params) => {
+            const formattedDate = moment(params.value).format('DD/MM/YYYY HH:mm:ss')
+            return (
+                <Tooltip title={formattedDate} arrow>
+                    <span>{formattedDate}</span>
+                </Tooltip>
+            )
+        }
     },
     {
         field: 'priority',
@@ -50,7 +56,7 @@ export const columnsCase = (handleOpenModal, priorityPalette, casePath, handleOp
         sortComparator: (v1, v2) => {
             return LIST_STATUS.indexOf(v1) - LIST_STATUS.indexOf(v2);
         },
-        flex: 1,
+        width: 180,
         renderCell: (params) => (
             <Chip
                 label={params.value}
@@ -90,18 +96,32 @@ export const columnsCase = (handleOpenModal, priorityPalette, casePath, handleOp
     ] : []),
     {
         field: 'user', headerName: 'Reclamante',
-        flex: 1, renderCell: params => params.row.user.username
+        flex: 1,
+        renderCell: params => (
+            <Tooltip title={params?.row?.user?.username} arrow>
+                <span>{params?.row?.user?.username}</span>
+            </Tooltip>
+        )
     },
 
     ...([CASE_PATHS.ALL_ARBITRATIONS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath) ? [ // Arbitrations column only.
         {
             field: 'complainted', headerName: 'Reclamado',
-            flex: 1, renderCell: params => params.row.user.complainted
+            flex: 1,
+            renderCell: params => (
+                <Tooltip title={params.row.complainted} arrow>
+                    <span>{params.row.complainted}</span>
+                </Tooltip>
+            )
         }]
         : [
             {
                 field: 'category', headerName: 'Categoría'
-                , flex: 1, renderCell: params => params.row.category.name
+                , flex: 1,
+                renderCell: params =>
+                    <Tooltip title={params.row.category} arrow>
+                        <span>{params.row.category}</span>
+                    </Tooltip>
             },]
     ),
 
@@ -112,7 +132,9 @@ export const columnsCase = (handleOpenModal, priorityPalette, casePath, handleOp
         sortable: false,
         filterable: false,
         resizable: false,
-        flex: 1,
+        width: [CASE_PATHS.MY_CLAIMS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath)
+            ? 200
+            : 100,
         renderCell: (params) => (
             <Box
                 justifyContent='space-between'

@@ -16,7 +16,7 @@ import { tokens } from '../../../styles/theme';
 
 
 // eslint-disable-next-line react/prop-types
-const Item = ({ title, to, icon, selected, setSelected, isSubItem = false, mainItemColor, subItemColor }) => {
+const Item = ({ title, to, icon, selected, setSelected, mainItemColor }) => {
     const navigate = useNavigate();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -25,16 +25,8 @@ const Item = ({ title, to, icon, selected, setSelected, isSubItem = false, mainI
         <MenuItem
             active={selected === title}
             style={{
-                color: isSubItem ? subItemColor : mainItemColor,
-                textDecoration: isSubItem && selected === title ? 'underline' : 'none',
-                backgroundColor: !isSubItem && selected === title ? 'rgba(0, 0, 0, 0.1)' : colors.grey[400],
-                marginLeft: isSubItem ? '0' : '0',
-            }}
-            rootStyles={{
-                "&:hover": {
-                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                },
-
+                color: mainItemColor,
+                backgroundColor: selected === title ? 'rgba(0, 0, 0, 0.1)' : colors.grey[400],
             }}
             onClick={() => {
                 setSelected(title);
@@ -42,8 +34,8 @@ const Item = ({ title, to, icon, selected, setSelected, isSubItem = false, mainI
             }}
             icon={icon}
         >
-            <Typography fontSize={isSubItem ? '14px' : '16px'} >{title}</Typography>
-        </MenuItem >
+            <Typography fontSize='16px'>{title}</Typography>
+        </MenuItem>
     );
 };
 
@@ -64,6 +56,8 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
 
         <Sidebar
             collapsed={isCollapsed}
+            style={{ backgroundColor: colors.grey[400] }}
+            width='235px'
             rootStyles={{
                 height: '100vh',
                 display: 'flex',
@@ -72,7 +66,7 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
                 left: 0,
                 zIndex: 100,
                 boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.2)',
-                border: 'none'
+                border: 'none',
             }}
             backgroundColor={colors.grey[400]}
 
@@ -109,71 +103,30 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
                         selected={selected}
                         setSelected={setSelected}
                         mainItemColor={mainItemColor}
-                        subItemColor={subItemColor}
                     />
-                    <SubMenu label="Reclamos" style={{
-                        color: mainItemColor,
-                        backgroundColor: ["Mis reclamos", "Reclamos generales"].includes(selected) ? 'rgba(0, 0, 0, 0.1)' : 'transparent'
-                    }}
-                        icon={<BugReportOutlinedIcon />}
-                    >
-                        <Item
-                            title="Mis reclamos"
-                            to="/my-claims"
-                            icon={<AccessibilityNewOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                            isSubItem={true}
-                            mainItemColor={mainItemColor}
-                            subItemColor={subItemColor}
-                        />
-                        <Item
-                            title="Reclamos generales"
-                            to="/all-claims"
-                            icon={<FolderOpenOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                            isSubItem={true}
-                            mainItemColor={mainItemColor}
-                            subItemColor={subItemColor}
-                        />
-                    </SubMenu>
-                    <SubMenu label="Mediaciones" style={{
-                        color: mainItemColor,
-                        backgroundColor: ["Mis mediaciones", "Mediaciones generales"].includes(selected) ? 'rgba(0, 0, 0, 0.1)' : 'transparent'
-                    }}
-
-                        icon={<ErrorIcon />}
-                    >
-                        <Item
-                            title="Mis mediaciones"
-                            to="/my-arbitrations"
-                            icon={<AccessibilityNewOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                            isSubItem={true}
-                            mainItemColor={mainItemColor}
-                            subItemColor={subItemColor}
-                        />
-                        <Item
-                            title="Mediaciones generales"
-                            to="/all-arbitrations"
-                            icon={<FolderOpenOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                            isSubItem={true}
-                            mainItemColor={mainItemColor}
-                            subItemColor={subItemColor}
-                        />
-                    </SubMenu>
                     <Item
-                        title="Registro de actividad"
+                        title="Reclamos"
+                        to="/my-claims"  // Redirige a "Mis Reclamos"
+                        icon={<BugReportOutlinedIcon />}
+                        selected={selected}
+                        setSelected={setSelected}
+                        mainItemColor={mainItemColor}
+                    />
+                    <Item
+                        title="Mediaciones"
+                        to="/my-arbitrations"  // Redirige a "Mis Mediaciones"
+                        icon={<ErrorIcon />}
+                        selected={selected}
+                        setSelected={setSelected}
+                        mainItemColor={mainItemColor}
+                    />
+                    <Item
+                        title="Registro de actividad        "
                         to="/logs"
                         icon={<ReceiptOutlinedIcon />}
                         selected={selected}
                         setSelected={setSelected}
                         mainItemColor={mainItemColor}
-                        subItemColor={subItemColor}
                     />
                     <Item
                         title="Control de acceso"
@@ -182,9 +135,7 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
                         selected={selected}
                         setSelected={setSelected}
                         mainItemColor={mainItemColor}
-                        subItemColor={subItemColor}
                     />
-
                 </Box>
             </Menu>
         </Sidebar>
