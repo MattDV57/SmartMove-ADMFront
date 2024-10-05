@@ -10,8 +10,6 @@ USER node
 
 RUN npm install
 
-RUN npm update vite
-
 COPY --chown=node:node . .
 
 CMD ["npm", "run", "dev"]
