@@ -14,4 +14,4 @@ COPY --chown=node:node . .
 
 EXPOSE 8085
 
-CMD ["npm", "run", "lint"]
+CMD ["npm", "run", "dev"]
