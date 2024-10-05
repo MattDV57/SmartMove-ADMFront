@@ -40,13 +40,12 @@ const Item = ({ title, to, icon, selected, setSelected, mainItemColor }) => {
 };
 
 
-const SideBar = ({ isCollapsed, toggleSidebar }) => {
+const SideBar = ({ isCollapsed, toggleSidebar, isAllowed }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [selected, setSelected] = useState('Dashboard');
     const mainItemColor = colors.blueAccent[100];
-    const subItemColor = colors.blueAccent[100];
 
     if (isMobile && isCollapsed) {
         return null;
@@ -121,21 +120,23 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
                         mainItemColor={mainItemColor}
                     />
                     <Item
-                        title="Registro de actividad        "
+                        title="Registro de actividad"
                         to="/logs"
                         icon={<ReceiptOutlinedIcon />}
                         selected={selected}
                         setSelected={setSelected}
                         mainItemColor={mainItemColor}
                     />
-                    <Item
-                        title="Control de acceso"
-                        to="/access-control"
-                        icon={<SecurityOutlinedIcon />}
-                        selected={selected}
-                        setSelected={setSelected}
-                        mainItemColor={mainItemColor}
-                    />
+                    {isAllowed &&
+                        <Item
+                            title="Control de acceso"
+                            to="/access-control"
+                            icon={<SecurityOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                            mainItemColor={mainItemColor}
+                        />
+                    }
                 </Box>
             </Menu>
         </Sidebar>

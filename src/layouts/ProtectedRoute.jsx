@@ -24,6 +24,8 @@ const ProtectedRoute = ({ allowedRoles = [] }) => {
 
     const sidebarWidth = isMobile ? (isCollapsed ? 0 : 235) : (isCollapsed ? 80 : 235);
 
+    const isAllowed = allowedRoles.length > 0 ? allowedRoles.includes(auth?.accessRole) : true
+
     const toggleSidebar = () => {
         setIsCollapsed(!isCollapsed)
     }
@@ -37,7 +39,6 @@ const ProtectedRoute = ({ allowedRoles = [] }) => {
         )
     }
 
-
     return (
         <>
             {
@@ -46,7 +47,7 @@ const ProtectedRoute = ({ allowedRoles = [] }) => {
                     (
 
                         <Box width="100%" height="100%" display='flex' position='relative'>
-                            <SideBar isCollapsed={isCollapsed} toggleSidebar={toggleSidebar} />
+                            <SideBar isCollapsed={isCollapsed} toggleSidebar={toggleSidebar} isAllowed={isAllowed} />
                             <Box width="100%" height="100%"
                                 sx={{
                                     paddingLeft: `${sidebarWidth}px`,
