@@ -161,7 +161,7 @@ export const columnsCase = (handleOpenModal, priorityPalette, casePath, handleOp
                             // alignItems: 'center',
                             // gap: '5px'
                         }}
-                        onClick={() => handleOpenChat(params.row)}
+                        onClick={() => handleOpenModal(MODALS_TYPES.CHAT, params.row)}
                     >
                         <ChatIcon />
                         CHAT
