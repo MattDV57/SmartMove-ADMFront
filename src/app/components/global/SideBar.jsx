@@ -23,13 +23,13 @@ const Item = ({ title, to, icon, selected, setSelected, mainItemColor }) => {
 
     return (
         <MenuItem
-            active={selected === title}
+            active={selected === to}
             style={{
                 color: mainItemColor,
-                backgroundColor: selected === title ? 'rgba(0, 0, 0, 0.1)' : colors.grey[400],
+                backgroundColor: selected === to ? 'rgba(0, 0, 0, 0.1)' : colors.grey[400],
             }}
             onClick={() => {
-                setSelected(title);
+                setSelected(to);
                 navigate(to);
             }}
             icon={icon}
@@ -44,7 +44,7 @@ const SideBar = ({ isCollapsed, toggleSidebar, isAllowed }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    const [selected, setSelected] = useState('Dashboard');
+    const [selected, setSelected] = useState(location.pathname);
     const mainItemColor = colors.blueAccent[100];
 
     if (isMobile && isCollapsed) {

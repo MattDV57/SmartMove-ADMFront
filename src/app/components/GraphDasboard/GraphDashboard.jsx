@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
 
-const uData = [1, 0, 2, 2, 1, 1, 3, 1, 2, 0];
+// const uData = [1, 0, 2, 2, 1, 1, 3, 1, 2, 0];
 const categories = [
     "Técnicos",
     "Cobros/Pagos",
@@ -15,7 +15,14 @@ const categories = [
     "Otros"
 ];
 
-const GraphDashboard = () => {
+const GraphDashboard = ({ claimsByCategory }) => {
+
+    const uData = categories.map(category => {
+        const isCategoryPresent = claimsByCategory?.find(claim => claim._id === category);
+        return isCategoryPresent ? isCategoryPresent.count : 0;
+    });
+
+
     return (
         <div className='mt1'>
             <BarChart

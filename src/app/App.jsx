@@ -14,10 +14,6 @@ import AuthLayout from '../layouts/AuthLayout';
 import ProtectedRoute from '../layouts/ProtectedRoute';
 import { AuthProvider } from '../context/AuthProvider'
 import { AlertProvider } from '../context/AlertProvider'
-// import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-
-// const queryClient = new QueryClient()
-
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -32,7 +28,6 @@ function App() {
 
               <ModalProvider>
                 <AlertProvider>
-                  {/* <QueryClientProvider client={queryClient}> */}
                   <Routes>
 
                     <Route path='/auth' element={<AuthLayout />}>
@@ -64,7 +59,6 @@ function App() {
                     </Route>
 
                   </Routes>
-                  {/* </QueryClientProvider> */}
                 </AlertProvider>
               </ModalProvider>
 

@@ -44,7 +44,7 @@ const Login = () => {
 
         if (isValid) {
             // Aquí iría la lógica para enviar los datos de login al servidor
-            console.log('Datos de login:', { email, password });
+            // console.log('Datos de login:', { email, password });
         }
     };
 

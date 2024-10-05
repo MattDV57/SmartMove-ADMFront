@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useModal } from '../../../context/ModalProvider';
 import { columnsCase } from '../../components/Case/ColumnsCase';
 import { useTheme } from '@emotion/react';
@@ -19,47 +19,30 @@ export const CaseView = ({ title, casePath, operatorName, caseType }) => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(10);
     const tabCases = CASE_TABS_MAP[caseType];
 
     const currentTabIndex = tabCases.findIndex(tab => tab.value === casePath);
 
-    console.log('currentTabIndex', currentTabIndex);
     const [currentTab, setCurrentTab] = useState(currentTabIndex);
+
+
 
 
     const handleTabChange = () => {
         const newTab = tabCases.findIndex(tab => tab.value !== casePath);
         setCurrentTab(newTab);
         navigate(tabCases[newTab].value);
-
-        // const selectedTab = CASE_PATH_ORDER[casePath][currentTab];
-        // console.log('selectedTab', selectedTab);
-
     }
 
-    // const [page, setPage] = React.useState(1);
-    // const [limit, setLimit] = React.useState(25);
-
-    // const { data, isLoading, isError, totalPages } = useGetCasesActions(
-    //     {
-    //         caseType,
-    //         employeeId: operatorName,
-    //         page,
-    //         limit
-    //     });
-
-    // const pagination = {
-    //     page,
-    //     setPage,
-    //     limit,
-    //     setLimit,
-    //     totalPages,
-    // };
 
     const cols = columnsCase(openModal, colors.priority, casePath);
 
-    //TODO: Diseñar el chat (Modal(?))
-    //TODO: FIX Api Call
+    // if (isLoading) {
+    //     return <LinearProgress />;
+    // }
+
 
     return (
         <Box>
@@ -70,11 +53,15 @@ export const CaseView = ({ title, casePath, operatorName, caseType }) => {
                     ))}
                 </Tabs>
             </Box>
-            <GridCase title={title} columns={cols}
-                operatorName={operatorName} caseType={caseType}
-            //  pagination={pagination} data={data} 
-            />
-            <ModalManager />
+
+            <>
+                <GridCase title={title} columns={cols}
+                    operatorName={operatorName} caseType={caseType}
+
+
+                />
+                <ModalManager />
+            </>
 
 
 

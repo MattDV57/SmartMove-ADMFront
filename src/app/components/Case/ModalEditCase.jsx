@@ -10,7 +10,7 @@ import useEditCaseActions from '../../../hooks/case/useEditCaseActions';
 
 const ModalEditCase = ({ isOpen, onClose, claim }) => {
 
-    const { isLoading, handleEditCase, isError } = useEditCaseActions({ claimId: claim._id["$oid"] });
+    const { isLoading, handleEditCase, isError } = useEditCaseActions({ claimId: claim._id });
 
     const [oldStatus, setOldStatus] = useState(claim.status);
     const [newStatus, setNewStatus] = useState(claim.status);

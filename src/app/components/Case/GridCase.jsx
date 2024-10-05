@@ -1,70 +1,61 @@
 /* eslint-disable react/prop-types */
 
-import { Box } from '@mui/material';
-import React, { useState } from 'react'
-import Header from '../Header';
+import { Box, LinearProgress } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { data } from './MOCK_DATA';
 import { useTheme } from '@emotion/react';
 import { tokens } from '../../../styles/theme';
 import { GridContainer } from '../GridContainer';
+import { useGetCasesActions } from '../../../hooks/case/useGetCasesActions';
 
-const GridCase = ({ title, columns, operatorName = "", caseType, pagination, data: cases }) => {
+
+const GridCase = ({ columns, caseType, operatorName }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    // const { page, setPage, limit, setLimit, totalPages } = pagination;
-    const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
 
 
-    const filterRowsByOperator = (rows, caseType, operatorName) => {
-        if (caseType === 'arbitrations') {
-            return rows.filter((row) => row.category === "Mediaciones" && (operatorName ? row.assignedOperator === operatorName : true));
-        } else {
-            return rows.filter((row) => row.category !== "Mediaciones" && (operatorName ? row.assignedOperator === operatorName : true));
-        }
 
-    };
+    const { isLoading, totalClaims, paginationInfo, cases } = useGetCasesActions({
+        caseType,
+        employeeId: operatorName,
+    });
 
-    const filteredData = filterRowsByOperator(data, caseType, operatorName);
+    const { page, limit, setPage, setLimit, paginationModel, setPaginationModel } = paginationInfo;
+
+
+    if (isLoading) {
+        return <LinearProgress />;
+    }
 
     return (
-        <Box margin={"15px 0 0 15px"}
-        >
-            {/* <Header title={title} /> */}
+        <Box margin={"15px 0 0 15px"}>
             <GridContainer>
                 <DataGrid
 
-                    rows={filteredData}
+                    rows={cases}
+                    rowCount={totalClaims}
                     columns={columns}
-                    getRowId={(row) => row._id.$oid}
+                    getRowId={(row) => row._id}
 
-                    pageSizeOptions={[5, 10, 20, 25]}
+                    pageSizeOptions={[5, 10, 20, 25, 50, 100]}
                     pagination
-                    paginationModel={paginationModel}
-                    onPaginationModelChange={setPaginationModel}
 
-                    // paginationMode='server'
-                    // page={page - 1}
-                    // rowCount={totalPages * limit}
-                    // pageSize={limit}
-                    // onPageChange={(newPage) => setPage(newPage + 1)}
-                    // onPageSizeChange={(newPageSize) => setLimit(newPageSize)}
+                    paginationModel={paginationModel}
+                    paginationMode="server"
+                    onPaginationModelChange={(model) => {
+                        setPaginationModel(model);
+                        setPage(model.page + 1);
+                        setLimit(model.pageSize);
+                    }}
 
                     slots={{ toolbar: GridToolbar }}
                     hideFooterSelectedRowCount
-
-                // filterModel={filterModel}
-                // onFilterModelChange={(model) => setFilterModel(model)}
-
-                // checkboxSelection
+                    loading={isLoading}
                 />
             </GridContainer>
         </Box>
-    )
-}
-
-
-
+    );
+};
 
 export default GridCase;

@@ -5,6 +5,19 @@ export const SET_LOADING_FALSE = "SET_LOADING_FALSE"
 export const LIST_PRIORITIES = ["Baja", "Normal", "Alta", "Urgente"]
 export const LIST_STATUS = ["Abierto", "En Proceso", "Resuelto", "Cerrado"]
 
+export const LIST_CATEGORIES = [
+    "Técnicos",
+    "Cobros/Pagos",
+    "Servicio",
+    "Mediaciones",
+    "Información",
+    "Perfil/Usuario",
+    "Inmuebles",
+    "Contrato",
+    "Servicio de Mudanza",
+    "Otros"
+];
+
 export const CASE_PATHS = { ALL_CLAIMS: "/all-claims", MY_CLAIMS: "/my-claims", 
     ALL_ARBITRATIONS: "/all-arbitrations", MY_ARBITRATIONS: "/my-arbitrations" }
 
@@ -20,11 +33,17 @@ export const CASE_TABS_MAP = {
     ]
 }
 
+
 export const CASE_PATH_ORDER = {
     'my-claims': 0,
     'all-claims': 1,
     'my-arbitrations': 0,
     'all-arbitrations': 1,
+}
+
+export const MAP_CASE_TYPE = {
+    'claims': 'Reclamo',
+    'arbitrations': 'Mediacion'
 }
 
 

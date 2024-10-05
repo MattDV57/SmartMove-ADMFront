@@ -8,7 +8,7 @@ export const AllClaims = () => {
 
 // Mis Reclamos
 export const MyClaims = () => {
-    const operatorName = 'user999';
+    const operatorName = 'Operador 1';
     return <CaseView title="Mis Reclamos" casePath={CASE_PATHS.MY_CLAIMS} operatorName={operatorName} caseType="claims" />;
 };
 
@@ -19,6 +19,6 @@ export const AllArbitrations = () => {
 
 // Mis Mediaciones
 export const MyArbitrations = () => {
-    const operatorName = 'user999';
+    const operatorName = 'Operador 1';
     return <CaseView title="Mis Mediaciones" casePath={CASE_PATHS.MY_ARBITRATIONS} operatorName={operatorName} caseType="arbitrations" />;
 };
