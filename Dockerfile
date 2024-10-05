@@ -14,6 +14,4 @@ RUN npm update vite
 
 COPY --chown=node:node . .
 
-EXPOSE 8085
-
 CMD ["npm", "run", "dev"]
