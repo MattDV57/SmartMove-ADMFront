@@ -9,7 +9,8 @@ COPY package*.json ./
 USER node
 
 RUN npm install
-
+RUN npm uninstall vite
+RUN npm install --save-dev vite
 RUN npm update vite
 
 COPY --chown=node:node . .
