@@ -6,6 +6,7 @@ import ModalEditCase from './Case/ModalEditCase';
 import { MODALS_TYPES } from '../../common/types';
 import { useModal } from '../../context/ModalProvider';
 import { ModalDeleteEmployee } from './EmployeesGrid/ModalDeleteEmployee';
+import { ModalChat } from './Chat/ModalChat';
 
 
 const ModalManager = () => {
@@ -22,6 +23,8 @@ const ModalManager = () => {
             return <ModalEditCase isOpen={true} claim={modal.data} onClose={closeModal} />
         case MODALS_TYPES.DELETE_EMPLOYEE:
             return <ModalDeleteEmployee open={true} employee={modal.data} onClose={closeModal} adminId={modal.userId} />
+        case MODALS_TYPES.CHAT:
+            return <ModalChat open={true} employee={modal.data} onClose={closeModal} adminId={modal.userId} />
         default:
             return null;
     }

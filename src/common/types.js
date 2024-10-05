@@ -13,6 +13,7 @@ export const MODALS_TYPES = {
     EDIT_CASE: "edit-case", 
     DETAILS_CASE: "details-case",
     DELETE_EMPLOYEE: "delete-employee",
+    CHAT: 'chat'
 }
 
 export const ACCESS_ROLES = ["Admin", "Gerente", 'Soporte']
