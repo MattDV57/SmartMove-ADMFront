@@ -8,7 +8,7 @@ COPY package*.json ./
 
 USER node
 
-RUN npm install
+RUN sail npm install
 
 RUN npm update vite
 
