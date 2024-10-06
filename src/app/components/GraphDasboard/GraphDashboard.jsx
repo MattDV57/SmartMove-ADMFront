@@ -1,21 +1,16 @@
 import * as React from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
+import { LIST_CATEGORIES } from '../../../common/types';
 
-const uData = [1, 0, 2, 2, 1, 1, 3, 1, 2, 0];
-const categories = [
-    "Técnicos",
-    "Cobros/Pagos",
-    "Servicio",
-    "Mediaciones",
-    "Información",
-    "Perfil/Usuario",
-    "Inmuebles",
-    "Contrato",
-    "Servicio de Mudanza",
-    "Otros"
-];
 
-const GraphDashboard = () => {
+const GraphDashboard = ({ claimsByCategory }) => {
+
+    const uData = LIST_CATEGORIES.map(category => {
+        const isCategoryPresent = claimsByCategory?.find(claim => claim._id === category);
+        return isCategoryPresent ? isCategoryPresent.count : 0;
+    });
+
+
     return (
         <div className='mt1'>
             <BarChart
@@ -24,7 +19,7 @@ const GraphDashboard = () => {
                 series={[
                     { data: uData, label: 'Reclamos activos - Categorías', id: 'uvId' },
                 ]}
-                xAxis={[{ data: categories, scaleType: 'band' }]}
+                xAxis={[{ data: LIST_CATEGORIES, scaleType: 'band' }]}
             />
         </div>
     );

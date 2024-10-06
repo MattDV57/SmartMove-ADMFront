@@ -5,7 +5,7 @@ import useOperatorCaseActions from '../../../hooks/case/useOperatorCaseActions';
 
 const ModalOperatorAccept = ({ open, onClose, claim, employeeId }) => {
 
-    const { isLoading, assignOperator } = useOperatorCaseActions({ claimId: claim._id["$oid"], employeeId: employeeId });
+    const { isLoading, assignOperator } = useOperatorCaseActions({ claimId: claim._id, employeeId: employeeId });
 
     if (!claim) return null;
 

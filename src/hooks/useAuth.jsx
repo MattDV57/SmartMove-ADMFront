@@ -1,4 +1,5 @@
-import { useContext } from 'react'
+/* eslint-disable no-irregular-whitespace */
+import { useContext } from 'react'
 
 import AuthContext from '../context/AuthProvider'
 

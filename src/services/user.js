@@ -7,7 +7,6 @@ export const userService = {
         `/users`,
         {
             method: "GET",
-            callOnLoad: true
         }
     ),
 

@@ -3,24 +3,24 @@ import UseApi from "../hooks/useApi";
 
 export const caseService = {
 
-    useGetAllCases: ( { caseType } ) => UseApi(
-    `/claims/${caseType}`,
+    useGetAllCases: ( ) => UseApi(
+    `/claim`,
     {
         method: 'GET',
-        callOnLoad: true,
+        // callOnLoad: true,
     }
     ),
 
-    useGetMyCases: ( { caseType, employeeId } ) => UseApi(
-        `/claims/${caseType}/operators/${employeeId}`,
+    useGetMyCases: ( { employeeId } ) => UseApi(
+        `/claim/operators/${employeeId}`,
         {
             method: 'GET',
-            callOnLoad: true,
+            // callOnLoad: true,
         }
     ),
 
     useEditCase: ( {claimId} ) => UseApi(
-        `/claims/${claimId}`,
+        `/claim/${claimId}`,
         {
             method: 'PUT',
         }
@@ -28,12 +28,20 @@ export const caseService = {
     
     
     usePutOperatorInCase: ( {claimId, employeeId} ) => UseApi(
-        `/claims/${claimId}/operators/${employeeId}`,
+        `/claim/${claimId}/operators/${employeeId}`,
         {
             method: 'PUT',
         }
 
-    )
+    ),
+
+    useGetDashboard: () => UseApi(
+        `/claim/dashboard`,
+        {
+            method: 'GET',
+            callOnLoad: true,
+        }
+    ),
 
 }
 
@@ -41,10 +49,11 @@ export const caseService = {
 {/*
 
 const endpoints = { 
-    getAllCases:`/claims/${caseType}?page=${page}&limit=${limit}`,
-    getMyCases: `/claims/${caseType}/operators/${userId}?page=${page}&limit=${limit}`,
+    getAllCases:`/claims/${caseType}?page=${page}&limit=${limit}`, order: fechaDesc
+    getMyCases: `/claims/${caseType}/operators/${userId}?page=${page}&limit=${limit}`, order: fechaDesc
     editCase: `/claims/${claimId}`,
-    putOperatorInCase: `/claims/${claimId}/operators/${userId}`
+    putOperatorInCase: `/claims/${claimId}/operators/${userId}` 
+    getLogs: `/logs?logsType=${logType}&page=${page}&limit=${limit}` order: fechaDesc
 }
 
 */}

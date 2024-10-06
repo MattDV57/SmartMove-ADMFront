@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Box, hexToRgb, IconButton, Typography, useMediaQuery } from '@mui/material';
+import { Box, Typography, useMediaQuery } from '@mui/material';
 import { useState } from 'react';
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
@@ -7,13 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import ErrorIcon from '@mui/icons-material/ErrorOutline';
-import AccessibilityNewOutlinedIcon from '@mui/icons-material/AccessibilityNewOutlined';
-import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 import BugReportOutlinedIcon from '@mui/icons-material/BugReportOutlined';
 import { useTheme } from '@mui/material';
 import Logo from '../../../assets/smarthome-logo.svg'
 import { tokens } from '../../../styles/theme';
-
+import { useGlobal } from '../../../context/global/globalContext';
+import { SIDEBAR_SIZE } from '../../../common/types';
 
 // eslint-disable-next-line react/prop-types
 const Item = ({ title, to, icon, selected, setSelected, mainItemColor }) => {
@@ -23,40 +22,43 @@ const Item = ({ title, to, icon, selected, setSelected, mainItemColor }) => {
 
     return (
         <MenuItem
-            active={selected === title}
+            active={selected === to}
             style={{
                 color: mainItemColor,
-                backgroundColor: selected === title ? 'rgba(0, 0, 0, 0.1)' : colors.grey[400],
+                backgroundColor: selected === to ? 'rgba(0, 0, 0, 0.1)' : colors.grey[400],
             }}
             onClick={() => {
-                setSelected(title);
+                setSelected(to);
                 navigate(to);
             }}
             icon={icon}
         >
-            <Typography fontSize='16px'>{title}</Typography>
+            <Typography marginRight={.3}>
+                {title}
+            </Typography>
         </MenuItem>
     );
 };
 
 
-const SideBar = ({ isCollapsed, toggleSidebar, isAllowed }) => {
+const SideBar = ({ isAllowed }) => {
+    const { globalState, toggleSidebar } = useGlobal();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    const [selected, setSelected] = useState('Dashboard');
+    const [selected, setSelected] = useState(location.pathname);
     const mainItemColor = colors.blueAccent[100];
 
-    if (isMobile && isCollapsed) {
+    if (isMobile && globalState.sidebarOpen) {
         return null;
     }
 
     return (
 
         <Sidebar
-            collapsed={isCollapsed}
+            collapsed={globalState.sidebarOpen}
             style={{ backgroundColor: colors.grey[400] }}
-            width='235px'
+            width={SIDEBAR_SIZE.OPEN + "px"}
             rootStyles={{
                 height: '100vh',
                 display: 'flex',
@@ -75,7 +77,7 @@ const SideBar = ({ isCollapsed, toggleSidebar, isAllowed }) => {
                 {/* LOGO AND MENU ICON */}
                 <MenuItem
                     onClick={toggleSidebar}
-                    icon={isCollapsed ? <img src={Logo} alt="SmartMove" height={'47px'} width={'70px'} /> : undefined}
+                    icon={globalState.sidebarOpen ? <img src={Logo} alt="SmartMove" height={'47px'} width={'70px'} /> : undefined}
                     style={{
                         margin: "10px 0 20px 0",
                         color: mainItemColor,
@@ -83,7 +85,7 @@ const SideBar = ({ isCollapsed, toggleSidebar, isAllowed }) => {
                     }}
 
                 >
-                    {!isCollapsed && (
+                    {!globalState.sidebarOpen && (
                         <img src={Logo} alt="SmartMove" height={'47px'} width={'70px'}
                             style={{
                                 margin: "10px 0 0 0",
@@ -94,7 +96,7 @@ const SideBar = ({ isCollapsed, toggleSidebar, isAllowed }) => {
                 </MenuItem>
 
 
-                <Box paddingLeft={isCollapsed ? undefined : "1%"}>
+                <Box paddingLeft={globalState.sidebarOpen ? undefined : "1%"}>
                     <Item
                         title="Dashboard"
                         to="/"
@@ -120,7 +122,7 @@ const SideBar = ({ isCollapsed, toggleSidebar, isAllowed }) => {
                         mainItemColor={mainItemColor}
                     />
                     <Item
-                        title="Registro de actividad"
+                        title="Registros"
                         to="/logs"
                         icon={<ReceiptOutlinedIcon />}
                         selected={selected}

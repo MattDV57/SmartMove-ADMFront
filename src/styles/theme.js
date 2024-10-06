@@ -1,5 +1,5 @@
 import { createTheme, Paper } from '@mui/material'
-import { createContext, useMemo, useState } from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
 import { esES } from '@mui/x-data-grid/locales';
 
 export const tokens = (mode) => ({
@@ -159,8 +159,16 @@ export const themeSettings = (mode) => {
       });
       
       export const useMode = () => {
-        const [mode, setMode] = useState("light");
-      
+        const [mode, setMode] = useState(() => {
+        const savedMode = localStorage.getItem('themeMode');
+        return savedMode ? savedMode : 'light';
+        })
+  
+    
+      useEffect(() => {
+        localStorage.setItem('themeMode', mode);
+      }, [mode])
+
         const colorMode = useMemo(
           () => ({
             toggleColorMode: () =>

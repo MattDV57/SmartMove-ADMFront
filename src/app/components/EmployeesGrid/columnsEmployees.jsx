@@ -9,7 +9,7 @@ import { Check } from '@mui/icons-material';
 
 
 export const columnsEmployees = ({ editableRowId,
-    handleClickOnEdit, handleCancelOperation, handleClickOnSave, openModal, isLoading, isSavingSuccess = false
+    handleClickOnEdit, handleCancelOperation, handleClickOnSave, openModal, isLoading_CUD, isSavingSuccess = false
 }) => [
         {
             field: 'employeeId',
@@ -123,7 +123,7 @@ export const columnsEmployees = ({ editableRowId,
                                     }}
                                     onClick={() => handleClickOnSave(params.row)}
                                 >
-                                    {isLoading ? <CircularProgress size={28} sx={{ color: green[500] }} />
+                                    {isLoading_CUD ? <CircularProgress size={28} sx={{ color: green[500] }} />
                                         : isSavingSuccess
                                             ? <Check sx={{ color: 'black' }} />
                                             : <SaveIcon />}

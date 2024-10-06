@@ -1,4 +1,4 @@
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar, GridToolbarContainer, GridToolbarExport, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import React, { useEffect, useReducer, useState } from 'react';
 import { columnsEmployees } from './columnsEmployees';
 import { useTheme } from '@emotion/react';
@@ -7,36 +7,25 @@ import { tokens } from '../../../styles/theme';
 import { GridContainer } from '../GridContainer';
 import { gridReducer, initialState } from './GridReducer';
 import { useModal } from '../../../context/ModalProvider';
-import { MODALS_TYPES } from '../../../common/types';
+import { useGetUsersActions } from '../../../hooks/user/useGetUsersActions';
+import useAuth from '../../../hooks/useAuth';
+import { LinearProgress } from '@mui/material';
+import { CustomToolBar } from '../CustomToolBar';
 
 
-
-export const GridEmployees = ({ isAddingNewRow, setIsAddingNewRow, setDisableAddNewRow, ...props }) => {
+export const GridEmployees = ({ isAddingNewRow, setIsAddingNewRow, setDisableAddNewRow, postUser, putUser, isLoading_CUD }) => {
+    const { auth } = useAuth();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
     const [state, dispatch] = useReducer(gridReducer, initialState);
-    // const [isSavingSuccess, setIsSavingSuccess] = useState(false);
+
+    const { isLoading: isLoading_GET, } = useGetUsersActions(auth.id, state, dispatch);
     const { openModal } = useModal();
-    const { postUser, getUsers, putUser, isLoading } = props;
 
     //TODO: Verificar que funcionen el CRUD, una vez la API esté lista.
     //TODO: Integrar el getEmployees() de la API.
     //TODO: Implementar validación de errores en las columnas. Al crear o editar un empleado.
-
-    useEffect(() => {
-        if (data) {
-            dispatch({
-                type: 'SET_ROWS',
-                payload: {
-                    rows: data,
-                    // totalRows: totalEmployees
-                }
-            });
-        }
-        // }, [employeesData, totalEmployees]);
-    }, []);
-
 
     useEffect(() => {
         if (isAddingNewRow && state.editableRowId === null) { // Boton Agregar Empleado
@@ -78,31 +67,39 @@ export const GridEmployees = ({ isAddingNewRow, setIsAddingNewRow, setDisableAdd
         handleCancelOperation,
         handleClickOnSave,
         openModal,
-        isLoading,
+        isLoading_CUD,
         isSavingSuccess: state.isSavingSuccess
     });
 
     return (
         <div>
-            <GridContainer>
-                <DataGrid
-                    columns={cols}
-                    rows={state.rows}
-                    getRowId={(row) => row.id}
-                    rowsPerPageOptions={[5, 10, 20]}
-                    pageSizeOptions={[5, 10, 20]}
-                    pagination
-                    // paginationMode="server"
-                    // rowCount={state.totalRows} 
-                    paginationModel={state.paginationModel}
-                    onPaginationModelChange={(newModel) => dispatch({ type: 'SET_PAGINATION', payload: newModel })}
-                    // loading={isLoading}
-                    slots={{ toolbar: GridToolbar }}
-                    disableRowSelectionOnClick
-                    hideFooterSelectedRowCount
-                    isCellEditable={(params) => params.row.id === state.editableRowId}
-                />
-            </GridContainer>
+            {
+                isLoading_GET
+                    ? <LinearProgress />
+                    :
+                    <GridContainer>
+                        <DataGrid
+                            columns={cols}
+                            rows={state.rows}
+                            rowCount={state.totalEmployees}
+                            getRowId={(row) => row.id}
+                            pageSizeOptions={[5, 10, 20, 25, 50, 100]}
+                            pagination
+                            paginationMode="server"
+
+                            paginationModel={state.paginationModel}
+                            onPaginationModelChange={(newModel) =>
+                                dispatch({ type: 'SET_PAGINATION_MODEL', payload: newModel })
+                            }
+                            loading={isLoading_CUD || isLoading_GET}
+                            slots={{ toolbar: CustomToolBar }}
+                            disableRowSelectionOnClick
+                            hideFooterSelectedRowCount
+                            isCellEditable={(params) => params.row.id === state.editableRowId}
+                        />
+
+                    </GridContainer>
+            }
         </div>
     );
 };

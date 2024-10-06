@@ -106,11 +106,11 @@ export const columnsCase = (handleOpenModal, priorityPalette, casePath, handleOp
 
     ...([CASE_PATHS.ALL_ARBITRATIONS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath) ? [ // Arbitrations column only.
         {
-            field: 'complainted', headerName: 'Reclamado',
+            field: 'counterParty', headerName: 'Reclamado',
             flex: 1,
             renderCell: params => (
-                <Tooltip title={params.row.complainted} arrow>
-                    <span>{params.row.complainted}</span>
+                <Tooltip title={params.row.counterParty.username} arrow>
+                    <span>{params.row.counterParty.username}</span>
                 </Tooltip>
             )
         }]

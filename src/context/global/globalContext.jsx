@@ -1,10 +1,11 @@
-import React, { createContext, useEffect, useReducer } from 'react'
+import React, { createContext, useContext, useEffect, useReducer } from 'react'
 
 import GlobalReducer from './globalReducer'
 
 import {
     SET_LOADING_TRUE,
     SET_LOADING_FALSE,
+    TOGGLE_SIDEBAR
 } from '../../common/types'
 
 
@@ -14,11 +15,16 @@ export const globalInitialState = {
 
 export const GlobalContext = createContext(null)
 
+export const useGlobal = () => useContext(GlobalContext)
+
 export const GlobalProvider = ({ children }) => {
 
     const [globalState, dispatch] = useReducer(
         GlobalReducer,
-        globalInitialState,
+        {
+            ...globalInitialState,
+            sidebarOpen: true,
+        }
     )
 
     const setLoadingTrue = () => {
@@ -32,12 +38,17 @@ export const GlobalProvider = ({ children }) => {
         })
     }
 
+    const toggleSidebar = () => {
+        dispatch({ type: TOGGLE_SIDEBAR });
+    };
+
     return (
         <GlobalContext.Provider
             value={{
                 globalState,
                 setLoadingTrue,
                 setLoadingFalse,
+                toggleSidebar
             }}>
             {children}
         </GlobalContext.Provider>

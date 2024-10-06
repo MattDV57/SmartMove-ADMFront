@@ -10,7 +10,7 @@ import useEditCaseActions from '../../../hooks/case/useEditCaseActions';
 
 const ModalEditCase = ({ isOpen, onClose, claim }) => {
 
-    const { isLoading, handleEditCase, isError } = useEditCaseActions({ claimId: claim._id["$oid"] });
+    const { isLoading, handleEditCase, isError } = useEditCaseActions({ claimId: claim._id });
 
     const [oldStatus, setOldStatus] = useState(claim.status);
     const [newStatus, setNewStatus] = useState(claim.status);
@@ -125,13 +125,13 @@ const ModalEditCase = ({ isOpen, onClose, claim }) => {
                 </Button>
 
                 {showHistoryActions && (
-                    <Box mb={2} sx={{
+                    <Box mb={1} sx={{
                         border: '1px solid',
                         borderColor: 'info.main',
                         borderRadius: 1,
                         padding: 1,
                         backgroundColor: 'background.default',
-                        maxHeight: 200,
+                        maxHeight: 140,
                         overflowY: 'auto',
                     }}>
                         {historyActions.length > 0 ? (
@@ -154,7 +154,7 @@ const ModalEditCase = ({ isOpen, onClose, claim }) => {
                         onClick={toggleActionFields}
                         disabled={showResolutionFields || showHistoryActions}
                         startIcon={showActionFields ? <CancelIcon /> : <AddTaskIcon />}
-                        sx={{ mt: 2 }}
+                        sx={{ mt: 1 }}
                     >
                         {showActionFields ? 'Eliminar Acción' : 'Registrar Acción'}
                     </Button>
@@ -165,7 +165,7 @@ const ModalEditCase = ({ isOpen, onClose, claim }) => {
                         onClick={toggleResolutionFields}
                         disabled={showActionFields || showHistoryActions}
                         startIcon={showResolutionFields ? <CancelIcon /> : <ChatIcon />}
-                        sx={{ mt: 2 }}
+                        sx={{ mt: 1 }}
                     >
                         {showResolutionFields && !oldResolution
                             ? 'Eliminar Resolución'
@@ -195,14 +195,14 @@ const ModalEditCase = ({ isOpen, onClose, claim }) => {
                         onChange={(e) => setResolutionDetails(e.target.value)}
                         variant="outlined"
                         multiline
-                        rows={4}
+                        rows={3}
                         fullWidth
                         margin="normal"
                     />
                 }
 
 
-                <Box mt={3}>
+                <Box mt={2}>
 
                     <Button
                         variant="contained"

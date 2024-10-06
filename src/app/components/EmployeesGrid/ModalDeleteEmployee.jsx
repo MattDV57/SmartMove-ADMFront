@@ -32,8 +32,7 @@ export const ModalDeleteEmployee = ({ open, onClose, employee, adminId }) => {
                     <Button
                         variant='contained'
                         color='secondary'
-                        onClick={onClose}
-                        disabled={isDeletingLoading}>
+                        onClick={onClose}>
                         Cancelar</Button>
                     <Button
                         onClick={handleDelete}
