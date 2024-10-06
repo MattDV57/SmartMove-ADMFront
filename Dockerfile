@@ -10,6 +10,6 @@ RUN npm install
 
 COPY --chown=node:node . .
 
-EXPOSE 5173
+EXPOSE 8080
 
 CMD ["npm", "run", "dev"]
