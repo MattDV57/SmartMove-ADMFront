@@ -57,7 +57,7 @@ const Login = () => {
                     Administración Interna
                 </Typography>
                 <Typography variant="h6">
-                    Iniciar Sesión
+                    Iniciá Sesión
                 </Typography>
 
                 <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -69,6 +69,7 @@ const Login = () => {
                         label="Correo Electrónico"
                         name="email"
                         autoComplete="email"
+                        type='email'
                         autoFocus
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
