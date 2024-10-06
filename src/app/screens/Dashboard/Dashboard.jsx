@@ -64,6 +64,7 @@ const Dashboard = () => {
 
             <GraphDashboard
                 claimsByCategory={data?.claimsByCategory}
+                arbitrationsByCategory={data?.arbitrationsByCategory}
             />
         </Box>
     )

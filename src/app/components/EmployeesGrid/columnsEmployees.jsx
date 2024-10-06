@@ -8,8 +8,15 @@ import { blue, green } from '@mui/material/colors';
 import { Check } from '@mui/icons-material';
 
 
-export const columnsEmployees = ({ editableRowId,
-    handleClickOnEdit, handleCancelOperation, handleClickOnSave, openModal, isLoading_CUD, isSavingSuccess = false
+export const columnsEmployees = ({
+    editableRowId,
+    handleClickOnEdit,
+    handleCancelOperation,
+    handleClickOnSave,
+    openModal,
+    isLoading_CUD,
+    isSavingSuccess = false,
+    isAllowedToActions = false
 }) => [
         {
             field: 'employeeId',
@@ -90,7 +97,7 @@ export const columnsEmployees = ({ editableRowId,
             valueOptions: ACCESS_ROLES,
             editable: (params) => params.row.id === editableRowId,
         },
-        {
+        ...(isAllowedToActions ? [{
             field: 'actions',
             headerName: 'Acciones',
             width: 100,
@@ -145,6 +152,7 @@ export const columnsEmployees = ({ editableRowId,
                                     <DeleteForeverIcon />
                                 </IconButton>
                             </Tooltip>
+
                             <Tooltip title="Editar">
                                 <IconButton onClick={() => handleClickOnEdit(params.row)}
                                     variant='contained'
@@ -156,8 +164,12 @@ export const columnsEmployees = ({ editableRowId,
                                     <EditIcon />
                                 </IconButton>
                             </Tooltip>
+
                         </>}
+
                 </Box>
-            ),
-        }
+            )
+        }]
+            : []
+        )
     ];

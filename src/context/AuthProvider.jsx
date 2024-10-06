@@ -16,7 +16,7 @@ const AuthProvider = ({ children }) => {
         position: "Gerente de Proyectos",
         department: "Gestión de Proyectos",
         entryDate: "2015-03-01",
-        accessRole: "Gerente"
+        accessRole: "Admin"
     };
 
     const [auth, setAuth] = useState({

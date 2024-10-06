@@ -58,8 +58,8 @@ export const MODALS_TYPES = {
 }
 
 export const ACCESS_ROLES = ["Admin", "Gerente", 'Soporte']
-
-
+export const ACCESS_CONTROL_ALLOWED_ROLES_ACTIONS = ["Admin"]
+export const ACCESS_CONTROL_ALLOWED_ROLES_VIEW = ["Admin", "Gerente"]
 
 export const NEW_ROW_EMPLOYEE = {
     id: Date.now(),

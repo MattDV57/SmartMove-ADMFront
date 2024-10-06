@@ -12,8 +12,9 @@ import useAuth from '../../../hooks/useAuth';
 import { LinearProgress } from '@mui/material';
 import { CustomToolBar } from '../CustomToolBar';
 
+export const GridEmployees = ({ isAddingNewRow, setIsAddingNewRow, setDisableAddNewRow,
+    postUser, putUser, isLoading_CUD, isAllowedToActions }) => {
 
-export const GridEmployees = ({ isAddingNewRow, setIsAddingNewRow, setDisableAddNewRow, postUser, putUser, isLoading_CUD }) => {
     const { auth } = useAuth();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -68,7 +69,8 @@ export const GridEmployees = ({ isAddingNewRow, setIsAddingNewRow, setDisableAdd
         handleClickOnSave,
         openModal,
         isLoading_CUD,
-        isSavingSuccess: state.isSavingSuccess
+        isSavingSuccess: state.isSavingSuccess,
+        isAllowedToActions
     });
 
     return (

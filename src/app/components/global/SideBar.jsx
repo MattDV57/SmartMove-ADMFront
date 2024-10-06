@@ -41,7 +41,7 @@ const Item = ({ title, to, icon, selected, setSelected, mainItemColor }) => {
 };
 
 
-const SideBar = ({ isAllowed }) => {
+const SideBar = ({ isAllowedToAccessControl }) => {
     const { globalState, toggleSidebar } = useGlobal();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -52,6 +52,7 @@ const SideBar = ({ isAllowed }) => {
     if (isMobile && globalState.sidebarOpen) {
         return null;
     }
+
 
     return (
 
@@ -129,7 +130,7 @@ const SideBar = ({ isAllowed }) => {
                         setSelected={setSelected}
                         mainItemColor={mainItemColor}
                     />
-                    {isAllowed &&
+                    {isAllowedToAccessControl &&
                         <Item
                             title="Control de acceso"
                             to="/access-control"

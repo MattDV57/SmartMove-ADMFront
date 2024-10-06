@@ -14,6 +14,7 @@ import AuthLayout from '../layouts/AuthLayout';
 import ProtectedRoute from '../layouts/ProtectedRoute';
 import { AuthProvider } from '../context/AuthProvider'
 import { AlertProvider } from '../context/AlertProvider'
+import { ACCESS_CONTROL_ALLOWED_ROLES_VIEW } from '../common/types'
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -50,7 +51,7 @@ function App() {
 
                       <Route path="/logs" element={<Logs />} />
 
-                      <Route path="/access-control" element={<ProtectedRoute allowedRoles={['admin', 'Gerente']} />} >
+                      <Route path="/access-control" element={<ProtectedRoute allowedRoles={ACCESS_CONTROL_ALLOWED_ROLES_VIEW} />} >
                         <Route index element={<AccessControl />} />
                       </Route>
 

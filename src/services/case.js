@@ -39,7 +39,6 @@ export const caseService = {
         `/claim/dashboard`,
         {
             method: 'GET',
-            callOnLoad: true,
         }
     ),
 

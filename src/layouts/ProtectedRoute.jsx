@@ -12,7 +12,7 @@ import useAuth from '../hooks/useAuth'
 
 import { useMode } from '../styles/theme'
 import { useGlobal } from '../context/global/globalContext'
-import { SIDEBAR_SIZE } from '../common/types'
+import { ACCESS_CONTROL_ALLOWED_ROLES_VIEW, SIDEBAR_SIZE } from '../common/types'
 
 const ProtectedRoute = ({ allowedRoles = [] }) => {
     const { globalState, toggleSidebar } = useGlobal();
@@ -26,7 +26,7 @@ const ProtectedRoute = ({ allowedRoles = [] }) => {
     const sidebarWidth = isMobile ? (globalState.sidebarOpen
         ? SIDEBAR_SIZE.CLOSE_MOBILE : SIDEBAR_SIZE.OPEN - 1) : (globalState.sidebarOpen ? SIDEBAR_SIZE.CLOSE : SIDEBAR_SIZE.OPEN - 1);
 
-    const isAllowed = allowedRoles.length > 0 ? allowedRoles.includes(auth?.accessRole) : true
+    const isAllowedToAccessControl = ACCESS_CONTROL_ALLOWED_ROLES_VIEW.includes(auth?.accessRole);
 
 
 
@@ -46,7 +46,7 @@ const ProtectedRoute = ({ allowedRoles = [] }) => {
                     (
 
                         <Box width="100%" height="100%" display='flex' position='relative'>
-                            <SideBar isAllowed={isAllowed} />
+                            <SideBar isAllowedToAccessControl={isAllowedToAccessControl} />
                             <Box width="100%" height="100%"
                                 sx={{
                                     paddingLeft: `${sidebarWidth}px`,
