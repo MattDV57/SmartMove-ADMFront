@@ -11,7 +11,6 @@ import {
     Card,
     CardContent,
     CardHeader,
-    CardActions
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import {
@@ -24,32 +23,83 @@ import {
 
 import './Profile.scss'
 import useAuth from '../../../hooks/useAuth';
+import { useAlert } from '../../../context/AlertProvider';
 
 
 const Profile = () => {
 
     const { auth } = useAuth()
+    const { showAlert } = useAlert();
     const [contactInfo, setContactInfo] = useState({
         email: auth.email,
         phone: auth.phone,
         address: auth.address,
         location: auth.location
     });
+    const [inputErrors, setInputErrors] = useState({
+        email: false,
+        phone: false,
+        address: false,
+        location: false,
+    });
     const [password, setPassword] = useState({ current: '', new: '', confirm: '' });
     const [isEditing, setIsEditing] = useState(false);
     const [isChangingPassword, setIsChangingPassword] = useState(false);
 
     const handleContactChange = (e) => {
+        setInputErrors({
+            ...inputErrors,
+            [e.target.name]: false
+        })
         setContactInfo({ ...contactInfo, [e.target.name]: e.target.value });
     };
 
     const handlePasswordChange = (e) => {
+        setInputErrors({
+            ...inputErrors,
+            [e.target.name]: false
+        })
         setPassword({ ...password, [e.target.name]: e.target.value });
     };
 
     const handleSubmitContact = (e) => {
         e.preventDefault();
-        // Aquí iría la lógica para actualizar la información de contacto
+
+        if (!esEmailValido(contactInfo.email)) {
+            setInputErrors({
+                ...inputErrors,
+                email: true
+            })
+            showAlert('Complete de forma correcta el email', 'error');
+            return null
+        }
+        if (!esTelefonoArgentinoValido(contactInfo.phone)) {
+            setInputErrors({
+                ...inputErrors,
+                phone: true
+            })
+            showAlert('Complete de forma correcta el teléfono', 'error');
+            return null
+        }
+        if (contactInfo.address.trim().length < 4) {
+            setInputErrors({
+                ...inputErrors,
+                address: true
+            })
+            showAlert('Complete de forma correcta la dirección', 'error');
+            return null
+        }
+        if (contactInfo.location.trim().length < 4) {
+            setInputErrors({
+                ...inputErrors,
+                location: true
+            })
+            showAlert('Complete de forma correcta la localidad', 'error');
+            return null
+        }
+
+        showAlert('Información de contacto modificada', 'success');
+
         setIsEditing(false);
     };
 
@@ -62,9 +112,11 @@ const Profile = () => {
         // TODO: modal de error para ambos casos
 
         if (password.new !== password.confirm) {
+            showAlert('La nueva contraseña y la de confirmación tienen que coincidir', 'error');
             return null
         }
         if (password.new.length < 6) {
+            showAlert('La nueva contraseña debe ser de 6 dígitos o más', 'error');
             return null
         }
 
@@ -73,6 +125,15 @@ const Profile = () => {
         setIsChangingPassword(false);
         setPassword({ current: '', new: '', confirm: '' });
     };
+
+    function esEmailValido(email) {
+        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regexEmail.test(email);
+    }
+    function esTelefonoArgentinoValido(telefono) {
+        const regexTelefono = /^(?:(?:\+?54\s?)?9?\s?(?:\d{2,4})\s?)?(\d{4})[\s-]?(\d{4})$/;
+        return regexTelefono.test(telefono);
+    }
 
     return (
         <Container>
@@ -145,6 +206,7 @@ const Profile = () => {
                                             onChange={handleContactChange}
                                             required
                                             id="perfil-edit-correo"
+                                            error={inputErrors.email}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -157,6 +219,7 @@ const Profile = () => {
                                             onChange={handleContactChange}
                                             required
                                             id="perfil-edit-phone"
+                                            error={inputErrors.phone}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -168,6 +231,7 @@ const Profile = () => {
                                             onChange={handleContactChange}
                                             required
                                             id="perfil-edit-address"
+                                            error={inputErrors.address}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -179,6 +243,7 @@ const Profile = () => {
                                             onChange={handleContactChange}
                                             required
                                             id="perfil-edit-location"
+                                            error={inputErrors.location}
                                         />
                                     </Grid>
                                 </div>
