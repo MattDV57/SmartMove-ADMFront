@@ -1,6 +1,8 @@
 export const SET_LOADING_TRUE = "SET_LOADING_TRUE"
 export const SET_LOADING_FALSE = "SET_LOADING_FALSE"
 
+export const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR"
+export const SIDEBAR_SIZE = { OPEN: 215, CLOSE: 80, CLOSE_MOBILE: 0 }
 
 export const LIST_PRIORITIES = ["Baja", "Normal", "Alta", "Urgente"]
 export const LIST_STATUS = ["Abierto", "En Proceso", "Resuelto", "Cerrado"]

@@ -4,21 +4,18 @@ import { usePostUserActions } from "./usePostUserActions";
 import { usePutUserActions } from "./usePutUserActions";
 
 
-const useUserActions = (adminId) => {
+export const useUserCUDActions = (adminId) => {
   const { postUser, isLoading: isPostLoading } = usePostUserActions({ adminId });
   const { putUser, isLoading: isPutLoading } = usePutUserActions({ adminId });
-  const { getUsers, isLoading: isGetLoading } = useGetUsersActions({ adminId });
   const { deleteUser, isLoading: isDeleteLoading } = useDeleteUserActions({ adminId });
-
-  const isLoading = isPostLoading || isPutLoading || isGetLoading || isDeleteLoading;
+ 
+  const isLoading_CUD = isPostLoading || isPutLoading || isDeleteLoading;
 
   return {
     postUser,
     putUser,
-    getUsers,
     deleteUser,
-    isLoading,
+    isLoading_CUD,
   };
 };
 
-export default useUserActions;

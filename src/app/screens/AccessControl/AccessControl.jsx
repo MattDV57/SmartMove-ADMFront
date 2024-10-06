@@ -4,13 +4,14 @@ import Header from '../../components/Header'
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { Box, Button } from '@mui/material'
 import useAuth from '../../../hooks/useAuth';
-import useUserActions from '../../../hooks/user/useUserActions';
+import { useUserCUDActions } from '../../../hooks/user/useUserCUDActions';
 import ModalManager from '../../components/ModalManager';
+
 
 export const AccessControl = () => {
   const { auth } = useAuth();
 
-  const { isLoading, postUser, getUsers, putUser, deleteUser } = useUserActions(auth.id);
+  const { isLoading_CUD, postUser, putUser, deleteUser } = useUserCUDActions(auth.id);
 
   const [isAddingNewRow, setIsAddingNewRow] = useState(false);
   const [disableAddNewRow, setDisableAddNewRow] = useState(false);
@@ -42,10 +43,9 @@ export const AccessControl = () => {
         setIsAddingNewRow={setIsAddingNewRow}
         setDisableAddNewRow={setDisableAddNewRow}
         postUser={postUser}
-        getUsers={getUsers}
         putUser={putUser}
         deleteUser={deleteUser}
-        isLoading={isLoading}
+        isLoading_CUD={isLoading_CUD}
 
       />
       <ModalManager />

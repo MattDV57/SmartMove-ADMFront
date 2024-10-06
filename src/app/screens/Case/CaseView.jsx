@@ -6,10 +6,9 @@ import { useTheme } from '@emotion/react';
 import { tokens } from '../../../styles/theme';
 import ModalManager from '../../components/ModalManager';
 import GridCase from '../../components/Case/GridCase';
-import { useGetCasesActions } from '../../../hooks/case/useGetCasesActions';
-import { Box, LinearProgress, Tab, Tabs } from '@mui/material';
-import { CASE_TABS_MAP, CASE_PATHS, CASE_PATH_ORDER } from '../../../common/types';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Box, Tab, Tabs } from '@mui/material';
+import { CASE_TABS_MAP } from '../../../common/types';
+import { useNavigate } from 'react-router-dom';
 
 export const CaseView = ({ title, casePath, operatorName, caseType }) => {
     const theme = useTheme();
@@ -17,10 +16,7 @@ export const CaseView = ({ title, casePath, operatorName, caseType }) => {
     const { openModal } = useModal();
 
     const navigate = useNavigate();
-    const location = useLocation();
 
-    const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(10);
     const tabCases = CASE_TABS_MAP[caseType];
 
     const currentTabIndex = tabCases.findIndex(tab => tab.value === casePath);
@@ -39,10 +35,6 @@ export const CaseView = ({ title, casePath, operatorName, caseType }) => {
 
     const cols = columnsCase(openModal, colors.priority, casePath);
 
-    // if (isLoading) {
-    //     return <LinearProgress />;
-    // }
-
 
     return (
         <Box>
@@ -60,10 +52,9 @@ export const CaseView = ({ title, casePath, operatorName, caseType }) => {
 
 
                 />
-                <ModalManager />
             </>
 
-
+            <ModalManager />
 
         </Box>
     );

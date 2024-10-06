@@ -1,27 +1,23 @@
 /* eslint-disable react/prop-types */
 
 import { Box, LinearProgress } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import React from 'react';
+import { DataGrid } from '@mui/x-data-grid';
 import { useTheme } from '@emotion/react';
 import { tokens } from '../../../styles/theme';
 import { GridContainer } from '../GridContainer';
 import { useGetCasesActions } from '../../../hooks/case/useGetCasesActions';
-
+import { CustomToolBar } from '../CustomToolBar';
+import { useGlobal } from '../../../context/global/globalContext';
 
 const GridCase = ({ columns, caseType, operatorName }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-
-
-
-    const { isLoading, totalClaims, paginationInfo, cases } = useGetCasesActions({
+    const { isLoading, totalClaims, cases, paginationModel, setPaginationModel, } = useGetCasesActions({
         caseType,
         employeeId: operatorName,
     });
-
-    const { page, limit, setPage, setLimit, paginationModel, setPaginationModel } = paginationInfo;
 
 
     if (isLoading) {
@@ -29,10 +25,10 @@ const GridCase = ({ columns, caseType, operatorName }) => {
     }
 
     return (
-        <Box margin={"15px 0 0 15px"}>
+        <Box margin={"15px 0 0 15px"}
+        >
             <GridContainer>
                 <DataGrid
-
                     rows={cases}
                     rowCount={totalClaims}
                     columns={columns}
@@ -43,13 +39,10 @@ const GridCase = ({ columns, caseType, operatorName }) => {
 
                     paginationModel={paginationModel}
                     paginationMode="server"
-                    onPaginationModelChange={(model) => {
-                        setPaginationModel(model);
-                        setPage(model.page + 1);
-                        setLimit(model.pageSize);
+                    onPaginationModelChange={(newModel) => {
+                        setPaginationModel(newModel);
                     }}
-
-                    slots={{ toolbar: GridToolbar }}
+                    slots={{ toolbar: CustomToolBar }}
                     hideFooterSelectedRowCount
                     loading={isLoading}
                 />

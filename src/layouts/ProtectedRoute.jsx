@@ -11,24 +11,23 @@ import TopBar from '../app/components/global/TopBar'
 import useAuth from '../hooks/useAuth'
 
 import { useMode } from '../styles/theme'
+import { useGlobal } from '../context/global/globalContext'
+import { SIDEBAR_SIZE } from '../common/types'
 
 const ProtectedRoute = ({ allowedRoles = [] }) => {
-
+    const { globalState, toggleSidebar } = useGlobal();
     const { auth, isLoading } = useAuth();
 
     const [theme] = useMode()
 
-    const [isCollapsed, setIsCollapsed] = useState(false)
 
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const sidebarWidth = isMobile ? (isCollapsed ? 0 : 235) : (isCollapsed ? 80 : 235);
+    const sidebarWidth = isMobile ? (globalState.sidebarOpen
+        ? SIDEBAR_SIZE.CLOSE_MOBILE : SIDEBAR_SIZE.OPEN - 1) : (globalState.sidebarOpen ? SIDEBAR_SIZE.CLOSE : SIDEBAR_SIZE.OPEN - 1);
 
     const isAllowed = allowedRoles.length > 0 ? allowedRoles.includes(auth?.accessRole) : true
 
-    const toggleSidebar = () => {
-        setIsCollapsed(!isCollapsed)
-    }
 
 
     if (isLoading) {
@@ -47,7 +46,7 @@ const ProtectedRoute = ({ allowedRoles = [] }) => {
                     (
 
                         <Box width="100%" height="100%" display='flex' position='relative'>
-                            <SideBar isCollapsed={isCollapsed} toggleSidebar={toggleSidebar} isAllowed={isAllowed} />
+                            <SideBar isAllowed={isAllowed} />
                             <Box width="100%" height="100%"
                                 sx={{
                                     paddingLeft: `${sidebarWidth}px`,

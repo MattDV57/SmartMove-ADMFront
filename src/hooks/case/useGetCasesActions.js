@@ -8,25 +8,22 @@ import { useAlert } from "../../context/AlertProvider";
 
 export const useGetCasesActions = ( {caseType, employeeId = ""} ) => {
     const { showAlert } = useAlert();
-
-    const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(10);
     const [totalClaims, setTotalClaims] = useState(1);
     const [paginationModel, setPaginationModel] = useState({
-        page: page - 1,
-        pageSize: limit,
+        page: 1,
+        pageSize: 25,
     });
 
     const [cases, setCases] = useState([]);
 
     const caseType_ES = MAP_CASE_TYPE[caseType];
 
-    const { callApi, isLoading, data, isError } = employeeId 
+    const { callApi, isLoading } = employeeId 
             ? caseService.useGetMyCases( { employeeId } )
             : caseService.useGetAllCases();
 
     const handleGetCases = async () => {
-        const response = await callApi({}, `?caseType=${caseType_ES}&page=${page}&limit=${limit}`);
+        const response = await callApi({}, `?caseType=${caseType_ES}&page=${paginationModel.page}&limit=${paginationModel.pageSize}`);
         if(response.hasError){
             showAlert('Error al cargar los casos', 'error');
             return;
@@ -38,23 +35,16 @@ export const useGetCasesActions = ( {caseType, employeeId = ""} ) => {
 
     useEffect(() => {
         handleGetCases();
-    }, [page, limit]);
+    }, [paginationModel.page, paginationModel.pageSize]);
 
-    const paginationInfo = {
-        page,
-        limit,
-        setPage,
-        setLimit,
-        paginationModel,
-        setPaginationModel
-    }
 
 
     return {
         isLoading,
-        handleGetCases,
         totalClaims,
-        paginationInfo,
-        cases
+        cases,
+        paginationModel,
+        setPaginationModel,
+        
     }
 }

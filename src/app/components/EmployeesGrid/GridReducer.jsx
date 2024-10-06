@@ -12,8 +12,8 @@ export const initialState = {
     newRow: NEW_ROW_EMPLOYEE,
     disableAddNewRow: false,
     isSavingSuccess: false,
-    paginationModel: { page: 0, pageSize: 10 },
-    totalRows: 0
+    paginationModel: { page: 0, pageSize: 25 },
+    totalEmployees: 0
 };
 
 
@@ -23,7 +23,7 @@ export const gridReducer = (state, action) => {
             return {
                 ...state,
                 rows: action.payload.rows,
-                totalRows: action.payload.totalRows
+                totalEmployees: action.payload.totalEmployees
             };
         case 'SET_EDITABLE_ROW':
             return {
@@ -63,7 +63,7 @@ export const gridReducer = (state, action) => {
                 editableRowId: null,
                 isSavingSuccess: false
             };
-        case 'SET_PAGINATION':
+        case 'SET_PAGINATION_MODEL':
             return {
                 ...state,
                 paginationModel: action.payload
