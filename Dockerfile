@@ -12,4 +12,4 @@ COPY --chown=node:node . .
 
 EXPOSE 8080
 
-CMD ["npm", "run"]
+CMD ["npm", "run", "dev"]
