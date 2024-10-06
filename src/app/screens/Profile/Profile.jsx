@@ -140,6 +140,7 @@ const Profile = () => {
                                             fullWidth
                                             label="Correo Electrónico"
                                             name="email"
+                                            type='email'
                                             value={contactInfo.email}
                                             onChange={handleContactChange}
                                             required
@@ -151,7 +152,8 @@ const Profile = () => {
                                             fullWidth
                                             label="Teléfono"
                                             name="phone"
-                                            value={contactInfo.phone}
+                                            type='number'
+                                            value={Number(contactInfo.phone)}
                                             onChange={handleContactChange}
                                             required
                                             id="perfil-edit-phone"

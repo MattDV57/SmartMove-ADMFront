@@ -6,6 +6,7 @@ import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNone
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import useGetNotificationsActions from '../../../hooks/notifications/useGetNotificationsActions'
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
 import { ColorModeContext, tokens } from '../../../styles/theme';
@@ -42,15 +43,23 @@ const TopBar = ({ toggleSidebar }) => {
     const colorMode = useContext(ColorModeContext);
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const navigate = useNavigate();
-
-    const [showNotifications, setShowNotifications] = useState(false);
-
     const mockNotifications = [
         'You have a new message.',
         'Your order has been shipped.',
         'Don\'t forget to check your schedule.',
     ];
+
+    const [ notifications, setNotifications ] = useState(mockNotifications)
+
+    const { isLoadingNotifications } = useGetNotificationsActions({
+        setNotifications
+    })
+
+    const navigate = useNavigate();
+
+    const [showNotifications, setShowNotifications] = useState(false);
+
+    
 
     return (
         <Box display='flex' justifyContent='space-between' p={2}
@@ -73,8 +82,8 @@ const TopBar = ({ toggleSidebar }) => {
                     </CustomIconButton>
                     {showNotifications && (
                         <div className="notification-list">
-                            {mockNotifications.length > 0 ? (
-                                mockNotifications.map((notification, index) => (
+                            {notifications.length > 0 ? (
+                                notifications.map((notification, index) => (
                                     <p key={index}>{notification}</p>
                                 ))
                             ) : (
