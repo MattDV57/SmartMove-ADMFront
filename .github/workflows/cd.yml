@@ -1,5 +1,5 @@
 name: Docker Image CD
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: ${{ github.actor }} is doing CD using GitHub Actions 🚀
 on:
   workflow_run:
     workflows: ["Docker Image CI"]
