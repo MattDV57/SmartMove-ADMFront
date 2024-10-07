@@ -27,7 +27,7 @@ const useLoginActions = () => {
             localStorage.setItem('smartmove-userid', data._id)   
             setAuth({
                 ...auth,
-                id: data.accessToken,
+                id: data._id,
                 ...data
             })
         }
