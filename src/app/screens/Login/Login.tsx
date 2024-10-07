@@ -42,8 +42,8 @@ const Login = () => {
             isValid = false;
         }
 
-        if (password.length < 6) {
-            setPasswordError('La contraseña debe tener al menos 6 caracteres');
+        if (password.length < 4) {
+            setPasswordError('La contraseña debe tener al menos 4 caracteres');
             isValid = false;
         }
 

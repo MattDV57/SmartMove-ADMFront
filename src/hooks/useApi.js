@@ -10,7 +10,7 @@ const UseApi = (endpoint, config) => {
     const [isError, setIsError] = useState(false)
 
     // const { jwt } = useUserDataStore()
-    
+
     const {
         method,
         callOnLoad = false,
@@ -26,7 +26,6 @@ const UseApi = (endpoint, config) => {
         let hasError = false
 
         const token = localStorage.getItem('smartmove-token') || ''
-        // const token = auth?.accessToken || ''
 
         try {
 
@@ -48,12 +47,27 @@ const UseApi = (endpoint, config) => {
                 .then(async (response) => {
 
                     const data = await response.json()
+                    if (response.status < 300) {
+                        setData(data || null)
 
-                    setData(data || null)
+                        responseData = data || null
 
-                    responseData = data || null
+                        setIsError(false)
+                    } else {
+                        const {
+                            code = '',
+                            message = 'Ha ocurrido un error, intente más tarde'
+                        } = data.data
 
-                    setIsError(false)
+                        setData({ code, msg: essage })
+
+                        responseData = { code, msg: message }
+
+                        hasError = true
+
+                        setIsError(true)
+                    }
+
 
                 }).catch((error) => {
 
@@ -81,7 +95,7 @@ const UseApi = (endpoint, config) => {
 
             setIsError(true)
 
-            hasError = true 
+            hasError = true
 
             setIsLoading(false)
 
