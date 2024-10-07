@@ -41,7 +41,7 @@ jobs:
         continue-on-error: true  # Permite que continúe si falla
   
       - name: Show logs Wrong file
-        run: cat ./tests/e2e/scenarios/user/logs/logsWrongFile.txt
+        run: cat ./logsWrongFile.txt
 
   build:
     runs-on: ubuntu-latest
