@@ -1,10 +1,8 @@
 name: Docker Image CD
-
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
-  workflow_run:
-    workflows: ["Docker Image CI"]
-    types:
-      - completed
+  push:
+    branches: [ "main" ]
 
 jobs:
 
@@ -19,3 +17,16 @@ jobs:
       run: sudo docker pull mattdv57/smartmovefront:latest
     - name: Run Docker container
       run: sudo docker run -d -p 8080:8080 --name smartmovefront-container mattdv57/smartmovefront
+ 
+  test: 
+    needs: build
+    runs-on: ubuntu-latest
+    steps: 
+      - name: checkout repo
+        uses: actions/checkout@v3
+      - name: use node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+      - run: npm install
+      - run: npm test
