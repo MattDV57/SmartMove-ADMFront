@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useModal } from '../../../context/ModalProvider';
-import { columnsCase } from '../../components/Case/ColumnsCase';
 import { useTheme } from '@emotion/react';
 import { tokens } from '../../../styles/theme';
 import ModalManager from '../../components/ModalManager';
@@ -10,10 +9,7 @@ import { Box, Tab, Tabs } from '@mui/material';
 import { CASE_TABS_MAP } from '../../../common/types';
 import { useNavigate } from 'react-router-dom';
 
-export const CaseView = ({ title, casePath, operatorName, caseType }) => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-    const { openModal } = useModal();
+export const CaseView = ({ casePath, operatorName, caseType }) => {
 
     const navigate = useNavigate();
 
@@ -33,9 +29,6 @@ export const CaseView = ({ title, casePath, operatorName, caseType }) => {
     }
 
 
-    const cols = columnsCase(openModal, colors.priority, casePath);
-
-
     return (
         <Box>
             <Box sx={{ borderBottom: 1, borderColor: 'divider', marginBottom: 2 }}>
@@ -47,10 +40,10 @@ export const CaseView = ({ title, casePath, operatorName, caseType }) => {
             </Box>
 
             <>
-                <GridCase title={title} columns={cols}
-                    operatorName={operatorName} caseType={caseType}
-
-
+                <GridCase
+                    operatorName={operatorName}
+                    caseType={caseType}
+                    casePath={casePath}
                 />
             </>
 

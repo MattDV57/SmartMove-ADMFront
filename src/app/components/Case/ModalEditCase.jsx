@@ -8,7 +8,7 @@ import ListIcon from '@mui/icons-material/List';
 import moment from 'moment';
 import useEditCaseActions from '../../../hooks/case/useEditCaseActions';
 
-const ModalEditCase = ({ isOpen, onClose, claim }) => {
+const ModalEditCase = ({ isOpen, onClose, claim, onSave }) => {
 
     const { isLoading, handleEditCase, isError } = useEditCaseActions({ claimId: claim._id });
 
@@ -48,7 +48,10 @@ const ModalEditCase = ({ isOpen, onClose, claim }) => {
 
         hasChanged = hasChanged || JSON.stringify(newClaim) !== JSON.stringify(claim);
 
-        await handleEditCase({ newClaim, hasChanged });
+        const response = await handleEditCase({ newClaim, hasChanged });
+        if (response.hasError) return;
+
+        onSave(newClaim);
 
         if (hasChanged) onClose(); // Si hubo cambios se cierra el modal, sino se mantiene abierto.
 

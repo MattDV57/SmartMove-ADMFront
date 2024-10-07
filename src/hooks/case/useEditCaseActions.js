@@ -1,3 +1,4 @@
+
 import { useAlert } from "../../context/AlertProvider";
 import { caseService } from "../../services/case";
 
@@ -17,14 +18,15 @@ const useEditCaseActions = ({ claimId }) => {
 
         const response = await callApi( newClaim );
 
-
-        
         if(response.hasError){
             showAlert('Error al editar caso', 'error');
-            return;
+            return response;
         }
         
         showAlert('Caso editado correctamente', 'success');
+
+        return response;
+
     };
 
 

@@ -8,17 +8,32 @@ import { tokens } from '../../../styles/theme';
 import { GridContainer } from '../GridContainer';
 import { useGetCasesActions } from '../../../hooks/case/useGetCasesActions';
 import { CustomToolBar } from '../CustomToolBar';
-import { useGlobal } from '../../../context/global/globalContext';
+import { columnsCase } from './ColumnsCase';
+import { useModal } from '../../../context/ModalProvider';
 
-const GridCase = ({ columns, caseType, operatorName }) => {
+const GridCase = ({ caseType, operatorName, casePath }) => {
+    const { openModal } = useModal();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    const { isLoading, totalClaims, cases, paginationModel, setPaginationModel, } = useGetCasesActions({
+    const { isLoading, totalClaims, cases, paginationModel, setPaginationModel, setCases } = useGetCasesActions({
         caseType,
         employeeId: operatorName,
     });
 
+
+    const handleEditSaved = (newClaim) => {
+        const newCases = cases.map((claim) => {
+            if (claim._id === newClaim._id) {
+                return newClaim;
+            }
+            return claim;
+        });
+        setCases(newCases);
+
+    }
+
+    const cols = columnsCase(openModal, colors.priority, casePath, handleEditSaved);
 
     if (isLoading) {
         return <LinearProgress />;
@@ -31,7 +46,7 @@ const GridCase = ({ columns, caseType, operatorName }) => {
                 <DataGrid
                     rows={cases}
                     rowCount={totalClaims}
-                    columns={columns}
+                    columns={cols}
                     getRowId={(row) => row._id}
 
                     pageSizeOptions={[5, 10, 20, 25, 50, 100]}

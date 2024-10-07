@@ -1,12 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import { useAlert } from "../../context/AlertProvider";
 import { caseService } from "../../services/case";
 
 
-const useOperatorCaseActions = ({ claimId, employeeId }) => {
-
+const useOperatorCaseActions = ({ claimId, employeeId, caseType }) => {
+    const navigate = useNavigate();
     const { callApi, isLoading } = caseService.usePutOperatorInCase({ claimId, employeeId });
     const { showAlert } = useAlert();
 
+    const casePath = caseType === 'Reclamo' ? "/my-claims" : "/my-arbitrations";
 
     const assignOperator = async () => {
         const response = await callApi();
@@ -18,6 +20,7 @@ const useOperatorCaseActions = ({ claimId, employeeId }) => {
         }
 
         showAlert('Operador asignado correctamente', 'success');
+        navigate(casePath);
     };
 
 

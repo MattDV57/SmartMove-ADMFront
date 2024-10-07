@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { caseService } from "../../services/case";
 import { MAP_CASE_TYPE } from "../../common/types";
 import { useAlert } from "../../context/AlertProvider";
@@ -45,6 +45,6 @@ export const useGetCasesActions = ( {caseType, employeeId = ""} ) => {
         cases,
         paginationModel,
         setPaginationModel,
-        
+        setCases
     }
 }

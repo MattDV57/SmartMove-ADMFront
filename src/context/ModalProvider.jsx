@@ -13,8 +13,8 @@ export const ModalProvider = ({ children }) => {
 
     const [modal, setModal] = useState(null);
 
-    const openModal = (type, data = {}) => {
-        setModal({ type, data, userId: auth.id });
+    const openModal = (type, data = {}, onSave = () => { }) => {
+        setModal({ type, data, userId: auth.id, onSave });
     };
 
     const closeModal = () => {
