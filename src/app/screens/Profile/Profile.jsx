@@ -18,7 +18,8 @@ import {
     Email,
     Phone,
     LocationOn,
-    Lock
+    Lock,
+    FormatAlignJustify
 } from '@mui/icons-material';
 
 import './Profile.scss'
@@ -28,7 +29,7 @@ import { useAlert } from '../../../context/AlertProvider';
 
 const Profile = () => {
 
-    const { auth } = useAuth()
+    const { auth, cerrarSesionAuth } = useAuth()
     const { showAlert } = useAlert();
     const [contactInfo, setContactInfo] = useState({
         email: auth.email,
@@ -356,6 +357,18 @@ const Profile = () => {
                         )}
                     </CardContent>
                 </Card>
+
+                <div
+                    style={{ display: 'flex', flexDirection: 'center', alignItems: 'center', justifyContent: 'center', marginTop: 24}}
+                >
+                <Button
+                    onClick={()=>{
+                        cerrarSesionAuth()
+                    }}
+                >
+                    Cerrar sesión
+                </Button>
+                </div>
             </Box>
         </Container >
     );

@@ -5,7 +5,7 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
 
     const userData = {
-        id: '1234',
+        // id: '1234',
         fullName: "Pablo Rodríguez",
         employeeId: "EMP-001",
         birthDate: "1985-05-15",
@@ -40,7 +40,7 @@ const AuthProvider = ({ children }) => {
 
         try {
 
-            const response = await fetch(`${import.meta.env.VITE_API_URL_BACKEND}${'/user/perfil'}` || '', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL_BACKEND}${'/user/profile'}` || '', {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -54,11 +54,11 @@ const AuthProvider = ({ children }) => {
                 return null
             });
 
-            setAuth(response)
+            // setAuth(response)
 
         } catch (error) {
 
-            setAuth({})
+            // setAuth({})
 
         }
 
@@ -68,7 +68,10 @@ const AuthProvider = ({ children }) => {
     }
 
     const cerrarSesionAuth = () => {
-        setAuth({})
+        setAuth({
+            id: '',
+            ...userData
+        })
         localStorage.setItem('smartmove-token', '')
     }
 

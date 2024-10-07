@@ -1,12 +1,12 @@
 import { useContext, useEffect } from "react"
 
-import usePostLogin from "../../services"
+import usePostLogin from "../../services/auth/usePostLogin"
 
-const useLoginActions = ({
-    setUserData,
-    navigate
-}) => {
+import useAuth from '../useAuth'
 
+const useLoginActions = () => {
+
+    const { auth, setAuth } = useAuth()
     const { callApi, data, isError, isLoading } = usePostLogin()
 
     useEffect(() => {
@@ -20,11 +20,12 @@ const useLoginActions = ({
         if(!data) return
 
         if(!isLoading && data){
-            // TODO: Ver en conjunto con el back que data trae cuando se hace el login exitoso
-            // const { jwt, ...userData } = data
-            // localStorage.setItem('smartmove-token', jwt)   
-            // setUserData(userData, jwt)
-            navigate('/')
+            localStorage.setItem('smartmove-token', data.accessToken)   
+            setAuth({
+                ...auth,
+                id: data.accessToken,
+                accessToken: data.accessToken
+            })
         }
 
     }, [isLoading, data])
