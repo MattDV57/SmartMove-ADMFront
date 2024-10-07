@@ -6,7 +6,7 @@ import { MAP_CASE_TYPE } from "../../common/types";
 import { useAlert } from "../../context/AlertProvider";
 
 
-export const useGetCasesActions = ( {caseType, employeeId = ""} ) => {
+export const useGetCasesActions = ( {caseType, operatorUsername = ""} ) => {
     const { showAlert } = useAlert();
     const [totalClaims, setTotalClaims] = useState(1);
     const [paginationModel, setPaginationModel] = useState({
@@ -18,8 +18,8 @@ export const useGetCasesActions = ( {caseType, employeeId = ""} ) => {
 
     const caseType_ES = MAP_CASE_TYPE[caseType];
 
-    const { callApi, isLoading } = employeeId 
-            ? caseService.useGetMyCases( { employeeId } )
+    const { callApi, isLoading } = operatorUsername 
+            ? caseService.useGetMyCases( { operatorUsername } )
             : caseService.useGetAllCases();
 
     const handleGetCases = async () => {

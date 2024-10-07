@@ -9,7 +9,7 @@ const useEditCaseActions = ({ claimId }) => {
     const { showAlert } = useAlert();
 
 
-    const handleEditCase = async ({ newClaim, hasChanged }) => {
+    const handleEditCase = async ({ newClaim, hasChanged = false }) => {
 
         if(!hasChanged){
             showAlert('No se han realizado cambios', 'info');

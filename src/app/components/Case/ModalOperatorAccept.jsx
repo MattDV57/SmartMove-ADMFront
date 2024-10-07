@@ -1,19 +1,27 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, Typography, Box, Button, CircularProgress } from '@mui/material';
-import useOperatorCaseActions from '../../../hooks/case/useOperatorCaseActions';
+import useEditCaseActions from '../../../hooks/case/useEditCaseActions';
 
-const ModalOperatorAccept = ({ open, onClose, claim, employeeId }) => {
+const ModalOperatorAccept = ({ open, onClose, claim, username, onSave }) => {
 
-    const { isLoading, assignOperator } = useOperatorCaseActions({
-        claimId: claim._id, employeeId: employeeId,
-        caseType: claim.caseType
+    const { isLoading, handleEditCase } = useEditCaseActions({
+        claimId: claim._id,
     });
 
     if (!claim) return null;
 
     const handleAccept = async () => {
-        await assignOperator();
+
+        const newClaim = {
+            ...claim,
+            assignedOperator: username,
+        }
+
+        const response = await handleEditCase({ newClaim, hasChanged: true });
+        if (response.hasError) return;
+
+        onSave(newClaim);
         onClose();
     }
 

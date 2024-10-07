@@ -8,8 +8,7 @@ export const AllClaims = () => {
 
 // Mis Reclamos
 export const MyClaims = () => {
-    const operatorName = 'juanEnriqueQuinto';
-    return <CaseView title="Mis Reclamos" casePath={CASE_PATHS.MY_CLAIMS} operatorName={operatorName} caseType="claims" />;
+    return <CaseView title="Mis Reclamos" casePath={CASE_PATHS.MY_CLAIMS} caseType="claims" />;
 };
 
 // Historial de Mediaciones
@@ -19,6 +18,5 @@ export const AllArbitrations = () => {
 
 // Mis Mediaciones
 export const MyArbitrations = () => {
-    const operatorName = 'juanEnriqueQuinto';
-    return <CaseView title="Mis Mediaciones" casePath={CASE_PATHS.MY_ARBITRATIONS} operatorName={operatorName} caseType="arbitrations" />;
+    return <CaseView title="Mis Mediaciones" casePath={CASE_PATHS.MY_ARBITRATIONS} caseType="arbitrations" />;
 };

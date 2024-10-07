@@ -10,6 +10,7 @@ const AuthProvider = ({ children }) => {
         employeeId: "EMP-001",
         birthDate: "1985-05-15",
         email: "pablo@empresa.com",
+        username: "pablitoMotos123",
         phone: "1156781234",
         address: "Calle Principal 123",
         location: "Capital Federal",

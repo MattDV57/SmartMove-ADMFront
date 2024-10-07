@@ -18,7 +18,7 @@ const ModalManager = () => {
         case MODALS_TYPES.DETAILS_CASE:
             return <ModalDetails open={true} claim={modal.data} onClose={closeModal} />;
         case MODALS_TYPES.OPERATOR_ACCEPT_CASE:
-            return <ModalOperatorAccept open={true} claim={modal.data} onClose={closeModal} employeeId={modal.userId} />;
+            return <ModalOperatorAccept open={true} claim={modal.data} onClose={closeModal} onSave={modal.onSave} username={modal.username} />;
         case MODALS_TYPES.EDIT_CASE:
             return <ModalEditCase isOpen={true} claim={modal.data} onClose={closeModal} onSave={modal.onSave} />
         case MODALS_TYPES.DELETE_EMPLOYEE:

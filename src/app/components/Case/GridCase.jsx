@@ -11,14 +11,14 @@ import { CustomToolBar } from '../CustomToolBar';
 import { columnsCase } from './ColumnsCase';
 import { useModal } from '../../../context/ModalProvider';
 
-const GridCase = ({ caseType, operatorName, casePath }) => {
+const GridCase = ({ caseType, operatorUsername, casePath }) => {
     const { openModal } = useModal();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
     const { isLoading, totalClaims, cases, paginationModel, setPaginationModel, setCases } = useGetCasesActions({
         caseType,
-        employeeId: operatorName,
+        operatorUsername,
     });
 
 

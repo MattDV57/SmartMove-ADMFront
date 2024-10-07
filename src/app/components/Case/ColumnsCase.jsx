@@ -8,7 +8,7 @@ import moment from 'moment';
 
 
 
-export const columnsCase = (handleOpenModal, priorityPalette, casePath, handleEditSaved) => [
+export const columnsCase = (handleOpenModal, priorityPalette, casePath, handleEditSaved, operatorUsername) => [
     {
         field: 'timestamp',
         headerName: 'Fecha Emisión',
@@ -85,7 +85,7 @@ export const columnsCase = (handleOpenModal, priorityPalette, casePath, handleEd
                     <Box>
                         <Button
                             variant='contained'
-                            onClick={() => handleOpenModal(MODALS_TYPES.OPERATOR_ACCEPT_CASE, params.row)}
+                            onClick={() => handleOpenModal(MODALS_TYPES.OPERATOR_ACCEPT_CASE, params.row, handleEditSaved)}
                         >
                             <AddTaskIcon />
                         </Button>

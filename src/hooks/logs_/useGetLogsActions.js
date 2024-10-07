@@ -9,7 +9,7 @@ export const useGetLogsActions = ({ showScrollButton }) => {
     const { callApi, isLoading } = logsService.useGetLogs();
     const { ref, inView } = useInView();
     const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(10);
+    const [pageSize, setPageSize] = useState(25);
     const [search, setSearch] = useState('');
     const [logs, setLogs] = useState([]);
     const [hasMore, setHasMore] = useState(true);

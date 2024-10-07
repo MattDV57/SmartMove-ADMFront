@@ -11,8 +11,8 @@ export const caseService = {
     }
     ),
 
-    useGetMyCases: ( { employeeId } ) => UseApi(
-        `/claim/operators/${employeeId}`,
+    useGetMyCases: ( { operatorUsername } ) => UseApi(
+        `/claim/operators/${operatorUsername}`,
         {
             method: 'GET',
             // callOnLoad: true,
