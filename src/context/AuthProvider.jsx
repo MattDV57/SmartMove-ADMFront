@@ -71,10 +71,7 @@ const AuthProvider = ({ children }) => {
     }
 
     const cerrarSesionAuth = () => {
-        setAuth({
-            id: '',
-            ...userData
-        })
+        setAuth({})
         localStorage.setItem('smartmove-token', '')
         localStorage.setItem('smartmove-userid', '')
     }
