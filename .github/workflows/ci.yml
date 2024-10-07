@@ -1,12 +1,12 @@
 name: Docker Image CI
-
-on:
-  workflow_run:
-    workflows: ["QA Tests"]
-    types:
-      - completed
-      
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on:
+
+  push:
+    branches: [ "main" ]
+
+      
+
 
 jobs:
   build:
