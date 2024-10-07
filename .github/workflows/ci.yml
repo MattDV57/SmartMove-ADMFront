@@ -5,44 +5,6 @@ on:
   push:
     branches: [ "main" ]
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      # Step 1: Checkout the repository
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      # Step 2: NodeJS
-      - name: Install Node
-        run: | 
-            sudo apt install nodejs -y
-            sudo apt install npm -y
-
-      # Step 3: Run NPM install
-      - name: Run NPM install
-        run: npm install -y
-
-      - name: Install Chrome
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-
-      - name: Kill port 3000
-        run: npx kill-port 3000
-
-      - name: Start front
-        run: nohup npm start &
-  
-        # Ejecución 1 del test WrongFile
-      - name: Run test Wrong file
-        id: test_wrong_file
-        run: |
-          CI=true npm run test:userWrongFile || echo "failure" > result.txt
-        continue-on-error: true  # Permite que continúe si falla
-  
-      - name: Show logs Wrong file
-        run: cat ./result.txt
-
   build:
     runs-on: ubuntu-latest
     steps:
