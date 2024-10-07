@@ -96,7 +96,7 @@ export const Logs = () => {
                                 <TableCell>{log.user}</TableCell>
                                 <TableCell>{log.action}</TableCell>
                                 <TableCell>{log.details}</TableCell>
-                                <TableCell>{moment(logs.timestamp).format('DD/MM/YYYY HH:mm:ss')}</TableCell>
+                                <TableCell>{new Date(log.timestamp).toUTCString()}</TableCell>
                             </TableRow>
                         ))}
 

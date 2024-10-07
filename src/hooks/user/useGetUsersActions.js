@@ -8,7 +8,6 @@ export const useGetUsersActions = (adminId, state, dispatch) => {
     const { showAlert } = useAlert();
     const { callApi, isLoading } = userService.useGetUsers({ adminId });
 
-    console.log("state.paginationModel.page", state.paginationModel.page);
     const handleGetUsers = async () => {
         const {response, hasError} = await callApi({}, `?adminId=${"67042fc40576f2fa95f8f749"}&page=${state.paginationModel.page}&limit=${state.paginationModel.pageSize}`);
         if(hasError){

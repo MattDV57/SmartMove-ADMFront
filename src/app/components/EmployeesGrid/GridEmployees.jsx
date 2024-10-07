@@ -83,7 +83,6 @@ export const GridEmployees = ({ isAddingNewRow, setIsAddingNewRow, setDisableAdd
     });
 
 
-    console.log("ROWS", state.rows, "TOTAL", state.totalUsers);
     return (
         <div>
             {

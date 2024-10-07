@@ -62,7 +62,7 @@ export const ACCESS_CONTROL_ALLOWED_ROLES_ACTIONS = ["Admin"]
 export const ACCESS_CONTROL_ALLOWED_ROLES_VIEW = ["Admin", "Gerente"]
 
 export const NEW_ROW_EMPLOYEE = {
-    id: Date.now(),
+    _id: Date.now(),
     fullName: '',
     birthDate: '',
     email: '',
