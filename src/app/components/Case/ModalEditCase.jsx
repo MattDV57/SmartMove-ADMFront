@@ -7,6 +7,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import ListIcon from '@mui/icons-material/List';
 import moment from 'moment';
 import useEditCaseActions from '../../../hooks/case/useEditCaseActions';
+import { orange } from '@mui/material/colors';
 
 const ModalEditCase = ({ isOpen, onClose, claim, onSave }) => {
 
@@ -26,6 +27,8 @@ const ModalEditCase = ({ isOpen, onClose, claim, onSave }) => {
     const [showHistoryActions, setShowHistoryActions] = useState(false);
     const [historyActions, setHistoryActions] = useState(claim.actionHistory || []);
 
+    const [abandonCase, setAbandonCase] = useState(false);
+
 
 
     const handleSave = async () => {
@@ -43,6 +46,7 @@ const ModalEditCase = ({ isOpen, onClose, claim, onSave }) => {
             priority: newPriority,
             actionHistory: historyActions,
             resolution: resolutionDetails,
+            assignedOperator: abandonCase ? null : claim.assignedOperator,
             resolutionDate: resolutionDetails !== claim.resolution ? Date.now() : claim.resolutionDate
         };
 
@@ -51,7 +55,7 @@ const ModalEditCase = ({ isOpen, onClose, claim, onSave }) => {
         const response = await handleEditCase({ newClaim, hasChanged });
         if (response.hasError) return;
 
-        onSave(newClaim);
+        onSave(newClaim, abandonCase);
 
         if (hasChanged) onClose(); // Si hubo cambios se cierra el modal, sino se mantiene abierto.
 
@@ -178,16 +182,24 @@ const ModalEditCase = ({ isOpen, onClose, claim, onSave }) => {
 
                 {/* Campos de acción */}
                 {showActionFields && (
-                    <TextField
-                        label="Acción realizada"
-                        value={actionTaken}
-                        onChange={(e) => setActionTaken(e.target.value)}
-                        variant="outlined"
-                        multiline
-                        rows={2}
-                        fullWidth
-                        margin="normal"
-                    />
+                    <>
+                        <FormControlLabel
+                            color='error'
+                            control={<Checkbox checked={abandonCase} color='warning' onChange={(e) => setAbandonCase(e.target.checked)} />}
+                            label="Abandonar reclamo"
+                            sx={{ color: orange[500] }}
+                        />
+                        <TextField
+                            label="Acción realizada"
+                            value={actionTaken}
+                            onChange={(e) => setActionTaken(e.target.value)}
+                            variant="outlined"
+                            multiline
+                            rows={2}
+                            fullWidth
+                            margin="normal"
+                        />
+                    </>
                 )}
 
                 {showResolutionFields &&

@@ -2,9 +2,10 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, Typography, Box, Button, CircularProgress } from '@mui/material';
 import useEditCaseActions from '../../../hooks/case/useEditCaseActions';
+import { useNavigate } from 'react-router-dom';
 
 const ModalOperatorAccept = ({ open, onClose, claim, username, onSave }) => {
-
+    const navigate = useNavigate();
     const { isLoading, handleEditCase } = useEditCaseActions({
         claimId: claim._id,
     });
@@ -20,6 +21,8 @@ const ModalOperatorAccept = ({ open, onClose, claim, username, onSave }) => {
 
         const response = await handleEditCase({ newClaim, hasChanged: true });
         if (response.hasError) return;
+
+        navigate(`/my-${claim.caseType === 'Mediacion' ? 'arbitrations' : 'claims'}`);
 
         onSave(newClaim);
         onClose();

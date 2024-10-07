@@ -22,13 +22,24 @@ const GridCase = ({ caseType, operatorUsername, casePath }) => {
     });
 
 
-    const handleEditSaved = (newClaim) => {
+    const handleEditSaved = (newClaim, hasAbandonded = false) => {
+
+        if (hasAbandonded) {
+            const newCases = cases.filter((claim) => claim._id !== newClaim._id);
+            setCases(newCases);
+            return;
+        }
+
+        // Normal edit
         const newCases = cases.map((claim) => {
             if (claim._id === newClaim._id) {
                 return newClaim;
             }
             return claim;
         });
+
+
+
         setCases(newCases);
 
     }
