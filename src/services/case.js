@@ -52,7 +52,7 @@ const endpoints = {
     getMyCases: `/claims/${caseType}/operators/${userId}?page=${page}&limit=${limit}`, order: fechaDesc
     editCase: `/claims/${claimId}`,
     putOperatorInCase: `/claims/${claimId}/operators/${userId}` 
-    getLogs: `/logs?logsType=${logType}&page=${page}&limit=${limit}` order: fechaDesc
+    getLogs: `/logs?logsType=${performedBy}&page=${page}&limit=${limit}` order: fechaDesc
 }
 
 */}
