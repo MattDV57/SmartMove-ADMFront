@@ -25,8 +25,8 @@ const UseApi = (endpoint, config) => {
         let responseData = null
         let hasError = false
 
-        // const token = localStorage.getItem('smartmove-token') || ''
-        const token = import.meta.env.VITE_TOKEN_FAKE
+        const token = localStorage.getItem('smartmove-token') || ''
+        // const token = auth?.accessToken || ''
 
         try {
 

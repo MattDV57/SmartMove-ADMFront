@@ -5,13 +5,18 @@ import {
     Typography,
     TextField,
     Button,
-    Link,
     Paper,
-    Avatar
+    LinearProgress
 } from '@mui/material';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import useLoginActions from '../../../hooks/auth/useLoginActions';
 
 const Login = () => {
+
+    const {
+        isLoadingLogin,
+        callApiLogin,
+    } = useLoginActions()
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
@@ -43,10 +48,15 @@ const Login = () => {
         }
 
         if (isValid) {
-            // Aquí iría la lógica para enviar los datos de login al servidor
-            // console.log('Datos de login:', { email, password });
+            callApiLogin({ email, password })
         }
     };
+
+    if(isLoadingLogin){
+        return(
+            <LinearProgress/>
+        )
+    }
 
     return (
         <Container component="main" maxWidth="sm">
@@ -72,7 +82,10 @@ const Login = () => {
                         type='email'
                         autoFocus
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => {
+                            setEmailError('')
+                            setEmail(e.target.value)
+                        }}
                         error={!!emailError}
                         helperText={emailError}
                     />
@@ -87,7 +100,10 @@ const Login = () => {
                         id="password"
                         autoComplete="current-password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => {
+                            setPasswordError('')
+                            setPassword(e.target.value)
+                        }}
                         error={!!passwordError}
                         helperText={passwordError}
                     />

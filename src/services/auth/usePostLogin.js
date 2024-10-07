@@ -1,7 +1,7 @@
 import UseApi from '../../hooks/useApi';
 
 const usePostLogin = () => UseApi(
-    `/user/login`,
+    `/login`,
     {
         method: 'POST',
     }
