@@ -5,23 +5,23 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
 
     const userData = {
-        // id: '1234',
+        _id: "67042fc40576f2fa95f8f749",
+        entryDate: "2015-03-01T00:00:00.000Z",
         fullName: "Pablo Rodríguez",
-        employeeId: "EMP-001",
-        birthDate: "1985-05-15",
-        email: "pablo@empresa.com",
-        username: "pablitoMotos123",
+        birthDate: "1985-05-15T00:00:00.000Z",
+        email: "admin@smartmove.com",
         phone: "1156781234",
         address: "Calle Principal 123",
         location: "Capital Federal",
         position: "Gerente de Proyectos",
         department: "Gestión de Proyectos",
-        entryDate: "2015-03-01",
-        accessRole: "Admin"
+        password: "admin",
+        accessRole: "Admin",
+        username: "pablitoMotos123", // original es "admin", lo cambio para que puedan probra mis reclamos y mediaciones
     };
 
     const [auth, setAuth] = useState({
-        id: '',
+        id: userData._id,
         ...userData,
     })
     const [isLoading, setIsLoading] = useState(true)

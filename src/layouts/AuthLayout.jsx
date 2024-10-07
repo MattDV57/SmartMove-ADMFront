@@ -7,9 +7,9 @@ import { LinearProgress } from '@mui/material';
 
 const AuthLayout = () => {
 
-    const { auth, cargando } = useAuth();
+    const { auth, isLoading } = useAuth();
 
-    if (cargando) {
+    if (isLoading) {
         return (
             <div style={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <LinearProgress />

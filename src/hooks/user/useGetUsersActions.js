@@ -8,29 +8,20 @@ export const useGetUsersActions = (adminId, state, dispatch) => {
     const { showAlert } = useAlert();
     const { callApi, isLoading } = userService.useGetUsers({ adminId });
 
-    // const handleGetUsers = async () => {
-    //     const {response, hasError} = await callApi({}, `?adminId=${adminId}&page=${state.paginationModel.page}&limit=${state.paginationModel.pageSize}`);
-    //     if(hasError){
-    //         showAlert('Error al cargar los empleados', 'error');
-    //         return;
-    //     }
-    //      dispatch({ type: 'SET_ROWS', payload: { rows: response.foundEmployeesPaginated, totalEmployees: response.totalEmployees } });
-        
-    // }
-
-    const handleGetUsersLocal = async () => {
-        const response = data;
-        if(response.hasError){
+    console.log("state.paginationModel.page", state.paginationModel.page);
+    const handleGetUsers = async () => {
+        const {response, hasError} = await callApi({}, `?adminId=${"67042fc40576f2fa95f8f749"}&page=${state.paginationModel.page}&limit=${state.paginationModel.pageSize}`);
+        if(hasError){
             showAlert('Error al cargar los empleados', 'error');
-            return [];
+            return;
         }
+         dispatch({ type: 'SET_ROWS', payload: { foundUsersPaginated: response.foundUsersPaginated, totalUsers: response.totalUsers } });
         
-        dispatch({ type: 'SET_ROWS', payload: { rows: data, totalEmployees: data.length } });
     }
 
+
     useEffect(() => {
-        // handleGetUsers();
-        handleGetUsersLocal();
+        handleGetUsers();
     }, [state.paginationModel.page, state.paginationModel.pageSize]);
 
     return {

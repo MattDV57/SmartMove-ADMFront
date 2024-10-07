@@ -11,10 +11,12 @@ import { useGetUsersActions } from '../../../hooks/user/useGetUsersActions';
 import useAuth from '../../../hooks/useAuth';
 import { LinearProgress } from '@mui/material';
 import { CustomToolBar } from '../CustomToolBar';
+import { useAlert } from '../../../context/AlertProvider';
 
 export const GridEmployees = ({ isAddingNewRow, setIsAddingNewRow, setDisableAddNewRow,
     postUser, putUser, isLoading_CUD, isAllowedToActions }) => {
 
+    const { showAlert } = useAlert();
     const { auth } = useAuth();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -47,6 +49,12 @@ export const GridEmployees = ({ isAddingNewRow, setIsAddingNewRow, setDisableAdd
 
     const handleClickOnSave = async (newRow) => {
 
+        const passedValidations = validationsBeforeSave(newRow, showAlert);
+
+        if (!passedValidations) {
+            return;
+        }
+
         const hasError = state.isAddingNewRow
             ? await postUser(newRow)
             : await putUser(newRow);
@@ -62,6 +70,7 @@ export const GridEmployees = ({ isAddingNewRow, setIsAddingNewRow, setDisableAdd
         }
     };
 
+
     const cols = columnsEmployees({
         editableRowId: state.editableRowId,
         handleClickOnEdit,
@@ -73,6 +82,8 @@ export const GridEmployees = ({ isAddingNewRow, setIsAddingNewRow, setDisableAdd
         isAllowedToActions
     });
 
+
+    console.log("ROWS", state.rows, "TOTAL", state.totalUsers);
     return (
         <div>
             {
@@ -83,8 +94,8 @@ export const GridEmployees = ({ isAddingNewRow, setIsAddingNewRow, setDisableAdd
                         <DataGrid
                             columns={cols}
                             rows={state.rows}
-                            rowCount={state.totalEmployees}
-                            getRowId={(row) => row.id}
+                            rowCount={state.totalUsers}
+                            getRowId={(row) => row._id}
                             pageSizeOptions={[5, 10, 20, 25, 50, 100]}
                             pagination
                             paginationMode="server"
@@ -104,4 +115,39 @@ export const GridEmployees = ({ isAddingNewRow, setIsAddingNewRow, setDisableAdd
             }
         </div>
     );
+};
+
+
+
+
+const validationsBeforeSave = (newRow, showAlert) => {
+    const isRowValid = Object.values(newRow).every((value) => value !== '' && value !== null);
+
+    if (!isRowValid) {
+        showAlert('Todos los campos son obligatorios', 'warning');
+        return;
+    }
+
+    // const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newRow.email);
+    // const isPhoneValid = /^\d{3}-\d{3}-\d{4}$/.test(newRow.phone);
+    // const isBirthDateValid = new Date(newRow.birthDate) < new Date();
+    // const isEntryDateValid = new Date(newRow.entryDate) < new Date();
+
+    // switch (false) {
+    //     case isEmailValid:
+    //         showAlert('El email no es válido', 'warning');
+    //         break;
+    //     case isPhoneValid:
+    //         showAlert('El teléfono no es válido', 'warning');
+    //         break;
+    //     case isBirthDateValid:
+    //         showAlert('La fecha de nacimiento no puede ser futura', 'warning');
+    //         break;
+    //     case isEntryDateValid:
+    //         showAlert('La fecha de ingreso no puede ser futura', 'warning');
+
+    // }
+
+    return true
+    // return isEmailValid && isPhoneValid && isBirthDateValid && isEntryDateValid;
 };

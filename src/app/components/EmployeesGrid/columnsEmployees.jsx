@@ -18,11 +18,11 @@ export const columnsEmployees = ({
     isSavingSuccess = false,
     isAllowedToActions = false
 }) => [
-        {
-            field: 'employeeId',
-            headerName: 'ID',
-            width: 80,
-        },
+        // {
+        //     field: 'employeeId',
+        //     headerName: 'ID',
+        //     width: 80,
+        // },
         {
             field: 'fullName',
             headerName: 'Nombre',
