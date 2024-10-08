@@ -4,12 +4,12 @@ import { Box, LinearProgress } from '@mui/material';
 import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { useTheme } from '@emotion/react';
-import { tokens } from '../../../styles/theme';
-import { GridContainer } from '../GridContainer';
-import { useGetCasesActions } from '../../../hooks/case/useGetCasesActions';
-import { CustomToolBar } from '../CustomToolBar';
+import { useModal } from '../../../../context/ModalProvider';
+import { tokens } from '../../../../styles/theme';
+import { useGetCasesActions } from '../../../../hooks/case/useGetCasesActions'
 import { columnsCase } from './ColumnsCase';
-import { useModal } from '../../../context/ModalProvider';
+import { GridContainer } from '../../../components/GridItems/GridContainer';
+import { CustomToolBar } from '../../../components/GridItems/CustomToolBar';
 
 const GridCase = ({ caseType, operatorUsername, casePath }) => {
     const { openModal } = useModal();

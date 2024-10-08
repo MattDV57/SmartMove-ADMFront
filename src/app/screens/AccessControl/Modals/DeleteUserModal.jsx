@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Button, CircularProgress, Typography, Box } from '@mui/material';
-import { useDeleteUserActions } from '../../../hooks/user/useDeleteUserActions';
+import { Dialog, DialogContent, DialogTitle, Button, CircularProgress, Typography, Box } from '@mui/material';
+import { useDeleteUserActions } from '../../../../hooks/user/useDeleteUserActions';
 
-export const ModalDeleteEmployee = ({ open, onClose, employee, adminId }) => {
+export const DeleteUserModal = ({ open, onClose, onSave, user, adminId }) => {
 
-    const { deleteUser, isLoading } = useDeleteUserActions(adminId);
+    const { handleDeleteUser, isLoading } = useDeleteUserActions({ adminId, userId: user._id });
 
     const [isDeletingLoading, setIsDeletingLoading] = useState(false);
 
@@ -19,14 +19,19 @@ export const ModalDeleteEmployee = ({ open, onClose, employee, adminId }) => {
         }
     }, [open]);
 
-    const handleDelete = async () => {
-        await deleteUser(employee);
+
+    const handleClickOnDelete = async () => {
+
+        await handleDeleteUser();
+
+        onSave({ userId: user._id });
+
         onClose();
     }
 
     return (
         <Dialog open={open} onClose={!isLoading ? onClose : null} maxWidth="sm">
-            <DialogTitle fontWeight={'bold'} >¿Estas seguro de eliminar a {employee.fullName}?</DialogTitle>
+            <DialogTitle fontWeight={'bold'} >¿Estas seguro de eliminar a {user.fullName}?</DialogTitle>
             <DialogContent>
                 <Box display='flex' justifyContent='flex-end' mt={2} gap={2}>
                     <Button
@@ -35,7 +40,7 @@ export const ModalDeleteEmployee = ({ open, onClose, employee, adminId }) => {
                         onClick={onClose}>
                         Cancelar</Button>
                     <Button
-                        onClick={handleDelete}
+                        onClick={handleClickOnDelete}
                         variant='contained'
                         color="error"
                         disabled={isDeletingLoading}

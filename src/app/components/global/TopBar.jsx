@@ -51,9 +51,11 @@ const TopBar = ({ toggleSidebar }) => {
 
     const [ notifications, setNotifications ] = useState(mockNotifications)
 
-    const { isLoadingNotifications } = useGetNotificationsActions({
-        setNotifications
-    })
+
+    //TODO: Descomentar esto cuando funcionan las notis desde el back.
+    // const { isLoadingNotifications } = useGetNotificationsActions({
+    //     setNotifications
+    // })
 
     const navigate = useNavigate();
 

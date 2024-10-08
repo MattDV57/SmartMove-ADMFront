@@ -1,4 +1,4 @@
-import { NEW_ROW_EMPLOYEE } from "../../../common/types";
+
 
 
 
@@ -9,7 +9,7 @@ export const initialState = {
     editableRowId: null,
     rowBackup: null,
     isAddingNewRow: false,
-    newRow: NEW_ROW_EMPLOYEE,
+    newRow: null,
     disableAddNewRow: false,
     isSavingSuccess: false,
     paginationModel: { page: 0, pageSize: 25 },
@@ -37,8 +37,8 @@ export const gridReducer = (state, action) => {
             return {
                 ...state,
                 rows: state.isAddingNewRow
-                    ? state.rows.filter(row => row.id !== state.editableRowId)
-                    : state.rows.map(row => row.id === state.editableRowId ? state.rowBackup : row),
+                    ? state.rows.filter(row => row._id !== state.editableRowId)
+                    : state.rows.map(row => row._id === state.editableRowId ? state.rowBackup : row),
                 isAddingNewRow: false,
                 rowBackup: null,
                 newRow: NEW_ROW_EMPLOYEE,
@@ -48,7 +48,7 @@ export const gridReducer = (state, action) => {
             return {
                 ...state,
                 rows: [state.newRow, ...state.rows],
-                editableRowId: state.newRow.id,
+                editableRowId: state.newRow._id,
                 isAddingNewRow: true
             };
         case 'SHOW_SUCCESS':
@@ -59,7 +59,7 @@ export const gridReducer = (state, action) => {
         case 'SAVE_ROW':
             return {
                 ...state,
-                rows: state.rows.map((row) => row.id === action.payload.id ? action.payload : row),
+                rows: state.rows.map((row) => row._id === action.payload.id ? action.payload : row),
                 editableRowId: null,
                 isSavingSuccess: false
             };

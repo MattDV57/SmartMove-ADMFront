@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Button, Chip, Tooltip } from '@mui/material';
-import { LIST_PRIORITIES, LIST_STATUS, CASE_PATHS, MODALS_TYPES } from '../../../common/types';
+import { LIST_PRIORITIES, LIST_STATUS, CASE_PATHS, MODALS_TYPES } from '../../../../common/types';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import ChatIcon from '@mui/icons-material/Chat';
 import EditIcon from '@mui/icons-material/Edit';
@@ -8,7 +8,7 @@ import moment from 'moment';
 
 
 
-export const columnsCase = (handleOpenModal, priorityPalette, casePath, handleEditSaved, operatorUsername) => [
+export const columnsCase = (openModal, priorityPalette, casePath, handleEditSaved, operatorUsername) => [
     {
         field: 'timestamp',
         headerName: 'Fecha Emisión',
@@ -85,7 +85,7 @@ export const columnsCase = (handleOpenModal, priorityPalette, casePath, handleEd
                     <Box>
                         <Button
                             variant='contained'
-                            onClick={() => handleOpenModal(MODALS_TYPES.OPERATOR_ACCEPT_CASE, params.row, handleEditSaved)}
+                            onClick={() => openModal({ type: MODALS_TYPES.OPERATOR_ACCEPT_CASE, data: params.row, onSave: handleEditSaved })}
                         >
                             <AddTaskIcon />
                         </Button>
@@ -146,7 +146,7 @@ export const columnsCase = (handleOpenModal, priorityPalette, casePath, handleEd
                     variant="contained"
                     color="info"
                     sx={{ marginRight: '15px' }}
-                    onClick={() => handleOpenModal(MODALS_TYPES.DETAILS_CASE, params.row)}
+                    onClick={() => openModal({ type: MODALS_TYPES.DETAILS_CASE, data: params.row })}
                 >
                     VER
                 </Button>
@@ -161,7 +161,7 @@ export const columnsCase = (handleOpenModal, priorityPalette, casePath, handleEd
                             // alignItems: 'center',
                             // gap: '5px'
                         }}
-                        onClick={() => handleOpenModal(MODALS_TYPES.CHAT, params.row)}
+                        onClick={() => openModal({ type: MODALS_TYPES.CHAT, data: params.row })}
                     >
                         <ChatIcon />
                         CHAT
@@ -184,7 +184,7 @@ export const columnsCase = (handleOpenModal, priorityPalette, casePath, handleEd
                 <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => handleOpenModal(MODALS_TYPES.EDIT_CASE, params.row, handleEditSaved)}
+                    onClick={() => openModal({ type: MODALS_TYPES.EDIT_CASE, data: params.row, onSave: handleEditSaved })}
                 >
                     <EditIcon />
                 </Button>

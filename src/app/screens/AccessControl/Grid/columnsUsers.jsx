@@ -3,7 +3,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import ClearIcon from '@mui/icons-material/Clear';
-import { ACCESS_ROLES, MODALS_TYPES } from '../../../common/types';
+import { ACCESS_ROLES, MODALS_TYPES } from '../../../../common/types';
 import { blue, green } from '@mui/material/colors';
 import { Check } from '@mui/icons-material';
 
@@ -27,34 +27,34 @@ export const columnsEmployees = ({
             field: 'fullName',
             headerName: 'Nombre',
             flex: 1,
-            editable: (params) => params.row.id === editableRowId,
+            editable: (params) => params.row._id === editableRowId,
         },
         {
             field: 'birthDate',
             headerName: 'Nacimiento',
             // type: 'date',
-            editable: (params) => params.row.id === editableRowId
+            editable: (params) => params.row._id === editableRowId
         },
         {
             field: 'email',
             headerName: 'Email',
             type: 'String',
             flex: 1,
-            editable: (params) => params.row.id === editableRowId,
+            editable: (params) => params.row._id === editableRowId,
         },
         {
             field: 'phone',
             headerName: 'Teléfono',
             type: 'String',
             flex: 1,
-            editable: (params) => params.row.id === editableRowId,
+            editable: (params) => params.row._id === editableRowId,
         },
         {
             field: 'address',
             headerName: 'Dirección',
             type: 'String',
             flex: 1,
-            editable: (params) => params.row.id === editableRowId,
+            editable: (params) => params.row._id === editableRowId,
             renderCell: (params) => (
                 <Tooltip title={params.value}>
                     <span>{params.value}</span>
@@ -66,21 +66,21 @@ export const columnsEmployees = ({
             headerName: 'Localidad',
             type: 'String',
             flex: 1,
-            editable: (params) => params.row.id === editableRowId,
+            editable: (params) => params.row._id === editableRowId,
         },
         {
             field: 'position',
             headerName: 'Posición',
             type: 'String',
             flex: 1,
-            editable: (params) => params.row.id === editableRowId,
+            editable: (params) => params.row._id === editableRowId,
         },
         {
             field: 'department',
             headerName: 'Departamento',
             type: 'String',
             flex: 1,
-            editable: (params) => params.row.id === editableRowId,
+            editable: (params) => params.row._id === editableRowId,
         },
         {
             field: 'entryDate',
@@ -95,7 +95,7 @@ export const columnsEmployees = ({
             width: 150,
             type: 'singleSelect',
             valueOptions: ACCESS_ROLES,
-            editable: (params) => params.row.id === editableRowId,
+            editable: (params) => params.row._id === editableRowId,
         },
         ...(isAllowedToActions ? [{
             field: 'actions',
@@ -103,7 +103,7 @@ export const columnsEmployees = ({
             width: 100,
             renderCell: (params) => (
                 <Box>
-                    {params.row.id === editableRowId
+                    {params.row._id === editableRowId
                         ?
                         <>
                             <Tooltip title="Cancelar">
@@ -141,13 +141,11 @@ export const columnsEmployees = ({
                         :
                         <>
                             <Tooltip title="Eliminar">
-                                <IconButton onClick={() => openModal(
-                                    MODALS_TYPES.DELETE_EMPLOYEE,
-                                    params.row)}
+                                <IconButton onClick={() => openModal({ type: MODALS_TYPES.DELETE_EMPLOYEE, data: params.row })}
                                     variant='contained'
                                     color='error'
                                     sx={{ borderRadius: '0', }}
-                                    disabled={params.row.id !== editableRowId && editableRowId !== null}
+                                    disabled={params.row._id !== editableRowId && editableRowId !== null}
                                 >
                                     <DeleteForeverIcon />
                                 </IconButton>
@@ -158,7 +156,7 @@ export const columnsEmployees = ({
                                     variant='contained'
                                     color='primary'
                                     sx={{ borderRadius: '0', }}
-                                    disabled={params.row.id !== editableRowId && editableRowId !== null}
+                                    disabled={params.row._id !== editableRowId && editableRowId !== null}
 
                                 >
                                     <EditIcon />

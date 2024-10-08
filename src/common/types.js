@@ -53,7 +53,8 @@ export const MODALS_TYPES = {
     OPERATOR_ACCEPT_CASE: "operator-accept-case", 
     EDIT_CASE: "edit-case", 
     DETAILS_CASE: "details-case",
-    DELETE_EMPLOYEE: "delete-employee",
+    DELETE_USER: "delete-user",
+    PUT_POST_USER: "put-post-user",
     CHAT: 'chat'
 }
 
@@ -61,8 +62,7 @@ export const ACCESS_ROLES = ["Admin", "Gerente", 'Soporte']
 export const ACCESS_CONTROL_ALLOWED_ROLES_ACTIONS = ["Admin"]
 export const ACCESS_CONTROL_ALLOWED_ROLES_VIEW = ["Admin", "Gerente"]
 
-export const NEW_ROW_EMPLOYEE = {
-    _id: Date.now(),
+export const NEW_DEFAULT_USER = {
     fullName: '',
     birthDate: '',
     email: '',
@@ -71,6 +71,5 @@ export const NEW_ROW_EMPLOYEE = {
     localidad: '',
     position: '',
     department: '',
-    entryDate: '',
     accessRole: '',
 }

@@ -3,10 +3,20 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, Typography, Box, Button } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
+import { useGetChatHistoryActions } from '../../../../hooks/chat/useGetChatHistoryActions';
 
-const ModalDetails = ({ open, onClose, claim }) => {
+export const DetailsModal = ({ open, onClose, claim }) => {
+
+
+    const { isLoading, handleGetChat } = useGetChatHistoryActions(claim._id);
+
     if (!claim) return null;
 
+    const handleClick = async () => {
+        const response = await handleGetChat();
+
+
+    }
     return (
         <Dialog open={open} onClose={onClose} maxWidth="sm" >
             <DialogTitle>Detalles del Caso</DialogTitle>
@@ -30,4 +40,3 @@ const ModalDetails = ({ open, onClose, claim }) => {
     );
 };
 
-export default ModalDetails;

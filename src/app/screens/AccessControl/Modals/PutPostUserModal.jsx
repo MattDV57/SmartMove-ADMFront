@@ -1,0 +1,203 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useState, useEffect } from "react";
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, MenuItem } from "@mui/material";
+import { ACCESS_ROLES, NEW_DEFAULT_USER } from "../../../../common/types";
+import { usePutUserActions } from '../../../../hooks/user/usePutUserActions'
+import { usePostUserActions } from '../../../../hooks/user/usePostUserActions'
+
+export const PutPostUserModal = ({ open, onClose, onSave, user = null, adminId }) => {
+
+  const isEditMode = Object.keys(user).length > 0;
+
+  const { isLoading, handleCallApi } = isEditMode
+    ? usePutUserActions({ adminId, userId: user._id })
+    : usePostUserActions({ adminId })
+
+
+  const [formValues, setFormValues] = useState({
+    fullName: '',
+    birthDate: '',
+    email: '',
+    phone: '',
+    address: '',
+    location: '',
+    position: '',
+    department: '',
+    accessRole: '',
+    ...user
+  }
+  );
+
+
+  const handleSubmit = async () => {
+
+    const response = await handleCallApi(formValues)
+
+    if (response.hasError) return;
+
+    onSave(
+      {
+        _id: response.response,
+        ...formValues
+      }
+    )
+
+
+    onClose();
+  };
+
+
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [name]: value
+    }));
+  };
+
+  return (
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+      <DialogTitle fontWeight={'bold'}>{isEditMode ? "Editar Usuario" : "Crear Usuario"}</DialogTitle>
+      <DialogContent>
+
+        <TextField
+          margin="dense"
+          label="Rol de Acceso"
+          name="accessRole"
+          value={formValues.accessRole}
+          onChange={handleChange}
+          select
+          fullWidth
+          required
+        >
+          {ACCESS_ROLES.map(role => (
+            <MenuItem key={role} value={role}>{role}</MenuItem>
+          ))}
+        </TextField>
+
+        <TextField
+          margin="dense"
+          label="Nombre Completo"
+          name="fullName"
+          value={formValues.fullName}
+          onChange={handleChange}
+          fullWidth
+          required
+        />
+
+        <TextField
+          margin="dense"
+          label="Correo Electrónico"
+          name="email"
+          value={formValues.email}
+          onChange={handleChange}
+          fullWidth
+          required
+        />
+        <TextField
+          margin="dense"
+          label="Fecha de Nacimiento"
+          name="birthDate"
+          type="date"
+          value={formValues.birthDate.substring(0, 10)} // Para asegurarse de que el formato sea compatible con <input type="date">
+          onChange={handleChange}
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+          required
+        />
+        <TextField
+          margin="dense"
+          label="Teléfono"
+          name="phone"
+          value={formValues.phone}
+          onChange={handleChange}
+          fullWidth
+          required
+        />
+        <TextField
+          margin="dense"
+          label="Dirección"
+          name="address"
+          value={formValues.address}
+          onChange={handleChange}
+          fullWidth
+          required
+        />
+        <TextField
+          margin="dense"
+          label="Ubicación"
+          name="location"
+          value={formValues.location}
+          onChange={handleChange}
+          fullWidth
+          required
+        />
+        <TextField
+          margin="dense"
+          label="Cargo"
+          name="position"
+          value={formValues.position}
+          onChange={handleChange}
+          fullWidth
+          required
+        />
+        <TextField
+          margin="dense"
+          label="Departamento"
+          name="department"
+          value={formValues.department}
+          onChange={handleChange}
+          fullWidth
+          required
+        />
+
+      </DialogContent>
+
+      <DialogActions>
+
+        <Button onClick={onClose} color="secondary" variant="contained">Cancelar</Button>
+        <Button onClick={handleSubmit} variant="contained" color="primary">
+          {isEditMode ? "Guardar Cambios" : "Crear Usuario"}
+        </Button>
+
+      </DialogActions>
+
+    </Dialog>
+  );
+};
+
+
+
+
+const validationsBeforeSave = (newRow, showAlert) => {
+  const isRowValid = Object.values(newRow).every((value) => value !== '' && value !== null);
+
+  if (!isRowValid) {
+    showAlert('Todos los campos son obligatorios', 'warning');
+    return;
+  }
+
+  // const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newRow.email);
+  // const isPhoneValid = /^\d{3}-\d{3}-\d{4}$/.test(newRow.phone);
+  // const isBirthDateValid = new Date(newRow.birthDate) < new Date();
+  // const isEntryDateValid = new Date(newRow.entryDate) < new Date();
+
+  // switch (false) {
+  //     case isEmailValid:
+  //         showAlert('El email no es válido', 'warning');
+  //         break;
+  //     case isPhoneValid:
+  //         showAlert('El teléfono no es válido', 'warning');
+  //         break;
+  //     case isBirthDateValid:
+  //         showAlert('La fecha de nacimiento no puede ser futura', 'warning');
+  //         break;
+  //     case isEntryDateValid:
+  //         showAlert('La fecha de ingreso no puede ser futura', 'warning');
+
+  // }
+
+  return true
+  // return isEmailValid && isPhoneValid && isBirthDateValid && isEntryDateValid;
+};

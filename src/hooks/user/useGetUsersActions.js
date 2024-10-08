@@ -1,7 +1,6 @@
-import { useEffect, useReducer } from "react";
+import { useEffect } from "react";
 import { useAlert } from "../../context/AlertProvider";
 import { userService } from "../../services/user";
-import { data } from "../../app/components/EmployeesGrid/EMPLOYEES_DATA";
 
 
 export const useGetUsersActions = (adminId, state, dispatch) => {

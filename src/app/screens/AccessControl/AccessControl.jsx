@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
-import { GridEmployees } from '../../components/EmployeesGrid/GridEmployees'
 import Header from '../../components/Header'
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { Box, Button } from '@mui/material'
 import useAuth from '../../../hooks/useAuth';
-import { useUserCUDActions } from '../../../hooks/user/useUserCUDActions';
 import ModalManager from '../../components/ModalManager';
-import { ACCESS_CONTROL_ALLOWED_ROLES_ACTIONS } from '../../../common/types';
+import { ACCESS_CONTROL_ALLOWED_ROLES_ACTIONS, MODALS_TYPES } from '../../../common/types';
+import { useModal } from '../../../context/ModalProvider';
+import { GridUsers } from './Grid/GridUsers';
 
 
 export const AccessControl = () => {
   const { auth } = useAuth();
+  const { openModal } = useModal();
   const isAllowedToActions = ACCESS_CONTROL_ALLOWED_ROLES_ACTIONS.includes(auth?.accessRole);
 
-  const { isLoading_CUD, postUser, putUser, deleteUser } = useUserCUDActions(auth.id);
 
   const [isAddingNewRow, setIsAddingNewRow] = useState(false);
   const [disableAddNewRow, setDisableAddNewRow] = useState(false);
@@ -26,10 +26,7 @@ export const AccessControl = () => {
         <Header title="Control de Acceso" />
         {isAllowedToActions &&
           <Button
-            onClick={() => {
-              setIsAddingNewRow(true)
-              setDisableAddNewRow(true)
-            }}
+            onClick={() => openModal({ type: MODALS_TYPES.PUT_POST_USER })}
 
             disabled={disableAddNewRow}
             variant="contained"
@@ -42,14 +39,10 @@ export const AccessControl = () => {
             Agregar Empleado</Button>
         }
       </Box>
-      <GridEmployees
+      <GridUsers
         isAddingNewRow={isAddingNewRow}
         setIsAddingNewRow={setIsAddingNewRow}
         setDisableAddNewRow={setDisableAddNewRow}
-        postUser={postUser}
-        putUser={putUser}
-        deleteUser={deleteUser}
-        isLoading_CUD={isLoading_CUD}
         isAllowedToActions={isAllowedToActions}
 
       />
