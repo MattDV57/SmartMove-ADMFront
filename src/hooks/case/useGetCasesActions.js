@@ -24,6 +24,7 @@ export const useGetCasesActions = ( {caseType, operatorUsername = ""} ) => {
 
     const handleGetCases = async () => {
         const response = await callApi({}, `?caseType=${caseType_ES}&page=${paginationModel.page}&limit=${paginationModel.pageSize}`);
+        
         if(response.hasError){
             showAlert('Error al cargar los casos', 'error');
             return;

@@ -1,28 +1,32 @@
 import { useAlert } from "../../context/AlertProvider";
 import { userService } from "../../services/user";
 
-export const usePutUserActions = ( { adminId } ) => {
-    const { callApi, isLoading } = userService.usePutUser();
+export const usePutUserActions = ( { adminId, userId } ) => {
+
+    const { callApi, isLoading } = userService.usePutUser( { userId } );
     const { showAlert } = useAlert();
 
-    const putUser = async ( newUser ) => {
+    const handlePutUser = async ( newUser, hasChanged ) => {
             
-            const response = await callApi( { dataApi: newUser, addEndpoint: `adminId=${adminId}`} );
-    
-            if(response.hasError){
-                showAlert('Error al actualizar usuario', 'error');
-                
-            } else {
-                showAlert('Usuario actualizado correctamente', 'success');
+            if (!hasChanged) {
+                showAlert('No se han realizado cambios', 'info');
+                return;
             }
+
+            const response = await callApi( newUser, `?adminId=${adminId}` );
+    
+            response.hasError 
+                ? showAlert('Error al modificar usuario', 'error')
+                : showAlert('Usuario modificado correctamente', 'success')
             
-            return response.hasError;
+            
+            return response;
         }
 
 
 
     return {
-        putUser,
+        handleCallApi: handlePutUser,
         isLoading,
     }
 }

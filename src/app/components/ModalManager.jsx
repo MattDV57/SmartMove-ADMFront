@@ -1,12 +1,12 @@
-// ModalManager.js
 import React from 'react';
-import ModalDetails from './Case/ModalDetails';
-import ModalOperatorAccept from './Case/ModalOperatorAccept';
-import ModalEditCase from './Case/ModalEditCase';
 import { MODALS_TYPES } from '../../common/types';
 import { useModal } from '../../context/ModalProvider';
-import { ModalDeleteEmployee } from './EmployeesGrid/ModalDeleteEmployee';
+import { DeleteUserModal } from '../screens/AccessControl/Modals/DeleteUserModal'
 import { ModalChat } from './Chat/ModalChat';
+import { PutPostUserModal } from '../screens/AccessControl/Modals/PutPostUserModal';
+import { DetailsModal } from '../screens/Case/Modals/DetailsModal';
+import { OperatorAcceptModal } from '../screens/Case/Modals/OperatorAcceptModal';
+import { EditCaseModal } from '../screens/Case/Modals/EditCaseModal';
 
 
 const ModalManager = () => {
@@ -16,15 +16,17 @@ const ModalManager = () => {
 
     switch (modal.type) {
         case MODALS_TYPES.DETAILS_CASE:
-            return <ModalDetails open={true} claim={modal.data} onClose={closeModal} />;
+            return <DetailsModal open={true} claim={modal.data} onClose={closeModal} />;
         case MODALS_TYPES.OPERATOR_ACCEPT_CASE:
-            return <ModalOperatorAccept open={true} claim={modal.data} onClose={closeModal} onSave={modal.onSave} username={modal.username} />;
+            return <OperatorAcceptModal open={true} claim={modal.data} onClose={closeModal} onSave={modal.onSave} username={modal.username} />;
         case MODALS_TYPES.EDIT_CASE:
-            return <ModalEditCase isOpen={true} claim={modal.data} onClose={closeModal} onSave={modal.onSave} />
-        case MODALS_TYPES.DELETE_EMPLOYEE:
-            return <ModalDeleteEmployee open={true} employee={modal.data} onClose={closeModal} adminId={modal.userId} />
+            return <EditCaseModal isOpen={true} claim={modal.data} onClose={closeModal} onSave={modal.onSave} />
+        case MODALS_TYPES.DELETE_USER:
+            return <DeleteUserModal open={true} user={modal.data} onClose={closeModal} adminId={modal.userId} onSave={modal.onSave} />
         case MODALS_TYPES.CHAT:
-            return <ModalChat open={true} employee={modal.data} onClose={closeModal} adminId={modal.userId} />
+            return <ModalChat open={true} claim={modal.data} onClose={closeModal} userId={modal.userId} />
+        case MODALS_TYPES.PUT_POST_USER:
+            return <PutPostUserModal open={true} onClose={closeModal} onSave={modal.onSave} user={modal.data} adminId={modal.userId} />
         default:
             return null;
     }

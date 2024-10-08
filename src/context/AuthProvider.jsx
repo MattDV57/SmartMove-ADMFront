@@ -1,33 +1,35 @@
-import { useState, useEffect, createContext } from 'react'
+import { useState, useEffect, createContext, useContext } from 'react'
 
 const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
+// eslint-disable-next-line react-refresh/only-export-components
+export const useAuth = () => useContext(AuthContext);
+
+export const AuthProvider = ({ children }) => {
 
     // const userData = {
     //     // _id: "67042fc40576f2fa95f8f749",
-    //     entryDate: "2015-03-01T00:00:00.000Z",
-    //     fullName: "Pablo Rodríguez",
-    //     birthDate: "1985-05-15T00:00:00.000Z",
-    //     email: "admin@smartmove.com",
-    //     phone: "1156781234",
-    //     address: "Calle Principal 123",
-    //     location: "Capital Federal",
-    //     position: "Gerente de Proyectos",
-    //     department: "Gestión de Proyectos",
-    //     password: "admin",
-    //     accessRole: "Admin",
-    //     username: "pablitoMotos123", // original es "admin", lo cambio para que puedan probra mis reclamos y mediaciones
+
+    // fullName: "Pablo Rodríguez",
+    // birthDate: "1985-05-15T00:00:00.000Z",
+    // email: "admin@smartmove.com",
+    // phone: "1156781234",
+    // address: "Calle Principal 123",
+    // location: "Capital Federal",
+    // position: "Gerente de Proyectos",
+    // department: "Gestión de Proyectos",
+    // password: "admin",
+    // accessRole: "Admin",
     // };
 
     const [auth, setAuth] = useState({})
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        autenticarUsuario()
+        authenticateUser()
     }, [])
 
-    const autenticarUsuario = async () => {
+    const authenticateUser = async () => {
 
         const token = localStorage.getItem('smartmove-token')
         const userid = localStorage.getItem('smartmove-userid')
@@ -53,11 +55,13 @@ const AuthProvider = ({ children }) => {
                 return null
             });
 
-            console.log(response)
+
             setAuth({
                 id: response._id,
                 ...response
             })
+
+
 
         } catch (error) {
 
@@ -70,7 +74,7 @@ const AuthProvider = ({ children }) => {
 
     }
 
-    const cerrarSesionAuth = () => {
+    const logoutUser = () => {
         setAuth({})
         localStorage.setItem('smartmove-token', '')
         localStorage.setItem('smartmove-userid', '')
@@ -82,17 +86,11 @@ const AuthProvider = ({ children }) => {
                 auth,
                 setAuth,
                 isLoading,
-                cerrarSesionAuth,
-                autenticarUsuario,
+                logoutUser,
+                authenticateUser,
             }}
         >
             {children}
         </AuthContext.Provider>
     )
 }
-
-export {
-    AuthProvider
-}
-
-export default AuthContext;

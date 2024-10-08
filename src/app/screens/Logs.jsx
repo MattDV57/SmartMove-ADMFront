@@ -29,6 +29,7 @@ export const Logs = () => {
 
     const { logs, isLoading, search, setSearch, ref, handleSearch } = useGetLogsActions(showScrollButton);
 
+    //TODO: Fix search.
 
     useEffect(() => {
         const handleScroll = () => {

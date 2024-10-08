@@ -2,13 +2,13 @@ import { useAlert } from "../../context/AlertProvider";
 import { userService } from "../../services/user";
 
 
-export const useDeleteUserActions = ( { adminId } ) => {
-    const { callApi, isLoading, } = userService.useDeleteUser();
+export const useDeleteUserActions = ( { adminId, userId } ) => {
+    const { callApi, isLoading, } = userService.useDeleteUser( { userId } );
     const { showAlert } = useAlert();
 
-    const deleteUser = async ( {userId} ) => {
+    const handleDeleteUser = async () => {
 
-        const response = await callApi( {addEndpoint: `/${userId}?adminId=${adminId}`} );
+        const response = await callApi({},`?adminId=${adminId}` );
 
         if(response.hasError){
             showAlert('Error al eliminar usuario', 'error');
@@ -20,7 +20,7 @@ export const useDeleteUserActions = ( { adminId } ) => {
         return response.hasError;
     }
     return {
-        deleteUser,
+        handleDeleteUser,
         isLoading,
     }
 }

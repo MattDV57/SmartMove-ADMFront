@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { LIST_PRIORITIES, LIST_STATUS } from '../../../common/types';
-import { Box, Button, TextField, Checkbox, FormControlLabel, Dialog, DialogTitle, DialogContent, Typography, CircularProgress } from '@mui/material';
+import { Box, Button, TextField, Checkbox, FormControlLabel, Dialog, DialogTitle, DialogContent, Typography, CircularProgress, DialogActions } from '@mui/material';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ChatIcon from '@mui/icons-material/Chat';
 import ListIcon from '@mui/icons-material/List';
 import moment from 'moment';
-import useEditCaseActions from '../../../hooks/case/useEditCaseActions';
 import { orange } from '@mui/material/colors';
+import useEditCaseActions from '../../../../hooks/case/useEditCaseActions';
+import { LIST_PRIORITIES, LIST_STATUS } from '../../../../common/types';
 
-const ModalEditCase = ({ isOpen, onClose, claim, onSave }) => {
+export const EditCaseModal = ({ isOpen, onClose, claim, onSave }) => {
 
-    const { isLoading, handleEditCase, isError } = useEditCaseActions({ claimId: claim._id });
+    const { isLoading, handleEditCase } = useEditCaseActions({ claimId: claim._id });
 
     const [oldStatus, setOldStatus] = useState(claim.status);
     const [newStatus, setNewStatus] = useState(claim.status);
@@ -42,7 +42,7 @@ const ModalEditCase = ({ isOpen, onClose, claim, onSave }) => {
 
         const newClaim = {
             ...claim,
-            status: newStatus,
+            status: abandonCase ? 'Abierto' : newStatus,
             priority: newPriority,
             actionHistory: historyActions,
             resolution: resolutionDetails,
@@ -103,8 +103,8 @@ const ModalEditCase = ({ isOpen, onClose, claim, onSave }) => {
                 <TextField
                     select
                     label="Estado"
-                    disabled={showResolutionFields}
-                    value={newStatus}
+                    disabled={showResolutionFields || abandonCase}
+                    value={abandonCase ? "Abierto" : newStatus}
                     onChange={(e) => {
                         setNewStatus(e.target.value);
                         setOldStatus(e.target.value);
@@ -217,8 +217,11 @@ const ModalEditCase = ({ isOpen, onClose, claim, onSave }) => {
                 }
 
 
-                <Box mt={2}>
+                <DialogActions sx={{ mt: 2 }}>
 
+                    <Button variant="contained" color="secondary" disabled={isLoading} onClick={onClose} >
+                        Cancelar
+                    </Button>
                     <Button
                         variant="contained"
                         color="primary"
@@ -229,13 +232,10 @@ const ModalEditCase = ({ isOpen, onClose, claim, onSave }) => {
                         {!isLoading ? 'Guardar Cambios' : 'Guardando...'}
                     </Button>
 
-                    <Button variant="contained" color="secondary" disabled={isLoading} onClick={onClose} sx={{ ml: 2 }}>
-                        Cancelar
-                    </Button>
-                </Box>
+                </DialogActions>
             </DialogContent>
         </Dialog>
     );
 };
 
-export default ModalEditCase;
+

@@ -17,15 +17,15 @@ export const userService = {
         }
     ),
 
-    useDeleteUser: () => UseApi (
-        `/users`,
+    useDeleteUser: ( { userId } ) => UseApi (
+        `/users/${userId}`,
         {
             method: 'DELETE',
         }
     ),
 
-    usePutUser: () => UseApi (
-        `/users`,
+    usePutUser: ( { userId } ) => UseApi (
+        `/users/${userId}`,
         {
             method: 'PUT'
         }

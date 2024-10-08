@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, Typography, Box, Button, CircularProgress } from '@mui/material';
-import useEditCaseActions from '../../../hooks/case/useEditCaseActions';
+import useEditCaseActions from '../../../../hooks/case/useEditCaseActions';
 import { useNavigate } from 'react-router-dom';
 
-const ModalOperatorAccept = ({ open, onClose, claim, username, onSave }) => {
+
+export const OperatorAcceptModal = ({ open, onClose, claim, username, onSave }) => {
     const navigate = useNavigate();
     const { isLoading, handleEditCase } = useEditCaseActions({
         claimId: claim._id,
@@ -71,4 +72,3 @@ const ModalOperatorAccept = ({ open, onClose, claim, username, onSave }) => {
     );
 };
 
-export default ModalOperatorAccept;

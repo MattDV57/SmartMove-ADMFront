@@ -15,7 +15,7 @@ import SendIcon from '@mui/icons-material/Send';
 
 import io from "socket.io-client";
 
-export const ModalChat = ({ open, onClose, claim, adminId }) => {
+export const ModalChat = ({ open, onClose, claim, userId }) => {
 
   const [messages, setMessages] = useState([
     {
@@ -25,7 +25,7 @@ export const ModalChat = ({ open, onClose, claim, adminId }) => {
       timestamp: new Date()
     },
     {
-      id: Date.now()+1,
+      id: Date.now() + 1,
       text: 'Hola',
       sender: 'user',
       timestamp: new Date()

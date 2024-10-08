@@ -18,12 +18,9 @@ const useEditCaseActions = ({ claimId }) => {
 
         const response = await callApi( newClaim );
 
-        if(response.hasError){
-            showAlert('Error al editar caso', 'error');
-            return response;
-        }
-        
-        showAlert('Caso editado correctamente', 'success');
+        response.hasError 
+            ? showAlert('Error al editar caso', 'error')
+            : showAlert('Caso editado correctamente', 'success');
 
         return response;
 

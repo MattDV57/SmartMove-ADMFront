@@ -1,6 +1,6 @@
 import { useTheme } from "@emotion/react";
 import { Box } from "@mui/material"
-import { tokens } from "../../styles/theme";
+import { tokens } from "../../../styles/theme";
 
 
 export const GridContainer = ({ children }) => {

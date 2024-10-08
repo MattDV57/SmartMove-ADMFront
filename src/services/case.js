@@ -7,7 +7,6 @@ export const caseService = {
     `/claim`,
     {
         method: 'GET',
-        // callOnLoad: true,
     }
     ),
 
@@ -15,7 +14,6 @@ export const caseService = {
         `/claim/operators/${operatorUsername}`,
         {
             method: 'GET',
-            // callOnLoad: true,
         }
     ),
 

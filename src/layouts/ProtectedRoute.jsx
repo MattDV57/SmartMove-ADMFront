@@ -1,18 +1,12 @@
-import React, { useState } from 'react'
-
+import React from 'react'
 import { Outlet, Navigate } from 'react-router-dom'
-
 import SideBar from '../app/components/global/SideBar'
-
 import { Box, LinearProgress, useMediaQuery } from '@mui/material'
-
 import TopBar from '../app/components/global/TopBar'
-
-import useAuth from '../hooks/useAuth'
-
 import { useMode } from '../styles/theme'
 import { useGlobal } from '../context/global/globalContext'
 import { ACCESS_CONTROL_ALLOWED_ROLES_VIEW, SIDEBAR_SIZE } from '../common/types'
+import { useAuth } from '../context/AuthProvider'
 
 const ProtectedRoute = ({ allowedRoles = [] }) => {
     const { globalState, toggleSidebar } = useGlobal();
@@ -41,7 +35,7 @@ const ProtectedRoute = ({ allowedRoles = [] }) => {
     return (
         <>
             {
-                auth?.id && allowedRoles.length === 0
+                auth?._id && allowedRoles.length === 0
                     ?
                     (
 

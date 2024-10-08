@@ -23,13 +23,14 @@ import {
 } from '@mui/icons-material';
 
 import './Profile.scss'
-import useAuth from '../../../hooks/useAuth';
+
 import { useAlert } from '../../../context/AlertProvider';
+import { useAuth } from '../../../context/AuthProvider';
 
 
 const Profile = () => {
 
-    const { auth, cerrarSesionAuth } = useAuth()
+    const { auth, logoutUser } = useAuth()
     const { showAlert } = useAlert();
     const [contactInfo, setContactInfo] = useState({
         email: auth.email,
@@ -359,15 +360,15 @@ const Profile = () => {
                 </Card>
 
                 <div
-                    style={{ display: 'flex', flexDirection: 'center', alignItems: 'center', justifyContent: 'center', marginTop: 24}}
+                    style={{ display: 'flex', flexDirection: 'center', alignItems: 'center', justifyContent: 'center', marginTop: 24 }}
                 >
-                <Button
-                    onClick={()=>{
-                        cerrarSesionAuth()
-                    }}
-                >
-                    Cerrar sesión
-                </Button>
+                    <Button
+                        onClick={() => {
+                            logoutUser()
+                        }}
+                    >
+                        Cerrar sesión
+                    </Button>
                 </div>
             </Box>
         </Container >

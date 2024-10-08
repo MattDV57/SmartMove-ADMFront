@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
 import { ColorModeContext, tokens } from '../../../styles/theme';
 import './TopBar.scss'
-import useAuth from '../../../hooks/useAuth';
+import { useAuth } from '../../../context/AuthProvider';
 
 const CustomIconButton = ({ children, onClick, extraStyles }) => {
     const theme = useTheme();
@@ -49,17 +49,19 @@ const TopBar = ({ toggleSidebar }) => {
         'Don\'t forget to check your schedule.',
     ];
 
-    const [ notifications, setNotifications ] = useState(mockNotifications)
+    const [notifications, setNotifications] = useState(mockNotifications)
 
-    const { isLoadingNotifications } = useGetNotificationsActions({
-        setNotifications
-    })
+
+    //TODO: Descomentar esto cuando funcionan las notis desde el back.
+    // const { isLoadingNotifications } = useGetNotificationsActions({
+    //     setNotifications
+    // })
 
     const navigate = useNavigate();
 
     const [showNotifications, setShowNotifications] = useState(false);
 
-    
+
 
     return (
         <Box display='flex' justifyContent='space-between' p={2}

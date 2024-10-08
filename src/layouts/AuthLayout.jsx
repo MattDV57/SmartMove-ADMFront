@@ -1,9 +1,7 @@
 import React from 'react'
-
 import { Outlet, Navigate } from 'react-router-dom'
-
-import useAuth from '../hooks/useAuth'
 import { LinearProgress } from '@mui/material';
+import { useAuth } from '../context/AuthProvider';
 
 const AuthLayout = () => {
 
@@ -20,7 +18,7 @@ const AuthLayout = () => {
     return (
         <>
             {
-                !auth?.id ?
+                !auth?._id ?
                     (
                         <Outlet />
                     ) : (
