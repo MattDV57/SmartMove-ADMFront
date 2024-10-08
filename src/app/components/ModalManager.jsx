@@ -21,10 +21,10 @@ const ModalManager = () => {
             return <OperatorAcceptModal open={true} claim={modal.data} onClose={closeModal} onSave={modal.onSave} username={modal.username} />;
         case MODALS_TYPES.EDIT_CASE:
             return <EditCaseModal isOpen={true} claim={modal.data} onClose={closeModal} onSave={modal.onSave} />
-        case MODALS_TYPES.DELETE_EMPLOYEE:
-            return <DeleteUserModal open={true} employee={modal.data} onClose={closeModal} adminId={modal.userId} />
+        case MODALS_TYPES.DELETE_USER:
+            return <DeleteUserModal open={true} user={modal.data} onClose={closeModal} adminId={modal.userId} onSave={modal.onSave} />
         case MODALS_TYPES.CHAT:
-            return <ModalChat open={true} employee={modal.data} onClose={closeModal} adminId={modal.userId} />
+            return <ModalChat open={true} claim={modal.data} onClose={closeModal} userId={modal.userId} />
         case MODALS_TYPES.PUT_POST_USER:
             return <PutPostUserModal open={true} onClose={closeModal} onSave={modal.onSave} user={modal.data} adminId={modal.userId} />
         default:

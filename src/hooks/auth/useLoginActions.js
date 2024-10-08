@@ -1,10 +1,7 @@
-import { useContext, useEffect } from "react"
-
+import { useEffect } from "react"
 import usePostLogin from "../../services/auth/usePostLogin"
-
-import useAuth from '../useAuth'
-
 import { useAlert } from "../../context/AlertProvider"
+import { useAuth } from "../../context/AuthProvider"
 
 const useLoginActions = () => {
 

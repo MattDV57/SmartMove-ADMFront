@@ -44,6 +44,7 @@ const UseApi = (endpoint, config) => {
             const options = method === 'GET' ? optionsGet : completeOptions
 
             // Check if endpoint is ok.
+            // console.log("method", method)
             // console.log("endpoints", import.meta.env.VITE_API_URL_BACKEND + endpoint + addEndpoint || '')
 
             await fetch(import.meta.env.VITE_API_URL_BACKEND + endpoint + addEndpoint || '', options)
@@ -63,7 +64,7 @@ const UseApi = (endpoint, config) => {
                             message = 'Ha ocurrido un error, intente más tarde'
                         } = data.data
 
-                        setData({ code, msg: essage })
+                        setData({ code, msg: message })
 
                         responseData = { code, msg: message }
 

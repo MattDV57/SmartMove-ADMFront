@@ -24,7 +24,7 @@ export const DeleteUserModal = ({ open, onClose, onSave, user, adminId }) => {
 
         await handleDeleteUser();
 
-        onSave({ userId: user._id });
+        onSave(user._id);
 
         onClose();
     }

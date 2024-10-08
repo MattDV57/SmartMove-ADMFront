@@ -5,7 +5,7 @@ import { ACCESS_ROLES, NEW_DEFAULT_USER } from "../../../../common/types";
 import { usePutUserActions } from '../../../../hooks/user/usePutUserActions'
 import { usePostUserActions } from '../../../../hooks/user/usePostUserActions'
 
-export const PutPostUserModal = ({ open, onClose, onSave, user = null, adminId }) => {
+export const PutPostUserModal = ({ open, onClose, onSave, user = {}, adminId }) => {
 
   const isEditMode = Object.keys(user).length > 0;
 
@@ -13,37 +13,36 @@ export const PutPostUserModal = ({ open, onClose, onSave, user = null, adminId }
     ? usePutUserActions({ adminId, userId: user._id })
     : usePostUserActions({ adminId })
 
-
   const [formValues, setFormValues] = useState({
-    fullName: '',
-    birthDate: '',
-    email: '',
-    phone: '',
-    address: '',
-    location: '',
-    position: '',
-    department: '',
-    accessRole: '',
-    ...user
+    fullName: user.fullName || '',
+    birthDate: user.birthDate || '',
+    email: user.email || '',
+    phone: user.phone || '',
+    address: user.address || '',
+    location: user.location || '',
+    position: user.position || '',
+    department: user.department || '',
+    accessRole: user.accessRole || '',
   }
   );
+
+  const [defaultFormValues, setDefaultFormValues] = useState(formValues)
 
 
   const handleSubmit = async () => {
 
-    const response = await handleCallApi(formValues)
+    const hasChanged = JSON.stringify(formValues) !== JSON.stringify(defaultFormValues);
+
+    const response = await handleCallApi(formValues, hasChanged)
+
+    if (!hasChanged) return
 
     if (response.hasError) return;
 
-    onSave(
-      {
-        _id: response.response,
-        ...formValues
-      }
-    )
-
-
     onClose();
+
+    onSave({ _id: response.response, ...formValues })
+
   };
 
 

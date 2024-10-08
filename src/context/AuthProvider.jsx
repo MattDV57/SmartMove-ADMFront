@@ -1,8 +1,11 @@
-import { useState, useEffect, createContext } from 'react'
+import { useState, useEffect, createContext, useContext } from 'react'
 
 const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
+// eslint-disable-next-line react-refresh/only-export-components
+export const useAuth = () => useContext(AuthContext);
+
+export const AuthProvider = ({ children }) => {
 
     // const userData = {
     //     // _id: "67042fc40576f2fa95f8f749",
@@ -23,10 +26,10 @@ const AuthProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        autenticarUsuario()
+        authenticateUser()
     }, [])
 
-    const autenticarUsuario = async () => {
+    const authenticateUser = async () => {
 
         const token = localStorage.getItem('smartmove-token')
         const userid = localStorage.getItem('smartmove-userid')
@@ -71,7 +74,7 @@ const AuthProvider = ({ children }) => {
 
     }
 
-    const cerrarSesionAuth = () => {
+    const logoutUser = () => {
         setAuth({})
         localStorage.setItem('smartmove-token', '')
         localStorage.setItem('smartmove-userid', '')
@@ -83,17 +86,11 @@ const AuthProvider = ({ children }) => {
                 auth,
                 setAuth,
                 isLoading,
-                cerrarSesionAuth,
-                autenticarUsuario,
+                logoutUser,
+                authenticateUser,
             }}
         >
             {children}
         </AuthContext.Provider>
     )
 }
-
-export {
-    AuthProvider
-}
-
-export default AuthContext;

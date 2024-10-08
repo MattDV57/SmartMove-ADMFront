@@ -4,8 +4,8 @@ import ModalManager from '../../components/ModalManager';
 import { Box, Tab, Tabs } from '@mui/material';
 import { CASE_PATHS, CASE_TABS_MAP } from '../../../common/types';
 import { useNavigate } from 'react-router-dom';
-import useAuth from '../../../hooks/useAuth';
 import GridCase from './Grid/GridCase';
+import { useAuth } from '../../../context/AuthProvider';
 
 export const CaseView = ({ casePath, caseType }) => {
 

@@ -8,13 +8,12 @@ import { blue, green } from '@mui/material/colors';
 import { Check } from '@mui/icons-material';
 
 
-export const columnsEmployees = ({
+export const columnsUsers = ({
     editableRowId,
-    handleClickOnEdit,
-    handleCancelOperation,
-    handleClickOnSave,
+    handlePutOnSave,
+    handleDeleteOnSave,
     openModal,
-    isLoading_CUD,
+    isSavingLoading = false,
     isSavingSuccess = false,
     isAllowedToActions = false
 }) => [
@@ -24,37 +23,22 @@ export const columnsEmployees = ({
         //     width: 80,
         // },
         {
+            field: 'accessRole',
+            headerName: 'Rol',
+            width: 150,
+            type: 'singleSelect',
+            valueOptions: ACCESS_ROLES,
+            renderCell: (params) => (
+                <Tooltip title={params.value}>
+                    <span>{params.value}</span>
+                </Tooltip>
+            ),
+        },
+
+        {
             field: 'fullName',
             headerName: 'Nombre',
             flex: 1,
-            editable: (params) => params.row._id === editableRowId,
-        },
-        {
-            field: 'birthDate',
-            headerName: 'Nacimiento',
-            // type: 'date',
-            editable: (params) => params.row._id === editableRowId
-        },
-        {
-            field: 'email',
-            headerName: 'Email',
-            type: 'String',
-            flex: 1,
-            editable: (params) => params.row._id === editableRowId,
-        },
-        {
-            field: 'phone',
-            headerName: 'Teléfono',
-            type: 'String',
-            flex: 1,
-            editable: (params) => params.row._id === editableRowId,
-        },
-        {
-            field: 'address',
-            headerName: 'Dirección',
-            type: 'String',
-            flex: 1,
-            editable: (params) => params.row._id === editableRowId,
             renderCell: (params) => (
                 <Tooltip title={params.value}>
                     <span>{params.value}</span>
@@ -62,41 +46,78 @@ export const columnsEmployees = ({
             ),
         },
         {
-            field: 'localidad',
+            field: 'birthDate',
+            headerName: 'Nacimiento',
+            renderCell: (params) => (
+                <Tooltip title={params.value}>
+                    <span>{params.value}</span>
+                </Tooltip>
+            ),
+        },
+        {
+            field: 'email',
+            headerName: 'Email',
+            type: 'String',
+            flex: 1,
+            renderCell: (params) => (
+                <Tooltip title={params.value}>
+                    <span>{params.value}</span>
+                </Tooltip>
+            ),
+        },
+        {
+            field: 'phone',
+            headerName: 'Teléfono',
+            type: 'String',
+            flex: 1,
+            renderCell: (params) => (
+                <Tooltip title={params.value}>
+                    <span>{params.value}</span>
+                </Tooltip>
+            ),
+        },
+        {
+            field: 'location',
             headerName: 'Localidad',
             type: 'String',
             flex: 1,
-            editable: (params) => params.row._id === editableRowId,
+            renderCell: (params) => (
+                <Tooltip title={params.value}>
+                    <span>{params.value}</span>
+                </Tooltip>
+            ),
         },
+        {
+            field: 'address',
+            headerName: 'Dirección',
+            type: 'String',
+            flex: 1,
+            renderCell: (params) => (
+                <Tooltip title={params.value}>
+                    <span>{params.value}</span>
+                </Tooltip>
+            ),
+        },
+
         {
             field: 'position',
             headerName: 'Posición',
             type: 'String',
             flex: 1,
-            editable: (params) => params.row._id === editableRowId,
         },
         {
             field: 'department',
             headerName: 'Departamento',
             type: 'String',
             flex: 1,
-            editable: (params) => params.row._id === editableRowId,
         },
         {
             field: 'entryDate',
             headerName: 'Ingreso',
             // type: 'date',
             width: 80,
-            editable: (params) => params.row.id === editableRowId,
         },
-        {
-            field: 'accessRole',
-            headerName: 'Rol',
-            width: 150,
-            type: 'singleSelect',
-            valueOptions: ACCESS_ROLES,
-            editable: (params) => params.row._id === editableRowId,
-        },
+
         ...(isAllowedToActions ? [{
             field: 'actions',
             headerName: 'Acciones',
@@ -105,43 +126,16 @@ export const columnsEmployees = ({
                 <Box>
                     {params.row._id === editableRowId
                         ?
-                        <>
-                            <Tooltip title="Cancelar">
-                                <IconButton onClick={handleCancelOperation}
-                                    color='error'
-                                    sx={{ borderRadius: '0', }}
-                                >
-                                    <ClearIcon />
-                                </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Guardar">
-                                <IconButton
-                                    aria-label="save"
-                                    color="primary"
-                                    sx={{
-                                        ...(isSavingSuccess
-                                            && {
-                                            bgcolor: green[500],
-                                            '&:hover': {
-                                                bgcolor: green[700],
-                                            },
-                                        }
-                                        ),
-                                    }}
-                                    onClick={() => handleClickOnSave(params.row)}
-                                >
-                                    {isLoading_CUD ? <CircularProgress size={28} sx={{ color: green[500] }} />
-                                        : isSavingSuccess
-                                            ? <Check sx={{ color: 'black' }} />
-                                            : <SaveIcon />}
-                                </IconButton>
+                        <Box marginX={'auto'} justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
+                            <IconButton sx={{ backgroundColor: isSavingLoading ? 'black' : green[700] }}>
+                                {isSavingSuccess && <Check sx={{ color: '#000' }} />}
+                            </IconButton>
 
-                            </Tooltip>
-                        </>
+                        </Box>
                         :
                         <>
                             <Tooltip title="Eliminar">
-                                <IconButton onClick={() => openModal({ type: MODALS_TYPES.DELETE_EMPLOYEE, data: params.row })}
+                                <IconButton onClick={() => openModal({ type: MODALS_TYPES.DELETE_USER, data: params.row, onSave: handleDeleteOnSave })}
                                     variant='contained'
                                     color='error'
                                     sx={{ borderRadius: '0', }}
@@ -152,7 +146,7 @@ export const columnsEmployees = ({
                             </Tooltip>
 
                             <Tooltip title="Editar">
-                                <IconButton onClick={() => handleClickOnEdit(params.row)}
+                                <IconButton onClick={() => openModal({ type: MODALS_TYPES.PUT_POST_USER, data: params.row, onSave: handlePutOnSave })}
                                     variant='contained'
                                     color='primary'
                                     sx={{ borderRadius: '0', }}

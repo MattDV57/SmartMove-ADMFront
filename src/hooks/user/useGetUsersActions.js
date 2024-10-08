@@ -3,12 +3,13 @@ import { useAlert } from "../../context/AlertProvider";
 import { userService } from "../../services/user";
 
 
-export const useGetUsersActions = (adminId, state, dispatch) => {
+export const useGetUsersActions = (userId, state, dispatch) => {
     const { showAlert } = useAlert();
-    const { callApi, isLoading } = userService.useGetUsers({ adminId });
+    const { callApi, isLoading } = userService.useGetUsers();
 
     const handleGetUsers = async () => {
-        const {response, hasError} = await callApi({}, `?adminId=${"67042fc40576f2fa95f8f749"}&page=${state.paginationModel.page}&limit=${state.paginationModel.pageSize}`);
+        const {response, hasError} = await callApi({}, `?userId=${userId}&page=${state.paginationModel.page}&limit=${state.paginationModel.pageSize}`);
+       
         if(hasError){
             showAlert('Error al cargar los empleados', 'error');
             return;

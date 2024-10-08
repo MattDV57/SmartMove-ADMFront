@@ -12,20 +12,16 @@ export const usePostUserActions = ( { adminId } ) => {
 
         const response = await callApi( newUser, `?adminId=${adminId}` );
 
-        if(response.hasError){
-            showAlert('Error al crear usuario', 'error');
-        } else {
-            showAlert('Usuario creado correctamente', 'success');
-        }
-
+        response.hasError
+            ? showAlert('Error al crear usuario', 'error')
+            : showAlert('Usuario creado correctamente', 'success')
         
-
-        return response.hasError;
+        return response;
     }
 
 
     return {
-        handlePostUser,
+        handleCallApi: handlePostUser,
         isLoading,
     }
 }

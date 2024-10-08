@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { createContext, useState, useContext } from 'react';
-import useAuth from '../hooks/useAuth';
+import { useAuth } from './AuthProvider';
+
 
 const ModalContext = createContext();
 
@@ -14,7 +15,7 @@ export const ModalProvider = ({ children }) => {
     const [modal, setModal] = useState(null);
 
     const openModal = ({ type, data = {}, onSave = () => { } }) => {
-        setModal({ type, data, userId: auth.id, onSave, username: auth.username });
+        setModal({ type, data, userId: auth._id, onSave, username: auth.username });
     };
 
     const closeModal = () => {
