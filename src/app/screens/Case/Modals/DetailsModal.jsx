@@ -7,16 +7,20 @@ import { useGetChatHistoryActions } from '../../../../hooks/chat/useGetChatHisto
 
 export const DetailsModal = ({ open, onClose, claim }) => {
 
+    console.log(claim)
 
-    const { isLoading, handleGetChat } = useGetChatHistoryActions(claim._id);
+    const { isLoading, handleGetChat } = useGetChatHistoryActions({
+        claimTitle: claim.subject.split()[0],
+        claimId: claim._id,
+        claimAuthor: claim?.user?.username || "Consultante"
+    });
 
     if (!claim) return null;
 
-    const handleClick = async () => {
-        const response = await handleGetChat();
-
-
+    const handleDownloadChat = async () => {
+        await handleGetChat();
     }
+
     return (
         <Dialog open={open} onClose={onClose} maxWidth="sm" >
             <DialogTitle>Detalles del Caso</DialogTitle>
@@ -28,8 +32,10 @@ export const DetailsModal = ({ open, onClose, claim }) => {
                     <Button onClick={onClose} variant="contained" color="primary">
                         Cerrar
                     </Button>
-                    {claim.status === 'Cerrado' || claim.status === 'Resuelto' &&
-                        <Button variant="contained" color="warning" sx={{ ml: 2 }}>
+                    {(claim.status === 'Cerrado' || claim.status === 'Resuelto') &&
+                        <Button
+                            onClick={handleDownloadChat}
+                            variant="contained" color="warning" sx={{ ml: 2 }}>
                             <DownloadIcon />
                             Chat
                         </Button>

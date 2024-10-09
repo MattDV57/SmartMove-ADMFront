@@ -40,6 +40,13 @@ export const caseService = {
         }
     ),
 
+    useGetChatHistory: ( { claimId } ) => UseApi(
+        `/claim/${claimId}/chat`,
+        {
+            method: 'GET'
+        }
+    )
+
 }
 
 
