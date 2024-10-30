@@ -9,9 +9,10 @@ import Header from '../../../components/Header';
 import { MODALS_TYPES } from '../../../../common/types';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { GRID_ACTIONS } from './GridReducer';
+import { ACCESS_CONTROL, ACTIONS } from '../../../../common/rolesPermissions';
 
 
-export const GridUsers = ({ isAllowedToActions, state, dispatch }) => {
+export const GridUsers = ({ accessRole, state, dispatch }) => {
 
     const { openModal } = useModal();
 
@@ -44,7 +45,7 @@ export const GridUsers = ({ isAllowedToActions, state, dispatch }) => {
         handlePutOnSave,
         handleDeleteOnSave,
         openModal,
-        isAllowedToActions
+        accessRole
     });
 
 
@@ -53,7 +54,7 @@ export const GridUsers = ({ isAllowedToActions, state, dispatch }) => {
 
             <Box display={'flex'} justifyContent={'space-between'}>
                 <Header title="Control de Acceso" />
-                {isAllowedToActions &&
+                {ACCESS_CONTROL.roles[accessRole].actions.has(ACTIONS.CREATE_USER) &&
                     <Button
                         onClick={() => openModal({ type: MODALS_TYPES.PUT_POST_USER, onSave: handlePostOnSave })}
                         variant="contained"

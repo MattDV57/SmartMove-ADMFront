@@ -6,21 +6,24 @@ import { CASE_PATHS, CASE_TABS_MAP } from '../../../common/types';
 import { useNavigate } from 'react-router-dom';
 import GridCase from './Grid/GridCase';
 import { useAuth } from '../../../context/AuthProvider';
+import { ACCESS_CONTROL } from '../../../common/rolesPermissions';
 
 export const CaseView = ({ casePath, caseType }) => {
 
     const { auth } = useAuth();
 
+    const [accessRole, setAccessRole] = useState(localStorage.getItem('userRole') || "Unauthorized")
+
     const navigate = useNavigate();
 
-    const tabCases = CASE_TABS_MAP[caseType];
+    const tabCases = (CASE_TABS_MAP[caseType]).filter(tab => ACCESS_CONTROL.roles[accessRole].views.has(tab.value));
 
     const currentTabIndex = tabCases.findIndex(tab => tab.value === casePath);
 
     const [currentTab, setCurrentTab] = useState(currentTabIndex);
 
+    //TODO: Change logic for user claimer
     const needOperatorUsername = [CASE_PATHS.MY_CLAIMS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath);
-
 
 
 
@@ -35,7 +38,7 @@ export const CaseView = ({ casePath, caseType }) => {
         <Box>
             <Box sx={{ borderBottom: 1, borderColor: 'divider', marginBottom: 2 }}>
                 <Tabs value={currentTab} onChange={handleTabChange} aria-label="case tabs">
-                    {CASE_TABS_MAP[caseType].map((tab, index) => (
+                    {tabCases.map((tab, index) => (
                         <Tab key={index} label={tab.label} />
                     ))}
                 </Tabs>
@@ -46,6 +49,7 @@ export const CaseView = ({ casePath, caseType }) => {
                     operatorUsername={needOperatorUsername ? auth.username : ""}
                     caseType={caseType}
                     casePath={casePath}
+                    accessRole={accessRole}
                 />
             </>
 

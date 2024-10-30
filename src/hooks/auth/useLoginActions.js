@@ -3,7 +3,6 @@ import { useEffect } from "react"
 import usePostLogin from "../../services/auth/usePostLogin"
 import { useAlert } from "../../context/AlertProvider"
 import { useAuth } from "../../context/AuthProvider"
-import CryptoJS from 'crypto-js';
 
 const useLoginActions = () => {
 
@@ -25,7 +24,6 @@ const useLoginActions = () => {
             localStorage.setItem('smartmove-token', data.accessToken)   
             localStorage.setItem('smartmove-userid', data._id)   
             localStorage.setItem('userRole', data.accessRole)
-            // storeHashedRole(data.accessRole)
             
             setAuth({
                 ...auth,
@@ -36,12 +34,6 @@ const useLoginActions = () => {
 
     }, [isLoading, data])
 
-
-    const storeHashedRole = (role) => {
-        const saltedRole = role + process.env.VITE_SALTY_HASH;
-        const hashedRole = CryptoJS.SHA256(saltedRole).toString(); 
-        localStorage.setItem('userRole', hashedRole); 
-    };
 
     return{
         isLoadingLogin: isLoading,

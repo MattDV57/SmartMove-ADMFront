@@ -10,7 +10,6 @@ export const useGetChatHistoryActions = ( { claimId, claimTitle, claimAuthor } )
 
     const handleGetChat = async () => {
         const response = await callApi();
-        console.log(response)
 
         if(response.hasError){
             showAlert('Error al descargar el chat', 'error');

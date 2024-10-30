@@ -6,6 +6,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { ACCESS_ROLES, MODALS_TYPES } from '../../../../common/types';
 import { blue, green } from '@mui/material/colors';
 import { Check } from '@mui/icons-material';
+import { ACCESS_CONTROL, ACTIONS, INTERNALS } from '../../../../common/rolesPermissions';
 
 
 export const columnsUsers = ({
@@ -15,7 +16,7 @@ export const columnsUsers = ({
     openModal,
     isSavingLoading = false,
     isSavingSuccess = false,
-    isAllowedToActions = false
+    accessRole
 }) => [
         // {
         //     field: 'employeeId',
@@ -27,7 +28,7 @@ export const columnsUsers = ({
             headerName: 'Rol',
             width: 150,
             type: 'singleSelect',
-            valueOptions: ACCESS_ROLES,
+            valueOptions: Object.values(INTERNALS),
             renderCell: (params) => (
                 <Tooltip title={params.value}>
                     <span>{params.value}</span>
@@ -118,7 +119,7 @@ export const columnsUsers = ({
             width: 80,
         },
 
-        ...(isAllowedToActions ? [{
+        {
             field: 'actions',
             headerName: 'Acciones',
             width: 100,
@@ -133,7 +134,7 @@ export const columnsUsers = ({
 
                         </Box>
                         :
-                        <>
+                        <>{ACCESS_CONTROL.roles[accessRole].actions.has(ACTIONS.DELETE_USER) &&
                             <Tooltip title="Eliminar">
                                 <IconButton onClick={() => openModal({ type: MODALS_TYPES.DELETE_USER, data: params.row, onSave: handleDeleteOnSave })}
                                     variant='contained'
@@ -144,24 +145,24 @@ export const columnsUsers = ({
                                     <DeleteForeverIcon />
                                 </IconButton>
                             </Tooltip>
+                        }
+                            {ACCESS_CONTROL.roles[accessRole].actions.has(ACTIONS.UPDATE_USER) &&
+                                <Tooltip title="Editar">
+                                    <IconButton onClick={() => openModal({ type: MODALS_TYPES.PUT_POST_USER, data: params.row, onSave: handlePutOnSave })}
+                                        variant='contained'
+                                        color='primary'
+                                        sx={{ borderRadius: '0', }}
+                                        disabled={params.row._id !== editableRowId && editableRowId !== null}
 
-                            <Tooltip title="Editar">
-                                <IconButton onClick={() => openModal({ type: MODALS_TYPES.PUT_POST_USER, data: params.row, onSave: handlePutOnSave })}
-                                    variant='contained'
-                                    color='primary'
-                                    sx={{ borderRadius: '0', }}
-                                    disabled={params.row._id !== editableRowId && editableRowId !== null}
-
-                                >
-                                    <EditIcon />
-                                </IconButton>
-                            </Tooltip>
-
+                                    >
+                                        <EditIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            }
                         </>}
 
                 </Box>
             )
-        }]
-            : []
-        )
+        }
+
     ];

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import { useState } from 'react';
-import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
 import { useNavigate } from 'react-router-dom';
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -13,46 +13,31 @@ import Logo from '../../../assets/smarthome-logo.svg'
 import { tokens } from '../../../styles/theme';
 import { useGlobal } from '../../../context/global/globalContext';
 import { SIDEBAR_SIZE } from '../../../common/types';
-
-// eslint-disable-next-line react/prop-types
-const Item = ({ title, to, icon, selected, setSelected, mainItemColor }) => {
-    const navigate = useNavigate();
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-
-    return (
-        <MenuItem
-            active={selected === to}
-            style={{
-                color: mainItemColor,
-                backgroundColor: selected === to ? 'rgba(0, 0, 0, 0.1)' : colors.grey[400],
-            }}
-            onClick={() => {
-                setSelected(to);
-                navigate(to);
-            }}
-            icon={icon}
-        >
-            <Typography marginRight={.3}>
-                {title}
-            </Typography>
-        </MenuItem>
-    );
-};
+import { ACCESS_CONTROL, VIEWS } from '../../../common/rolesPermissions';
 
 
-const SideBar = ({ isAllowedToAccessControl }) => {
+
+const SideBar = ({ accessRole }) => {
     const { globalState, toggleSidebar } = useGlobal();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [selected, setSelected] = useState(location.pathname);
     const mainItemColor = colors.blueAccent[100];
+    const navigate = useNavigate();
 
     if (isMobile && globalState.sidebarOpen) {
         return null;
     }
 
+
+    const menuItems = [
+        { title: "Dashboard", to: VIEWS.DASHBOARD, icon: <HomeOutlinedIcon /> },
+        { title: "Reclamos", to: VIEWS.MY_CLAIMS, icon: <BugReportOutlinedIcon /> },
+        { title: "Mediaciones", to: VIEWS.MY_ARBITRATIONS, icon: <ErrorIcon /> },
+        { title: "Registros", to: VIEWS.LOGS, icon: <ReceiptOutlinedIcon /> },
+        { title: "Control de acceso", to: VIEWS.ACCESS_CONTROL_PANEL, icon: <SecurityOutlinedIcon /> },
+    ];
 
     return (
 
@@ -98,48 +83,28 @@ const SideBar = ({ isAllowedToAccessControl }) => {
 
 
                 <Box paddingLeft={globalState.sidebarOpen ? undefined : "1%"}>
-                    <Item
-                        title="Dashboard"
-                        to="/"
-                        icon={<HomeOutlinedIcon />}
-                        selected={selected}
-                        setSelected={setSelected}
-                        mainItemColor={mainItemColor}
-                    />
-                    <Item
-                        title="Reclamos"
-                        to="/my-claims"  // Redirige a "Mis Reclamos"
-                        icon={<BugReportOutlinedIcon />}
-                        selected={selected}
-                        setSelected={setSelected}
-                        mainItemColor={mainItemColor}
-                    />
-                    <Item
-                        title="Mediaciones"
-                        to="/my-arbitrations"  // Redirige a "Mis Mediaciones"
-                        icon={<ErrorIcon />}
-                        selected={selected}
-                        setSelected={setSelected}
-                        mainItemColor={mainItemColor}
-                    />
-                    <Item
-                        title="Registros"
-                        to="/logs"
-                        icon={<ReceiptOutlinedIcon />}
-                        selected={selected}
-                        setSelected={setSelected}
-                        mainItemColor={mainItemColor}
-                    />
-                    {isAllowedToAccessControl &&
-                        <Item
-                            title="Control de acceso"
-                            to="/access-control"
-                            icon={<SecurityOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                            mainItemColor={mainItemColor}
-                        />
-                    }
+                    {menuItems.map(({ title, to, icon }) => (
+
+                        ACCESS_CONTROL.roles[accessRole].views.has(to) && (
+                            <MenuItem
+                                key={to}
+                                active={selected === to}
+                                style={{
+                                    color: mainItemColor,
+                                    backgroundColor: selected === to ? 'rgba(0, 0, 0, 0.1)' : colors.grey[400],
+                                }}
+                                onClick={() => {
+                                    setSelected(to);
+                                    navigate(to);
+                                }}
+                                icon={icon}
+                            >
+                                <Typography marginRight={0.3}>
+                                    {title}
+                                </Typography>
+                            </MenuItem>
+                        )
+                    ))}
                 </Box>
             </Menu>
         </Sidebar>

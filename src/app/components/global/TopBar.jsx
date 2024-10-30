@@ -12,6 +12,7 @@ import { useTheme } from '@emotion/react';
 import { ColorModeContext, tokens } from '../../../styles/theme';
 import './TopBar.scss'
 import { useAuth } from '../../../context/AuthProvider';
+import { ACCESS_CONTROL, ACTIONS, VIEWS } from '../../../common/rolesPermissions';
 
 const CustomIconButton = ({ children, onClick, extraStyles }) => {
     const theme = useTheme();
@@ -35,7 +36,7 @@ const CustomIconButton = ({ children, onClick, extraStyles }) => {
 };
 
 
-const TopBar = ({ toggleSidebar }) => {
+const TopBar = ({ toggleSidebar, accessRole }) => {
     const { auth } = useAuth();
 
     const theme = useTheme();
@@ -61,7 +62,8 @@ const TopBar = ({ toggleSidebar }) => {
 
     const [showNotifications, setShowNotifications] = useState(false);
 
-
+    const isAllowProfile = ACCESS_CONTROL.roles[accessRole].views.has(VIEWS.PROFILE);
+    const isAllowNotifications = ACCESS_CONTROL.roles[accessRole].actions.has(ACTIONS.NOTIFICATIONS);
 
     return (
         <Box display='flex' justifyContent='space-between' p={2}
@@ -74,27 +76,29 @@ const TopBar = ({ toggleSidebar }) => {
 
             <Box display='flex'>
 
-                <div
-                    className="nav-item notifications"
-                    onMouseEnter={() => setShowNotifications(true)}
-                    onMouseLeave={() => setShowNotifications(false)}
-                >
-                    <CustomIconButton >
-                        <NotificationsNoneOutlinedIcon />
-                    </CustomIconButton>
-                    {showNotifications && (
-                        <div className="notification-list">
-                            {notifications.length > 0 ? (
-                                notifications.map((notification, index) => (
-                                    <p key={index}>{notification}</p>
-                                ))
-                            ) : (
-                                <p>No new notifications</p>
-                            )}
-                        </div>
-                    )}
-                </div>
 
+                {isAllowNotifications &&
+                    <div
+                        className="nav-item notifications"
+                        onMouseEnter={() => setShowNotifications(true)}
+                        onMouseLeave={() => setShowNotifications(false)}
+                    >
+                        <CustomIconButton >
+                            <NotificationsNoneOutlinedIcon />
+                        </CustomIconButton>
+                        {showNotifications && (
+                            <div className="notification-list">
+                                {notifications.length > 0 ? (
+                                    notifications.map((notification, index) => (
+                                        <p key={index}>{notification}</p>
+                                    ))
+                                ) : (
+                                    <p>No new notifications</p>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                }
 
 
                 <CustomIconButton onClick={colorMode.toggleColorMode}>
@@ -105,16 +109,18 @@ const TopBar = ({ toggleSidebar }) => {
                     )}
                 </CustomIconButton>
 
-                <CustomIconButton
-                    extraStyles={{ display: "flex", alignItems: "center", gap: "8px" }}
-                    onClick={() => navigate('/profile')}
-                >
-                    <AccountCircleOutlinedIcon />
-                    {isMobile
-                        ? null
-                        : <Typography>{auth.fullName}</Typography>}
+                {isAllowProfile &&
+                    <CustomIconButton
+                        extraStyles={{ display: "flex", alignItems: "center", gap: "8px" }}
+                        onClick={() => navigate('/profile')}
+                    >
+                        <AccountCircleOutlinedIcon />
+                        {isMobile
+                            ? null
+                            : <Typography>{auth.fullName}</Typography>}
 
-                </CustomIconButton>
+                    </CustomIconButton>
+                }
             </Box>
         </Box>
     )

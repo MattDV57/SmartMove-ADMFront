@@ -15,7 +15,7 @@ export const ModalProvider = ({ children }) => {
     const [modal, setModal] = useState(null);
 
     const openModal = ({ type, data = {}, onSave = () => { } }) => {
-        setModal({ type, data, userId: auth._id, onSave, username: auth.username });
+        setModal({ type, data, userId: auth._id, onSave, username: auth.username, accessRole: auth.accessRole });
     };
 
     const closeModal = () => {

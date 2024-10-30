@@ -7,8 +7,6 @@ import { useGetChatHistoryActions } from '../../../../hooks/chat/useGetChatHisto
 
 export const DetailsModal = ({ open, onClose, claim }) => {
 
-    console.log(claim)
-
     const { isLoading, handleGetChat } = useGetChatHistoryActions({
         claimTitle: claim.subject.split()[0],
         claimId: claim._id,
@@ -32,14 +30,14 @@ export const DetailsModal = ({ open, onClose, claim }) => {
                     <Button onClick={onClose} variant="contained" color="primary">
                         Cerrar
                     </Button>
-                    {(claim.status === 'Cerrado' || claim.status === 'Resuelto') &&
-                        <Button
-                            onClick={handleDownloadChat}
-                            variant="contained" color="warning" sx={{ ml: 2 }}>
-                            <DownloadIcon />
-                            Chat
-                        </Button>
-                    }
+
+                    <Button
+                        onClick={handleDownloadChat}
+                        variant="contained" color="warning" sx={{ ml: 2 }}>
+                        <DownloadIcon />
+                        Chat
+                    </Button>
+
                 </Box>
             </DialogContent>
         </Dialog>

@@ -363,6 +363,8 @@ const Profile = () => {
                     style={{ display: 'flex', flexDirection: 'center', alignItems: 'center', justifyContent: 'center', marginTop: 24 }}
                 >
                     <Button
+                        color='error'
+                        variant='contained'
                         onClick={() => {
                             logoutUser()
                         }}

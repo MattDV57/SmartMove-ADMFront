@@ -5,10 +5,11 @@ import AddTaskIcon from '@mui/icons-material/AddTask';
 import ChatIcon from '@mui/icons-material/Chat';
 import EditIcon from '@mui/icons-material/Edit';
 import moment from 'moment';
+import { ACCESS_CONTROL, ACTIONS, INTERNAL_ROLES } from '../../../../common/rolesPermissions';
 
 
 
-export const columnsCase = (openModal, priorityPalette, casePath, handleEditSaved, operatorUsername) => [
+export const columnsCase = (openModal, priorityPalette, casePath, handleEditSaved, accessRole) => [
     {
         field: 'timestamp',
         headerName: 'Fecha Emisión',
@@ -25,55 +26,60 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
             )
         }
     },
-    {
-        field: 'priority',
-        headerName: 'Prioridad',
-        width: 150,
-        sortComparator: (v1, v2) => {
-            return LIST_PRIORITIES.indexOf(v1) - LIST_PRIORITIES.indexOf(v2);
-        },
-        renderCell: (params) => (
-            <Chip
-                label={params.value}
-                sx={{
-                    width: '60%',
-                    textAlign: 'center',
-                    color: '#0A0A0A',
-                    backgroundColor:
-                        params.value === LIST_PRIORITIES[3] ? priorityPalette[600] :
-                            params.value === LIST_PRIORITIES[2] ? priorityPalette[400] :
-                                params.value === LIST_PRIORITIES[1] ? priorityPalette[300] :
-                                    priorityPalette[100]
-                }}
-            />
-        )
-    },
-    {
-        field: 'status',
-        headerName: 'Estado',
-        type: 'singleSelect',
-        valueOptions: LIST_STATUS,
-        sortComparator: (v1, v2) => {
-            return LIST_STATUS.indexOf(v1) - LIST_STATUS.indexOf(v2);
-        },
-        width: 180,
-        renderCell: (params) => (
-            <Chip
-                label={params.value}
-                sx={{
-                    width: '70%',
-                    textAlign: 'center',
-                    color: '#0A0A0A',
-                }}
-                color={
-                    params.value === LIST_STATUS[0] ? 'success' :
-                        params.value === LIST_STATUS[1] ? 'info' :
-                            'secondary'
-                }
-            />
-        )
-    },
-    ...([CASE_PATHS.ALL_CLAIMS, CASE_PATHS.ALL_ARBITRATIONS].includes(casePath) ? [ // AllClaims and AllArbitrations columns only.
+
+    ...(INTERNAL_ROLES.has(accessRole)
+        ? [
+            {
+                field: 'priority',
+                headerName: 'Prioridad',
+                width: 150,
+                sortComparator: (v1, v2) => {
+                    return LIST_PRIORITIES.indexOf(v1) - LIST_PRIORITIES.indexOf(v2);
+                },
+                renderCell: (params) => (
+                    <Chip
+                        label={params.value}
+                        sx={{
+                            width: '60%',
+                            textAlign: 'center',
+                            color: '#0A0A0A',
+                            backgroundColor:
+                                params.value === LIST_PRIORITIES[3] ? priorityPalette[600] :
+                                    params.value === LIST_PRIORITIES[2] ? priorityPalette[400] :
+                                        params.value === LIST_PRIORITIES[1] ? priorityPalette[300] :
+                                            priorityPalette[100]
+                        }}
+                    />
+                )
+            },
+            {
+                field: 'status',
+                headerName: 'Estado',
+                type: 'singleSelect',
+                valueOptions: LIST_STATUS,
+                sortComparator: (v1, v2) => {
+                    return LIST_STATUS.indexOf(v1) - LIST_STATUS.indexOf(v2);
+                },
+                width: 180,
+                renderCell: (params) => (
+                    <Chip
+                        label={params.value}
+                        sx={{
+                            width: '70%',
+                            textAlign: 'center',
+                            color: '#0A0A0A',
+                        }}
+                        color={
+                            params.value === LIST_STATUS[0] ? 'success' :
+                                params.value === LIST_STATUS[1] ? 'info' :
+                                    'secondary'
+                        }
+                    />
+                )
+            },] : []),
+
+    ...(([CASE_PATHS.ALL_CLAIMS, CASE_PATHS.ALL_ARBITRATIONS].includes(casePath))
+        && INTERNAL_ROLES.has(accessRole) ? [ // AllClaims and AllArbitrations columns only.
         {
             field: 'assignedOperator',
             headerName: 'Operador',
@@ -94,26 +100,30 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
             ),
         }
     ] : []),
-    {
-        field: 'user', headerName: 'Reclamante',
-        flex: 1,
-        renderCell: params => (
-            <Tooltip title={params?.row?.user?.username} arrow>
-                <span>{params?.row?.user?.username}</span>
-            </Tooltip>
-        )
-    },
 
-    ...([CASE_PATHS.ALL_ARBITRATIONS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath) ? [ // Arbitrations column only.
+    ...(INTERNAL_ROLES.has(accessRole) ? [
         {
-            field: 'counterParty', headerName: 'Reclamado',
+            field: 'user', headerName: 'Reclamante',
             flex: 1,
             renderCell: params => (
-                <Tooltip title={params.row.counterParty.username} arrow>
-                    <span>{params.row.counterParty.username}</span>
+                <Tooltip title={params?.row?.user?.username} arrow>
+                    <span>{params?.row?.user?.username}</span>
                 </Tooltip>
             )
-        }]
+        }
+    ] : []),
+
+    ...([CASE_PATHS.ALL_ARBITRATIONS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath)
+        ? [ // Arbitrations column only.
+            {
+                field: 'counterParty', headerName: 'Reclamado',
+                flex: 1,
+                renderCell: params => (
+                    <Tooltip title={params.row.counterParty.username} arrow>
+                        <span>{params.row.counterParty.username}</span>
+                    </Tooltip>
+                )
+            }]
         : [
             {
                 field: 'category', headerName: 'Categoría'
@@ -172,25 +182,27 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
             </Box>
         )
     },
-    ...([CASE_PATHS.MY_CLAIMS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath) ? [ // MyClaims and MyArbitrations columns only.
-        {
-            field: "edit",
-            headerName: "Editar",
-            width: 100,
-            sortable: false,
-            filterable: false,
-            resizable: false,
-            renderCell: (params) => (
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => openModal({ type: MODALS_TYPES.EDIT_CASE, data: params.row, onSave: handleEditSaved })}
-                >
-                    <EditIcon />
-                </Button>
-            )
-        }
-    ] : [])
+    ...(([CASE_PATHS.MY_CLAIMS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath))
+        && ACCESS_CONTROL.roles[accessRole].actions.has(ACTIONS.EDIT_CASE)
+        ? [ // MyClaims and MyArbitrations columns only.
+            {
+                field: "edit",
+                headerName: "Editar",
+                width: 100,
+                sortable: false,
+                filterable: false,
+                resizable: false,
+                renderCell: (params) => (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => openModal({ type: MODALS_TYPES.EDIT_CASE, data: params.row, onSave: handleEditSaved })}
+                    >
+                        <EditIcon />
+                    </Button>
+                )
+            }
+        ] : [])
 
 ];
 

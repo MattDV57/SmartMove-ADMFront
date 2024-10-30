@@ -14,8 +14,14 @@ import {
 import SendIcon from '@mui/icons-material/Send';
 
 import io from "socket.io-client";
+import { ACCESS_CONTROL, ACTIONS } from '../../../common/rolesPermissions';
 
 export const ModalChat = ({ open, onClose, claim, userId }) => {
+
+  const accessRole = localStorage.getItem('userRole')
+
+  const isAllowedToChat = ACCESS_CONTROL.roles[accessRole].actions.has(ACTIONS.CHAT);
+
 
   const [messages, setMessages] = useState([
     {
@@ -122,9 +128,11 @@ export const ModalChat = ({ open, onClose, claim, userId }) => {
 
         {/* Área de entrada de mensajes */}
         <Paper elevation={3} sx={{ p: 2 }}>
+
           <Box sx={{ display: 'flex' }}>
             <TextField
               fullWidth
+              disabled={!isAllowedToChat}
               variant="outlined"
               placeholder="Escribe un mensaje..."
               value={newMessage}
@@ -133,6 +141,7 @@ export const ModalChat = ({ open, onClose, claim, userId }) => {
             />
             <Button
               variant="contained"
+              disabled={!isAllowedToChat}
               color="primary"
               endIcon={<SendIcon />}
               onClick={handleSendMessage}
@@ -141,6 +150,7 @@ export const ModalChat = ({ open, onClose, claim, userId }) => {
               Enviar
             </Button>
           </Box>
+
         </Paper>
       </Box>
     </Dialog>

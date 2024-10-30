@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Outlet, Navigate, useLocation } from 'react-router-dom'
 import SideBar from '../app/components/global/SideBar'
 import { Box, LinearProgress, useMediaQuery } from '@mui/material'
@@ -10,10 +10,13 @@ import { ACCESS_CONTROL } from '../common/rolesPermissions'
 import { useAuth } from '../context/AuthProvider'
 import { Forbidden } from '../app/screens/Error/Forbidden'
 
-const ProtectedRoute = ({ allowedRoles = [] }) => {
+const ProtectedRoute = () => {
     const { globalState, toggleSidebar } = useGlobal();
     const { auth, isLoading } = useAuth();
-    const accessRole = localStorage.getItem('userRole');
+
+    const [accessRole, setAccessRole] = useState(localStorage.getItem('userRole') || "Unauthorized")
+
+
     const location = useLocation();
     let isAllowedToVIEW = false;
 
@@ -25,12 +28,7 @@ const ProtectedRoute = ({ allowedRoles = [] }) => {
     const sidebarWidth = isMobile ? (globalState.sidebarOpen
         ? SIDEBAR_SIZE.CLOSE_MOBILE : SIDEBAR_SIZE.OPEN - 1) : (globalState.sidebarOpen ? SIDEBAR_SIZE.CLOSE : SIDEBAR_SIZE.OPEN - 1);
 
-    const isAllowedToAccessControl = ACCESS_CONTROL_ALLOWED_ROLES_VIEW.includes(auth?.accessRole);
-
-
-    if (accessRole && accessRole !== undefined) {
-        isAllowedToVIEW = ACCESS_CONTROL.roles[accessRole].views.has(location.pathname)
-    }
+    isAllowedToVIEW = ACCESS_CONTROL.roles[accessRole].views.has(location.pathname)
 
 
     if (isLoading) {
@@ -49,7 +47,7 @@ const ProtectedRoute = ({ allowedRoles = [] }) => {
                     (
 
                         <Box width="100%" height="100%" display='flex' position='relative'>
-                            <SideBar isAllowedToAccessControl={isAllowedToAccessControl} />
+                            <SideBar accessRole={accessRole} />
                             <Box width="100%" height="100%"
                                 sx={{
                                     paddingLeft: `${sidebarWidth}px`,
@@ -58,7 +56,7 @@ const ProtectedRoute = ({ allowedRoles = [] }) => {
                                     transition: 'padding-left 0.3s ease',
                                 }}
                             >
-                                <TopBar toggleSidebar={toggleSidebar} />
+                                <TopBar toggleSidebar={toggleSidebar} accessRole={accessRole} />
                                 {
                                     isAllowedToVIEW
                                         ? <Outlet />

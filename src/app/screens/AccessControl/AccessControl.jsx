@@ -7,12 +7,13 @@ import { GridUsers } from './Grid/GridUsers';
 import { useAuth } from '../../../context/AuthProvider';
 import { gridReducer, initialState } from './Grid/GridReducer';
 import { useGetUsersActions } from '../../../hooks/user/useGetUsersActions';
+import { ACCESS_CONTROL, ACTIONS } from '../../../common/rolesPermissions';
 
 
 export const AccessControl = () => {
 
   const { auth } = useAuth();
-  const isAllowedToActions = ACCESS_CONTROL_ALLOWED_ROLES_ACTIONS.includes(auth?.accessRole);
+  const [accessRole, setAccessRole] = useState(localStorage.getItem('userRole') || "Unauthorized")
 
   const [state, dispatch] = useReducer(gridReducer, initialState);
   const { isLoading } = useGetUsersActions(auth._id, state, dispatch);
@@ -28,7 +29,7 @@ export const AccessControl = () => {
         : <Box margin={'15px 0 0 15px'}>
 
           <GridUsers
-            isAllowedToActions={isAllowedToActions}
+            accessRole={accessRole}
             state={state}
             dispatch={dispatch}
           />

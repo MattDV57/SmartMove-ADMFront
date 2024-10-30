@@ -2,6 +2,7 @@ import React from 'react'
 import { Outlet, Navigate } from 'react-router-dom'
 import { LinearProgress } from '@mui/material';
 import { useAuth } from '../context/AuthProvider';
+import { INTERNAL_ROLES } from '../common/rolesPermissions';
 
 const AuthLayout = () => {
 
@@ -22,7 +23,11 @@ const AuthLayout = () => {
                     (
                         <Outlet />
                     ) : (
-                        <Navigate to="/" />
+                        <Navigate to={
+                            INTERNAL_ROLES.has(auth.accessRole)
+                                ? "/"
+                                : "/my-claims"
+                        } />
                     )
             }
         </>
