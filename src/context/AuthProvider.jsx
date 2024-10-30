@@ -7,27 +7,13 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
 
-    // const userData = {
-    //     // _id: "67042fc40576f2fa95f8f749",
-
-    // fullName: "Pablo Rodríguez",
-    // birthDate: "1985-05-15T00:00:00.000Z",
-    // email: "admin@smartmove.com",
-    // phone: "1156781234",
-    // address: "Calle Principal 123",
-    // location: "Capital Federal",
-    // position: "Gerente de Proyectos",
-    // department: "Gestión de Proyectos",
-    // password: "admin",
-    // accessRole: "Admin",
-    // };
-
     const [auth, setAuth] = useState({})
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         authenticateUser()
     }, [])
+
 
     const authenticateUser = async () => {
 
@@ -78,6 +64,7 @@ export const AuthProvider = ({ children }) => {
         setAuth({})
         localStorage.setItem('smartmove-token', '')
         localStorage.setItem('smartmove-userid', '')
+        localStorage.setItem('userRole', '')
     }
 
     return (

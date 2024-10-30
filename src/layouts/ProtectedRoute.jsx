@@ -1,16 +1,21 @@
 import React from 'react'
-import { Outlet, Navigate } from 'react-router-dom'
+import { Outlet, Navigate, useLocation } from 'react-router-dom'
 import SideBar from '../app/components/global/SideBar'
 import { Box, LinearProgress, useMediaQuery } from '@mui/material'
 import TopBar from '../app/components/global/TopBar'
 import { useMode } from '../styles/theme'
 import { useGlobal } from '../context/global/globalContext'
 import { ACCESS_CONTROL_ALLOWED_ROLES_VIEW, SIDEBAR_SIZE } from '../common/types'
+import { ACCESS_CONTROL } from '../common/rolesPermissions'
 import { useAuth } from '../context/AuthProvider'
+import { Forbidden } from '../app/screens/Error/Forbidden'
 
 const ProtectedRoute = ({ allowedRoles = [] }) => {
     const { globalState, toggleSidebar } = useGlobal();
     const { auth, isLoading } = useAuth();
+    const accessRole = localStorage.getItem('userRole');
+    const location = useLocation();
+    let isAllowedToVIEW = false;
 
     const [theme] = useMode()
 
@@ -22,6 +27,10 @@ const ProtectedRoute = ({ allowedRoles = [] }) => {
 
     const isAllowedToAccessControl = ACCESS_CONTROL_ALLOWED_ROLES_VIEW.includes(auth?.accessRole);
 
+
+    if (accessRole && accessRole !== undefined) {
+        isAllowedToVIEW = ACCESS_CONTROL.roles[accessRole].views.has(location.pathname)
+    }
 
 
     if (isLoading) {
@@ -35,7 +44,7 @@ const ProtectedRoute = ({ allowedRoles = [] }) => {
     return (
         <>
             {
-                auth?._id && allowedRoles.length === 0
+                auth?._id
                     ?
                     (
 
@@ -50,20 +59,17 @@ const ProtectedRoute = ({ allowedRoles = [] }) => {
                                 }}
                             >
                                 <TopBar toggleSidebar={toggleSidebar} />
-                                <Outlet />
+                                {
+                                    isAllowedToVIEW
+                                        ? <Outlet />
+                                        : <Forbidden />
+                                }
                             </Box>
                         </Box>
                     ) :
-
-                    allowedRoles.length > 0 && allowedRoles.includes(auth?.accessRole)
-                        ?
-                        (
-                            <Outlet />
-                        )
-                        :
-                        (
-                            <Navigate to={'/auth'} />
-                        )
+                    (
+                        <Navigate to={'/auth'} />
+                    )
             }
         </>
     )
