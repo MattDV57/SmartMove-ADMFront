@@ -16,9 +16,7 @@ import SendIcon from '@mui/icons-material/Send';
 import io from "socket.io-client";
 import { ACCESS_CONTROL, ACTIONS } from '../../../common/rolesPermissions';
 
-export const ModalChat = ({ open, onClose, claim, userId }) => {
-
-  const accessRole = localStorage.getItem('userRole')
+export const ModalChat = ({ open, onClose, claim, userId, accessRole }) => {
 
   const isAllowedToChat = ACCESS_CONTROL.roles[accessRole].actions.has(ACTIONS.CHAT);
 

@@ -64,7 +64,6 @@ export const AuthProvider = ({ children }) => {
         setAuth({})
         localStorage.setItem('smartmove-token', '')
         localStorage.setItem('smartmove-userid', '')
-        localStorage.setItem('userRole', '')
     }
 
     return (

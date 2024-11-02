@@ -1,7 +1,7 @@
 import { useAlert } from "../../context/AlertProvider";
 import { userService } from "../../services/user";
 
-export const usePutUserActions = ( { adminId, userId } ) => {
+export const usePutUserActions = ( { userId } ) => {
 
     const { callApi, isLoading } = userService.usePutUser( { userId } );
     const { showAlert } = useAlert();
@@ -13,7 +13,7 @@ export const usePutUserActions = ( { adminId, userId } ) => {
                 return;
             }
 
-            const response = await callApi( newUser, `?adminId=${adminId}` );
+            const response = await callApi( newUser );
     
             response.hasError 
                 ? showAlert('Error al modificar usuario', 'error')

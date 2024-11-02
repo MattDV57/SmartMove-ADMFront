@@ -13,7 +13,8 @@ import { ACCESS_CONTROL, ACTIONS } from '../../../common/rolesPermissions';
 export const AccessControl = () => {
 
   const { auth } = useAuth();
-  const [accessRole, setAccessRole] = useState(localStorage.getItem('userRole') || "Unauthorized")
+
+  const accessRole = auth.accessRole;
 
   const [state, dispatch] = useReducer(gridReducer, initialState);
   const { isLoading } = useGetUsersActions(auth._id, state, dispatch);

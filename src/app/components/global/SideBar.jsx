@@ -33,8 +33,8 @@ const SideBar = ({ accessRole }) => {
 
     const menuItems = [
         { title: "Dashboard", to: VIEWS.DASHBOARD, icon: <HomeOutlinedIcon /> },
-        { title: "Reclamos", to: VIEWS.MY_CLAIMS, icon: <BugReportOutlinedIcon /> },
-        { title: "Mediaciones", to: VIEWS.MY_ARBITRATIONS, icon: <ErrorIcon /> },
+        { title: "Reclamos", to: ACCESS_CONTROL.roles[accessRole].views.has(VIEWS.MY_CLAIMS) ? VIEWS.MY_CLAIMS : VIEWS.ALL_CLAIMS, icon: <BugReportOutlinedIcon /> },
+        { title: "Mediaciones", to: ACCESS_CONTROL.roles[accessRole].views.has(VIEWS.MY_ARBITRATIONS) ? VIEWS.MY_ARBITRATIONS : VIEWS.ALL_ARBITRATIONS, icon: <ErrorIcon /> },
         { title: "Registros", to: VIEWS.LOGS, icon: <ReceiptOutlinedIcon /> },
         { title: "Control de acceso", to: VIEWS.ACCESS_CONTROL_PANEL, icon: <SecurityOutlinedIcon /> },
     ];

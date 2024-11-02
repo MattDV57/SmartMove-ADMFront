@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogTitle, Button, CircularProgress, Typography, Box } from '@mui/material';
 import { useDeleteUserActions } from '../../../../hooks/user/useDeleteUserActions';
 
-export const DeleteUserModal = ({ open, onClose, onSave, user, adminId }) => {
+export const DeleteUserModal = ({ open, onClose, onSave, user }) => {
 
-    const { handleDeleteUser, isLoading } = useDeleteUserActions({ adminId, userId: user._id });
+    const { handleDeleteUser, isLoading } = useDeleteUserActions({ userId: user._id });
 
     const [isDeletingLoading, setIsDeletingLoading] = useState(false);
 

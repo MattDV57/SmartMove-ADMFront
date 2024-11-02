@@ -14,7 +14,7 @@ const ProtectedRoute = () => {
     const { globalState, toggleSidebar } = useGlobal();
     const { auth, isLoading } = useAuth();
 
-    const [accessRole, setAccessRole] = useState(localStorage.getItem('userRole') || "Unauthorized")
+    const accessRole = auth.accessRole !== undefined ? auth.accessRole : "Undefined";
 
 
     const location = useLocation();

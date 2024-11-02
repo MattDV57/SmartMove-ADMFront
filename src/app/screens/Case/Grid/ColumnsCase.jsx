@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Chip, Tooltip } from '@mui/material';
+import { Box, Button, Chip, Tooltip, Typography } from '@mui/material';
 import { LIST_PRIORITIES, LIST_STATUS, CASE_PATHS, MODALS_TYPES } from '../../../../common/types';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import ChatIcon from '@mui/icons-material/Chat';
@@ -27,7 +27,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
         }
     },
 
-    ...(INTERNAL_ROLES.has(accessRole)
+    ...(Object.values(INTERNAL_ROLES).includes(accessRole)
         ? [
             {
                 field: 'priority',
@@ -79,7 +79,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
             },] : []),
 
     ...(([CASE_PATHS.ALL_CLAIMS, CASE_PATHS.ALL_ARBITRATIONS].includes(casePath))
-        && INTERNAL_ROLES.has(accessRole) ? [ // AllClaims and AllArbitrations columns only.
+        && Object.values(INTERNAL_ROLES).includes(accessRole) ? [ // AllClaims and AllArbitrations columns only.
         {
             field: 'assignedOperator',
             headerName: 'Operador',
@@ -88,6 +88,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
             flex: 1,
             renderCell: (params) => (
                 params?.row?.assignedOperator ? params.row.assignedOperator : (
+                    ACCESS_CONTROL.roles[accessRole].actions.has(ACTIONS.PUT_OPERATOR_IN_CASE) &&
                     <Box>
                         <Button
                             variant='contained'
@@ -101,7 +102,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
         }
     ] : []),
 
-    ...(INTERNAL_ROLES.has(accessRole) ? [
+    ...(Object.values(INTERNAL_ROLES).includes(accessRole) ? [
         {
             field: 'user', headerName: 'Reclamante',
             flex: 1,

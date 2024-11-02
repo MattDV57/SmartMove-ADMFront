@@ -12,7 +12,8 @@ export const CaseView = ({ casePath, caseType }) => {
 
     const { auth } = useAuth();
 
-    const [accessRole, setAccessRole] = useState(localStorage.getItem('userRole') || "Unauthorized")
+    const accessRole = auth.accessRole;
+
 
     const navigate = useNavigate();
 
@@ -23,7 +24,7 @@ export const CaseView = ({ casePath, caseType }) => {
     const [currentTab, setCurrentTab] = useState(currentTabIndex);
 
     //TODO: Change logic for user claimer
-    const needOperatorUsername = [CASE_PATHS.MY_CLAIMS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath);
+    const needUsername = [CASE_PATHS.MY_CLAIMS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath);
 
 
 
@@ -46,7 +47,7 @@ export const CaseView = ({ casePath, caseType }) => {
 
             <>
                 <GridCase
-                    operatorUsername={needOperatorUsername ? auth.username : ""}
+                    username={needUsername ? auth.username : ""}
                     caseType={caseType}
                     casePath={casePath}
                     accessRole={accessRole}

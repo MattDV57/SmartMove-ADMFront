@@ -6,7 +6,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { ACCESS_ROLES, MODALS_TYPES } from '../../../../common/types';
 import { blue, green } from '@mui/material/colors';
 import { Check } from '@mui/icons-material';
-import { ACCESS_CONTROL, ACTIONS, INTERNALS } from '../../../../common/rolesPermissions';
+import { ACCESS_CONTROL, ACTIONS, INTERNAL_ROLES } from '../../../../common/rolesPermissions';
 
 
 export const columnsUsers = ({
@@ -28,7 +28,7 @@ export const columnsUsers = ({
             headerName: 'Rol',
             width: 150,
             type: 'singleSelect',
-            valueOptions: Object.values(INTERNALS),
+            valueOptions: Object.values(INTERNAL_ROLES),
             renderCell: (params) => (
                 <Tooltip title={params.value}>
                     <span>{params.value}</span>

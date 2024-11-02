@@ -24,7 +24,7 @@ const AuthLayout = () => {
                         <Outlet />
                     ) : (
                         <Navigate to={
-                            INTERNAL_ROLES.has(auth.accessRole)
+                            Object.values(INTERNAL_ROLES).includes(auth.accessRole)
                                 ? "/"
                                 : "/my-claims"
                         } />

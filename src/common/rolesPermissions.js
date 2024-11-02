@@ -12,41 +12,38 @@ export const VIEWS = {
     PROFILE: "/profile"
 };
 
-
 export const ACTIONS = {
     EDIT_USER: "edit-user",
     CREATE_USER: "create-user",
     DELETE_USER: "delete-user",
     UPDATE_USER: "update-user",
     CHAT: "chat",
-    NOTIFICATIONS: "notifications"
+    NOTIFICATIONS: "notifications",
+    EDIT_CASE: "edit-case",
+    PUT_OPERATOR_IN_CASE: "put-operator-in-case"
 }
 
-export const INTERNALS = {
+export const INTERNAL_ROLES = {
   ADMIN: "Admin",
   GERENTE: "Gerente",
   SOPORTE: "Soporte"
 }
 
-export const OUTSIDERS = {
+export const OUTSIDER_ROLES = {
   RECLAMANTE: "Reclamante",
   ABOGADO: "Abogado",
 }
 
-export const INTERNAL_ROLES = new Set([INTERNALS.ADMIN, INTERNALS.GERENTE, INTERNALS.SOPORTE])
-export const OUTSIDER_ROLES = new Set([OUTSIDERS.RECLAMANTE, OUTSIDERS.ABOGADO])
-
-//TODO: Implementar para que el Abogado ni el Gerente puedan interactuar en el chat
 
 export const ACCESS_CONTROL = {
   roles: {
-      [INTERNALS.ADMIN]: {
+      [INTERNAL_ROLES.ADMIN]: {
           actions: new Set(Object.values(ACTIONS)),
           views: new Set(Object.values(VIEWS)),
       },
     
-      [INTERNALS.SOPORTE]: {
-          actions: new Set([ACTIONS.CHAT, ACTIONS.NOTIFICATIONS]),
+      [INTERNAL_ROLES.SOPORTE]: {
+          actions: new Set([ACTIONS.CHAT, ACTIONS.NOTIFICATIONS, ACTIONS.PUT_OPERATOR_IN_CASE]),
           views: new Set([
               VIEWS.DASHBOARD, 
               VIEWS.MY_CLAIMS, 
@@ -58,12 +55,10 @@ export const ACCESS_CONTROL = {
           ])
       },
     
-      [INTERNALS.GERENTE]: {
+      [INTERNAL_ROLES.GERENTE]: {
           actions: new Set(),
           views: new Set([
               VIEWS.DASHBOARD, 
-              VIEWS.MY_CLAIMS, 
-              VIEWS.MY_ARBITRATIONS, 
               VIEWS.ALL_CLAIMS, 
               VIEWS.ALL_ARBITRATIONS,
               VIEWS.ACCESS_CONTROL_PANEL, 
@@ -72,17 +67,17 @@ export const ACCESS_CONTROL = {
           ]),
       },
 
-      [OUTSIDERS.ABOGADO]: {
+      [OUTSIDER_ROLES.ABOGADO]: {
           actions: new Set(),
           views: new Set([VIEWS.MY_CLAIMS, VIEWS.MY_ARBITRATIONS]),
       },
 
-      [OUTSIDERS.RECLAMANTE]: {
+      [OUTSIDER_ROLES.RECLAMANTE]: {
           actions: new Set([ACTIONS.CHAT]),
           views: new Set([VIEWS.MY_CLAIMS, VIEWS.MY_ARBITRATIONS]),
       },
 
-      Unauthorized: {
+      Undefined: {
           actions: new Set(),
           views: new Set(), 
       }

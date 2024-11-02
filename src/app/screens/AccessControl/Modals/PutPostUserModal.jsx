@@ -5,13 +5,13 @@ import { ACCESS_ROLES, NEW_DEFAULT_USER } from "../../../../common/types";
 import { usePutUserActions } from '../../../../hooks/user/usePutUserActions'
 import { usePostUserActions } from '../../../../hooks/user/usePostUserActions'
 
-export const PutPostUserModal = ({ open, onClose, onSave, user = {}, adminId }) => {
+export const PutPostUserModal = ({ open, onClose, onSave, user = {} }) => {
 
   const isEditMode = Object.keys(user).length > 0;
 
   const { isLoading, handleCallApi } = isEditMode
-    ? usePutUserActions({ adminId, userId: user._id })
-    : usePostUserActions({ adminId })
+    ? usePutUserActions({ userId: user._id })
+    : usePostUserActions()
 
   const [formValues, setFormValues] = useState({
     fullName: user.fullName || '',

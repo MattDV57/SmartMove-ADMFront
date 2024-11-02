@@ -10,8 +10,8 @@ export const caseService = {
     }
     ),
 
-    useGetMyCases: ( { operatorUsername } ) => UseApi(
-        `/claim/operators/${operatorUsername}`,
+    useGetMyCases: ( { username } ) => UseApi(
+        `/claim/involved/${username}`,
         {
             method: 'GET',
         }
@@ -49,15 +49,3 @@ export const caseService = {
 
 }
 
-
-{/*
-
-const endpoints = { 
-    getAllCases:`/claims/${caseType}?page=${page}&limit=${limit}`, order: fechaDesc
-    getMyCases: `/claims/${caseType}/operators/${userId}?page=${page}&limit=${limit}`, order: fechaDesc
-    editCase: `/claims/${claimId}`,
-    putOperatorInCase: `/claims/${claimId}/operators/${userId}` 
-    getLogs: `/logs?logsType=${performedBy}&page=${page}&limit=${limit}` order: fechaDesc
-}
-
-*/}

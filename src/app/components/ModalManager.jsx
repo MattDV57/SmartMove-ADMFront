@@ -22,11 +22,11 @@ const ModalManager = () => {
         case MODALS_TYPES.EDIT_CASE:
             return <EditCaseModal isOpen={true} claim={modal.data} onClose={closeModal} onSave={modal.onSave} />
         case MODALS_TYPES.DELETE_USER:
-            return <DeleteUserModal open={true} user={modal.data} onClose={closeModal} adminId={modal.userId} onSave={modal.onSave} />
+            return <DeleteUserModal open={true} user={modal.data} onClose={closeModal} onSave={modal.onSave} />
         case MODALS_TYPES.CHAT:
             return <ModalChat open={true} claim={modal.data} onClose={closeModal} userId={modal.userId} accessRole={modal.accessRole} />
         case MODALS_TYPES.PUT_POST_USER:
-            return <PutPostUserModal open={true} onClose={closeModal} onSave={modal.onSave} user={modal.data} adminId={modal.userId} />
+            return <PutPostUserModal open={true} onClose={closeModal} onSave={modal.onSave} user={modal.data} />
         default:
             return null;
     }
