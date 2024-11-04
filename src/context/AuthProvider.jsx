@@ -64,7 +64,6 @@ export const AuthProvider = ({ children }) => {
         setAuth({})
         localStorage.setItem('smartmove-token', '')
         localStorage.setItem('smartmove-userid', '')
-        localStorage.removeItem('smartmove-user-permissions')
     }
 
     return (
@@ -75,7 +74,7 @@ export const AuthProvider = ({ children }) => {
                 isLoading,
                 logoutUser,
                 authenticateUser,
-                USER_PERMISSIONS: localStorage.getItem('smartmove-user-permissions') ? JSON.parse(localStorage.getItem('smartmove-user-permissions')) : {}
+                USER_PERMISSIONS: localStorage.getItem('smartmove-token') ? jwtDecode(localStorage.getItem('smartmove-token')).USER_PERMISSIONS : {}
             }}
         >
             {children}

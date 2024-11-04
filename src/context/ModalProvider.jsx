@@ -10,12 +10,12 @@ export const useModal = () => useContext(ModalContext);
 
 export const ModalProvider = ({ children }) => {
 
-    const { auth } = useAuth();
+    const { auth, USER_PERMISSIONS } = useAuth();
 
     const [modal, setModal] = useState(null);
 
     const openModal = ({ type, data = {}, onSave = () => { } }) => {
-        setModal({ type, data, userId: auth._id, onSave, username: auth.username, USER_PERMISSIONS: auth.USER_PERMISSIONS });
+        setModal({ type, data, userId: auth._id, onSave, username: auth.username, USER_PERMISSIONS });
     };
 
     const closeModal = () => {

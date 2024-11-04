@@ -16,9 +16,10 @@ import SendIcon from '@mui/icons-material/Send';
 import io from "socket.io-client";
 
 
-export const ModalChat = ({ open, onClose, claim, userId, USER_PERMISSIONS }) => {
+export const ModalChat = ({ open, onClose, claim, USER_PERMISSIONS }) => {
 
-  const isAllowedToChat = USER_PERMISSIONS?.PUT_IN_CHAT
+
+  const isAllowedToChat = USER_PERMISSIONS?.PUT_IN_CHAT;
 
 
   const [messages, setMessages] = useState([
