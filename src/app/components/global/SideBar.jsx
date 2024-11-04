@@ -13,11 +13,11 @@ import Logo from '../../../assets/smarthome-logo.svg'
 import { tokens } from '../../../styles/theme';
 import { useGlobal } from '../../../context/global/globalContext';
 import { SIDEBAR_SIZE } from '../../../common/types';
-import { ACCESS_CONTROL, VIEWS } from '../../../common/rolesPermissions';
+import { PATH_VIEWS, VIEWS_PATH } from '../../../common/rolesPermissions';
 
 
 
-const SideBar = ({ accessRole }) => {
+const SideBar = ({ USER_PERMISSIONS }) => {
     const { globalState, toggleSidebar } = useGlobal();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -32,11 +32,11 @@ const SideBar = ({ accessRole }) => {
 
 
     const menuItems = [
-        { title: "Dashboard", to: VIEWS.DASHBOARD, icon: <HomeOutlinedIcon /> },
-        { title: "Reclamos", to: ACCESS_CONTROL.roles[accessRole].views.has(VIEWS.MY_CLAIMS) ? VIEWS.MY_CLAIMS : VIEWS.ALL_CLAIMS, icon: <BugReportOutlinedIcon /> },
-        { title: "Mediaciones", to: ACCESS_CONTROL.roles[accessRole].views.has(VIEWS.MY_ARBITRATIONS) ? VIEWS.MY_ARBITRATIONS : VIEWS.ALL_ARBITRATIONS, icon: <ErrorIcon /> },
-        { title: "Registros", to: VIEWS.LOGS, icon: <ReceiptOutlinedIcon /> },
-        { title: "Control de acceso", to: VIEWS.ACCESS_CONTROL_PANEL, icon: <SecurityOutlinedIcon /> },
+        { title: "Dashboard", to: VIEWS_PATH.GET_DASHBOARD, icon: <HomeOutlinedIcon /> },
+        { title: "Reclamos", to: USER_PERMISSIONS && USER_PERMISSIONS["GET_MY_CLAIMS"] ? VIEWS_PATH.GET_MY_CLAIMS : VIEWS_PATH.GET_ALL_CLAIMS, icon: <BugReportOutlinedIcon /> },
+        { title: "Mediaciones", to: USER_PERMISSIONS && USER_PERMISSIONS["GET_MY_ARBITRATIONS"] ? VIEWS_PATH.GET_MY_ARBITRATIONS : VIEWS_PATH.GET_ALL_ARBITRATIONS, icon: <ErrorIcon /> },
+        { title: "Registros", to: VIEWS_PATH.GET_LOGS, icon: <ReceiptOutlinedIcon /> },
+        { title: "Control de acceso", to: VIEWS_PATH.GET_ALL_USERS, icon: <SecurityOutlinedIcon /> },
     ];
 
     return (
@@ -85,7 +85,7 @@ const SideBar = ({ accessRole }) => {
                 <Box paddingLeft={globalState.sidebarOpen ? undefined : "1%"}>
                     {menuItems.map(({ title, to, icon }) => (
 
-                        ACCESS_CONTROL.roles[accessRole].views.has(to) && (
+                        USER_PERMISSIONS[PATH_VIEWS[to]] && (
                             <MenuItem
                                 key={to}
                                 active={selected === to}

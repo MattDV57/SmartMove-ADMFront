@@ -5,20 +5,16 @@ import { Box, LinearProgress, useMediaQuery } from '@mui/material'
 import TopBar from '../app/components/global/TopBar'
 import { useMode } from '../styles/theme'
 import { useGlobal } from '../context/global/globalContext'
-import { ACCESS_CONTROL_ALLOWED_ROLES_VIEW, SIDEBAR_SIZE } from '../common/types'
-import { ACCESS_CONTROL } from '../common/rolesPermissions'
+import { SIDEBAR_SIZE } from '../common/types'
+import { PATH_VIEWS } from '../common/rolesPermissions'
 import { useAuth } from '../context/AuthProvider'
-import { Forbidden } from '../app/screens/Error/Forbidden'
+import { Unauthorized } from '../app/screens/Error/Unauthorized'
 
 const ProtectedRoute = () => {
     const { globalState, toggleSidebar } = useGlobal();
-    const { auth, isLoading } = useAuth();
-
-    const accessRole = auth.accessRole !== undefined ? auth.accessRole : "Undefined";
-
+    const { auth, isLoading, USER_PERMISSIONS } = useAuth();
 
     const location = useLocation();
-    let isAllowedToVIEW = false;
 
     const [theme] = useMode()
 
@@ -27,8 +23,6 @@ const ProtectedRoute = () => {
 
     const sidebarWidth = isMobile ? (globalState.sidebarOpen
         ? SIDEBAR_SIZE.CLOSE_MOBILE : SIDEBAR_SIZE.OPEN - 1) : (globalState.sidebarOpen ? SIDEBAR_SIZE.CLOSE : SIDEBAR_SIZE.OPEN - 1);
-
-    isAllowedToVIEW = ACCESS_CONTROL.roles[accessRole].views.has(location.pathname)
 
 
     if (isLoading) {
@@ -47,7 +41,7 @@ const ProtectedRoute = () => {
                     (
 
                         <Box width="100%" height="100%" display='flex' position='relative'>
-                            <SideBar accessRole={accessRole} />
+                            <SideBar USER_PERMISSIONS={USER_PERMISSIONS} />
                             <Box width="100%" height="100%"
                                 sx={{
                                     paddingLeft: `${sidebarWidth}px`,
@@ -56,12 +50,13 @@ const ProtectedRoute = () => {
                                     transition: 'padding-left 0.3s ease',
                                 }}
                             >
-                                <TopBar toggleSidebar={toggleSidebar} accessRole={accessRole} />
+                                <TopBar toggleSidebar={toggleSidebar} />
                                 {
-                                    isAllowedToVIEW
+                                    USER_PERMISSIONS !== undefined && USER_PERMISSIONS[PATH_VIEWS[location.pathname]]
                                         ? <Outlet />
-                                        : <Forbidden />
+                                        : <Unauthorized />
                                 }
+
                             </Box>
                         </Box>
                     ) :

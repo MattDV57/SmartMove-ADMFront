@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Box, Typography } from '@mui/material';
 
-export const Forbidden = () => {
+export const Unauthorized = () => {
     const handleGoBack = () => {
         window.history.back();
     };

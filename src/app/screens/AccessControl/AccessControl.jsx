@@ -1,18 +1,15 @@
 import React, { useReducer, useState } from 'react'
 import { Box, LinearProgress } from '@mui/material'
 import ModalManager from '../../components/ModalManager';
-import { ACCESS_CONTROL_ALLOWED_ROLES_ACTIONS, MODALS_TYPES } from '../../../common/types';
-import { useModal } from '../../../context/ModalProvider';
 import { GridUsers } from './Grid/GridUsers';
 import { useAuth } from '../../../context/AuthProvider';
 import { gridReducer, initialState } from './Grid/GridReducer';
 import { useGetUsersActions } from '../../../hooks/user/useGetUsersActions';
-import { ACCESS_CONTROL, ACTIONS } from '../../../common/rolesPermissions';
 
 
 export const AccessControl = () => {
 
-  const { auth } = useAuth();
+  const { auth, USER_PERMISSIONS } = useAuth();
 
   const accessRole = auth.accessRole;
 
@@ -30,7 +27,7 @@ export const AccessControl = () => {
         : <Box margin={'15px 0 0 15px'}>
 
           <GridUsers
-            accessRole={accessRole}
+            USER_PERMISSIONS={USER_PERMISSIONS}
             state={state}
             dispatch={dispatch}
           />

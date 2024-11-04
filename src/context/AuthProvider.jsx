@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext, useContext } from 'react'
-
+import { jwtDecode } from 'jwt-decode';
 const AuthContext = createContext();
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }) => {
 
         const token = localStorage.getItem('smartmove-token')
         const userid = localStorage.getItem('smartmove-userid')
+
 
         if (!token) {
             setIsLoading(false)
@@ -48,7 +49,6 @@ export const AuthProvider = ({ children }) => {
             })
 
 
-
         } catch (error) {
 
             setAuth({})
@@ -64,6 +64,7 @@ export const AuthProvider = ({ children }) => {
         setAuth({})
         localStorage.setItem('smartmove-token', '')
         localStorage.setItem('smartmove-userid', '')
+        localStorage.removeItem('smartmove-user-permissions')
     }
 
     return (
@@ -74,6 +75,7 @@ export const AuthProvider = ({ children }) => {
                 isLoading,
                 logoutUser,
                 authenticateUser,
+                USER_PERMISSIONS: localStorage.getItem('smartmove-user-permissions') ? JSON.parse(localStorage.getItem('smartmove-user-permissions')) : {}
             }}
         >
             {children}

@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, MenuItem } from "@mui/material";
-import { ACCESS_ROLES, NEW_DEFAULT_USER } from "../../../../common/types";
 import { usePutUserActions } from '../../../../hooks/user/usePutUserActions'
 import { usePostUserActions } from '../../../../hooks/user/usePostUserActions'
+import { INTERNAL_ROLES } from "../../../../common/rolesPermissions";
 
 export const PutPostUserModal = ({ open, onClose, onSave, user = {} }) => {
 
@@ -70,7 +70,7 @@ export const PutPostUserModal = ({ open, onClose, onSave, user = {} }) => {
           fullWidth
           required
         >
-          {ACCESS_ROLES.map(role => (
+          {Object.values(INTERNAL_ROLES).map(role => (
             <MenuItem key={role} value={role}>{role}</MenuItem>
           ))}
         </TextField>

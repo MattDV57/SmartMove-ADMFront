@@ -14,11 +14,11 @@ import {
 import SendIcon from '@mui/icons-material/Send';
 
 import io from "socket.io-client";
-import { ACCESS_CONTROL, ACTIONS } from '../../../common/rolesPermissions';
 
-export const ModalChat = ({ open, onClose, claim, userId, accessRole }) => {
 
-  const isAllowedToChat = ACCESS_CONTROL.roles[accessRole].actions.has(ACTIONS.CHAT);
+export const ModalChat = ({ open, onClose, claim, userId, USER_PERMISSIONS }) => {
+
+  const isAllowedToChat = USER_PERMISSIONS?.PUT_IN_CHAT
 
 
   const [messages, setMessages] = useState([

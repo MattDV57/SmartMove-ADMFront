@@ -11,7 +11,7 @@ import { columnsCase } from './ColumnsCase';
 import { GridContainer } from '../../../components/GridItems/GridContainer';
 import { CustomToolBar } from '../../../components/GridItems/CustomToolBar';
 
-const GridCase = ({ caseType, username, casePath, accessRole }) => {
+const GridCase = ({ caseType, username, casePath, accessRole, USER_PERMISSIONS }) => {
     const { openModal } = useModal();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -44,7 +44,7 @@ const GridCase = ({ caseType, username, casePath, accessRole }) => {
 
     }
 
-    const cols = columnsCase(openModal, colors.priority, casePath, handleEditSaved, accessRole);
+    const cols = columnsCase(openModal, colors.priority, casePath, handleEditSaved, accessRole, USER_PERMISSIONS);
 
     if (isLoading) {
         return <LinearProgress />;

@@ -5,11 +5,11 @@ import AddTaskIcon from '@mui/icons-material/AddTask';
 import ChatIcon from '@mui/icons-material/Chat';
 import EditIcon from '@mui/icons-material/Edit';
 import moment from 'moment';
-import { ACCESS_CONTROL, ACTIONS, INTERNAL_ROLES } from '../../../../common/rolesPermissions';
+import { INTERNAL_ROLES } from '../../../../common/rolesPermissions';
 
 
 
-export const columnsCase = (openModal, priorityPalette, casePath, handleEditSaved, accessRole) => [
+export const columnsCase = (openModal, priorityPalette, casePath, handleEditSaved, accessRole, USER_PERMISSIONS) => [
     {
         field: 'timestamp',
         headerName: 'Fecha Emisión',
@@ -88,7 +88,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
             flex: 1,
             renderCell: (params) => (
                 params?.row?.assignedOperator ? params.row.assignedOperator : (
-                    ACCESS_CONTROL.roles[accessRole].actions.has(ACTIONS.PUT_OPERATOR_IN_CASE) &&
+                    USER_PERMISSIONS?.PUT_CLAIM &&
                     <Box>
                         <Button
                             variant='contained'
@@ -184,7 +184,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
         )
     },
     ...(([CASE_PATHS.MY_CLAIMS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath))
-        && ACCESS_CONTROL.roles[accessRole].actions.has(ACTIONS.EDIT_CASE)
+        && USER_PERMISSIONS?.PUT_CLAIM
         ? [ // MyClaims and MyArbitrations columns only.
             {
                 field: "edit",

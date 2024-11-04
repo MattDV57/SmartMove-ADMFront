@@ -6,18 +6,18 @@ import { CASE_PATHS, CASE_TABS_MAP } from '../../../common/types';
 import { useNavigate } from 'react-router-dom';
 import GridCase from './Grid/GridCase';
 import { useAuth } from '../../../context/AuthProvider';
-import { ACCESS_CONTROL } from '../../../common/rolesPermissions';
+import { PATH_VIEWS } from '../../../common/rolesPermissions';
 
 export const CaseView = ({ casePath, caseType }) => {
 
-    const { auth } = useAuth();
+    const { auth, USER_PERMISSIONS } = useAuth();
 
     const accessRole = auth.accessRole;
 
 
     const navigate = useNavigate();
 
-    const tabCases = (CASE_TABS_MAP[caseType]).filter(tab => ACCESS_CONTROL.roles[accessRole].views.has(tab.value));
+    const tabCases = (CASE_TABS_MAP[caseType]).filter(tab => USER_PERMISSIONS[PATH_VIEWS[tab.value]]);
 
     const currentTabIndex = tabCases.findIndex(tab => tab.value === casePath);
 
@@ -51,6 +51,7 @@ export const CaseView = ({ casePath, caseType }) => {
                     caseType={caseType}
                     casePath={casePath}
                     accessRole={accessRole}
+                    USER_PERMISSIONS={USER_PERMISSIONS}
                 />
             </>
 

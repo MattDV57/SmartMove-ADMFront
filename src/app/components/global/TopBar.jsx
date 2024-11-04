@@ -12,7 +12,7 @@ import { useTheme } from '@emotion/react';
 import { ColorModeContext, tokens } from '../../../styles/theme';
 import './TopBar.scss'
 import { useAuth } from '../../../context/AuthProvider';
-import { ACCESS_CONTROL, ACTIONS, VIEWS } from '../../../common/rolesPermissions';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const CustomIconButton = ({ children, onClick, extraStyles }) => {
     const theme = useTheme();
@@ -36,8 +36,8 @@ const CustomIconButton = ({ children, onClick, extraStyles }) => {
 };
 
 
-const TopBar = ({ toggleSidebar, accessRole }) => {
-    const { auth } = useAuth();
+const TopBar = ({ toggleSidebar }) => {
+    const { auth, logoutUser, USER_PERMISSIONS } = useAuth();
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -62,8 +62,10 @@ const TopBar = ({ toggleSidebar, accessRole }) => {
 
     const [showNotifications, setShowNotifications] = useState(false);
 
-    const isAllowProfile = ACCESS_CONTROL.roles[accessRole].views.has(VIEWS.PROFILE);
-    const isAllowNotifications = ACCESS_CONTROL.roles[accessRole].actions.has(ACTIONS.NOTIFICATIONS);
+    const isAllowedProfile = USER_PERMISSIONS?.GET_USER_PROFILE;
+    const isAllowedNotifications = USER_PERMISSIONS?.GET_NOTIFICATIONS;
+
+
 
     return (
         <Box display='flex' justifyContent='space-between' p={2}
@@ -77,7 +79,7 @@ const TopBar = ({ toggleSidebar, accessRole }) => {
             <Box display='flex'>
 
 
-                {isAllowNotifications &&
+                {isAllowedNotifications &&
                     <div
                         className="nav-item notifications"
                         onMouseEnter={() => setShowNotifications(true)}
@@ -109,7 +111,7 @@ const TopBar = ({ toggleSidebar, accessRole }) => {
                     )}
                 </CustomIconButton>
 
-                {isAllowProfile &&
+                {isAllowedProfile ?
                     <CustomIconButton
                         extraStyles={{ display: "flex", alignItems: "center", gap: "8px" }}
                         onClick={() => navigate('/profile')}
@@ -119,6 +121,10 @@ const TopBar = ({ toggleSidebar, accessRole }) => {
                             ? null
                             : <Typography>{auth.fullName}</Typography>}
 
+                    </CustomIconButton>
+                    :
+                    <CustomIconButton onClick={() => logoutUser()}>
+                        <LogoutIcon color='error' />
                     </CustomIconButton>
                 }
             </Box>

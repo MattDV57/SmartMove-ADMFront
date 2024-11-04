@@ -14,7 +14,6 @@ import AuthLayout from '../layouts/AuthLayout';
 import ProtectedRoute from '../layouts/ProtectedRoute';
 import { AuthProvider } from '../context/AuthProvider'
 import { AlertProvider } from '../context/AlertProvider'
-import { ACCESS_CONTROL_ALLOWED_ROLES_VIEW } from '../common/types'
 
 function App() {
   const [theme, colorMode] = useMode();

@@ -3,10 +3,10 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import ClearIcon from '@mui/icons-material/Clear';
-import { ACCESS_ROLES, MODALS_TYPES } from '../../../../common/types';
+import { MODALS_TYPES } from '../../../../common/types';
 import { blue, green } from '@mui/material/colors';
 import { Check } from '@mui/icons-material';
-import { ACCESS_CONTROL, ACTIONS, INTERNAL_ROLES } from '../../../../common/rolesPermissions';
+import { INTERNAL_ROLES } from '../../../../common/rolesPermissions';
 
 
 export const columnsUsers = ({
@@ -16,7 +16,7 @@ export const columnsUsers = ({
     openModal,
     isSavingLoading = false,
     isSavingSuccess = false,
-    accessRole
+    USER_PERMISSIONS
 }) => [
         // {
         //     field: 'employeeId',
@@ -119,7 +119,7 @@ export const columnsUsers = ({
             width: 80,
         },
 
-        {
+        ...(USER_PERMISSIONS?.DELETE_USER || USER_PERMISSIONS?.PUT_USER ? [{
             field: 'actions',
             headerName: 'Acciones',
             width: 100,
@@ -134,7 +134,7 @@ export const columnsUsers = ({
 
                         </Box>
                         :
-                        <>{ACCESS_CONTROL.roles[accessRole].actions.has(ACTIONS.DELETE_USER) &&
+                        <>{USER_PERMISSIONS?.DELETE_USER &&
                             <Tooltip title="Eliminar">
                                 <IconButton onClick={() => openModal({ type: MODALS_TYPES.DELETE_USER, data: params.row, onSave: handleDeleteOnSave })}
                                     variant='contained'
@@ -146,7 +146,7 @@ export const columnsUsers = ({
                                 </IconButton>
                             </Tooltip>
                         }
-                            {ACCESS_CONTROL.roles[accessRole].actions.has(ACTIONS.UPDATE_USER) &&
+                            {USER_PERMISSIONS?.PUT_USER &&
                                 <Tooltip title="Editar">
                                     <IconButton onClick={() => openModal({ type: MODALS_TYPES.PUT_POST_USER, data: params.row, onSave: handlePutOnSave })}
                                         variant='contained'
@@ -163,6 +163,6 @@ export const columnsUsers = ({
 
                 </Box>
             )
-        }
+        }] : [])
 
     ];
