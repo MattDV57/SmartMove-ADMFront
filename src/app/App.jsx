@@ -2,7 +2,7 @@ import React from 'react'
 import { GlobalProvider } from '../context/global/globalContext'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { MyClaims, AllClaims, MyArbitrations, AllArbitrations } from './screens/Case/CaseTypes'
-import { Logs } from './screens/Logs'
+import { Logs } from './screens/LogsEvents/Logs'
 import { AccessControl } from './screens/AccessControl/AccessControl'
 import Dashboard from './screens/Dashboard/Dashboard'
 import { ModalProvider } from '../context/ModalProvider'
@@ -14,6 +14,7 @@ import AuthLayout from '../layouts/AuthLayout';
 import ProtectedRoute from '../layouts/ProtectedRoute';
 import { AuthProvider } from '../context/AuthProvider'
 import { AlertProvider } from '../context/AlertProvider'
+import { NotFound } from './screens/Error/NotFound'
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -54,7 +55,11 @@ function App() {
 
                       <Route path="/profile" element={<Profile />} />
 
+                      <Route path="*" element={<NotFound />} />
+
                     </Route>
+
+
 
                   </Routes>
                 </AlertProvider>

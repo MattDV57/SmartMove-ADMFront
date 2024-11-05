@@ -16,10 +16,9 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import { GridArrowUpwardIcon } from '@mui/x-data-grid';
 import { useTheme } from '@emotion/react';
-import { tokens } from '../../styles/theme';
-import { useGetLogsActions } from '../../hooks/logs_/useGetLogsActions';
-import moment from 'moment';
-import Header from '../components/Header';
+import { tokens } from '../../../styles/theme';
+import { useGetLogsActions } from '../../../hooks/logs_/useGetLogsActions';
+import Header from '../../components/Header';
 
 export const Logs = () => {
     const theme = useTheme();
@@ -82,22 +81,21 @@ export const Logs = () => {
                     <TableHead>
                         <TableRow style={{ backgroundColor: colors.blueAccent[800] }}
                         >
-                            <TableCell style={{ fontWeight: 'bold' }}>Rol</TableCell>
-                            <TableCell style={{ fontWeight: 'bold' }}>Agente</TableCell>
-                            <TableCell style={{ fontWeight: 'bold' }}>Acción</TableCell>
-                            <TableCell style={{ fontWeight: 'bold' }}>Detalles</TableCell>
-                            <TableCell style={{ fontWeight: 'bold' }}>Fecha y Hora</TableCell>
+                            <TableCell style={{ fontWeight: 'bold' }}>Timestamp</TableCell>
+                            <TableCell style={{ fontWeight: 'bold' }}>Módulo emisor</TableCell>
+                            <TableCell style={{ fontWeight: 'bold' }}>Responsable</TableCell>
+                            <TableCell style={{ fontWeight: 'bold' }}>Evento</TableCell>
+
                         </TableRow>
                     </TableHead>
                     <TableBody>
 
                         {logs.map((log) => (
                             <TableRow key={log._id}>
-                                <TableCell>{log.performedBy}</TableCell>
-                                <TableCell>{log.user}</TableCell>
-                                <TableCell>{log.action}</TableCell>
-                                <TableCell>{log.details}</TableCell>
                                 <TableCell>{new Date(log.timestamp).toUTCString()}</TableCell>
+                                <TableCell>{log?.moduleEmitter}</TableCell>
+                                <TableCell>{log?.performedBy}</TableCell>
+                                <TableCell>{log?.eventType}</TableCell>
                             </TableRow>
                         ))}
 

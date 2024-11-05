@@ -9,6 +9,7 @@ import { SIDEBAR_SIZE } from '../common/types'
 import { PATH_VIEWS } from '../common/rolesPermissions'
 import { useAuth } from '../context/AuthProvider'
 import { Unauthorized } from '../app/screens/Error/Unauthorized'
+import { NotFound } from '../app/screens/Error/NotFound'
 
 const ProtectedRoute = () => {
     const { globalState, toggleSidebar } = useGlobal();
@@ -54,7 +55,9 @@ const ProtectedRoute = () => {
                                 {
                                     USER_PERMISSIONS !== undefined && USER_PERMISSIONS[PATH_VIEWS[location.pathname]]
                                         ? <Outlet />
-                                        : <Unauthorized />
+                                        : !Object.prototype.hasOwnProperty.call(PATH_VIEWS, location.pathname)
+                                            ? <NotFound />
+                                            : <Unauthorized />
                                 }
 
                             </Box>
