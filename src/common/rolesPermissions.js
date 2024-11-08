@@ -1,3 +1,13 @@
+export const INTERNAL_ROLES = {
+  ADMIN: "Admin",
+  GERENTE: "Gerente",
+  SOPORTE: "Soporte"
+}
+
+export const OUTSIDER_ROLES = {
+  RECLAMANTE: "Reclamante",
+  ABOGADO: "Abogado",
+}
 
 
 export const VIEWS_PATH = {
@@ -14,26 +24,16 @@ export const VIEWS_PATH = {
 
 
 export const PATH_VIEWS = {
-  "/": "GET_DASHBOARD",
-  "/my-claims": "GET_MY_CLAIMS",
-  "/all-claims": "GET_ALL_CLAIMS",
-  "/all-arbitrations": "GET_ALL_ARBITRATIONS",
-  "/my-arbitrations": "GET_MY_ARBITRATIONS",
-  "/chat": "GET_CHAT",
-  "/access-control": "GET_ALL_USERS",
-  "/logs": "GET_LOGS",
-  "/profile": "GET_USER_PROFILE"
+  [VIEWS_PATH.GET_DASHBOARD]: "GET_DASHBOARD",
+  [VIEWS_PATH.GET_MY_CLAIMS]: "GET_MY_CLAIMS",
+  [VIEWS_PATH.GET_ALL_CLAIMS]: "GET_ALL_CLAIMS",
+  [VIEWS_PATH.GET_ALL_ARBITRATIONS]: "GET_ALL_ARBITRATIONS",
+  [VIEWS_PATH.GET_MY_ARBITRATIONS]: "GET_MY_ARBITRATIONS",
+  [VIEWS_PATH.GET_CHAT]: "GET_CHAT",
+  [VIEWS_PATH.GET_ALL_USERS]: "GET_ALL_USERS",
+  [VIEWS_PATH.GET_LOGS]: "GET_LOGS",
+  [VIEWS_PATH.GET_USER_PROFILE]: "GET_USER_PROFILE"
 }
 
 
-export const INTERNAL_ROLES = {
-  ADMIN: "Admin",
-  GERENTE: "Gerente",
-  SOPORTE: "Soporte"
-}
-
-export const OUTSIDER_ROLES = {
-  RECLAMANTE: "Reclamante",
-  ABOGADO: "Abogado",
-}
 

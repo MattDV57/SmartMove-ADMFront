@@ -71,6 +71,12 @@ const GridCase = ({ caseType, username, casePath, accessRole, USER_PERMISSIONS }
                     slots={{ toolbar: CustomToolBar }}
                     hideFooterSelectedRowCount
                     loading={isLoading}
+                    sx={{
+                        '.MuiDataGrid-columnHeader': {
+                            wordWrap: 'break-word',
+                            whiteSpace: 'normal',
+                        },
+                    }}
                 />
             </GridContainer>
         </Box>

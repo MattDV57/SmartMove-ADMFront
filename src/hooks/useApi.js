@@ -31,6 +31,7 @@ const UseApi = (endpoint, config) => {
 
             const completeOptions = {
                 method,
+                credentials: "include",
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',

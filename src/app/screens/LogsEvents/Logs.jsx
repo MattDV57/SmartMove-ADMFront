@@ -81,7 +81,7 @@ export const Logs = () => {
                     <TableHead>
                         <TableRow style={{ backgroundColor: colors.blueAccent[800] }}
                         >
-                            <TableCell style={{ fontWeight: 'bold' }}>Timestamp</TableCell>
+                            <TableCell style={{ fontWeight: 'bold' }}>Fecha emisión</TableCell>
                             <TableCell style={{ fontWeight: 'bold' }}>Módulo emisor</TableCell>
                             <TableCell style={{ fontWeight: 'bold' }}>Responsable</TableCell>
                             <TableCell style={{ fontWeight: 'bold' }}>Evento</TableCell>

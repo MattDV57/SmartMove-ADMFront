@@ -1,22 +1,23 @@
 import { useTheme } from "@emotion/react";
-import { Box } from "@mui/material"
+import { Box } from "@mui/material";
 import { tokens } from "../../../styles/theme";
-
 
 export const GridContainer = ({ children }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
     return (
-
         <Box
             m="0 0 0 0"
             height="75vh"
             sx={{
-                // width: { xs: "270%", sm: "100%" },
-                overflowX: "auto",
+                // El contenedor ahora tendrá un ancho flexible
+                width: "100%", // Aseguramos que ocupe todo el espacio disponible
+                overflowX: "auto", // Permitir el desplazamiento horizontal si es necesario
                 "& .MuiDataGrid-root": {
                     border: "none",
+                    // Es importante darle un ancho mínimo al DataGrid si es necesario
+                    minWidth: "1000px", // Aseguramos que el DataGrid tenga suficiente ancho
                 },
                 "& .MuiDataGrid-cell": {
                     borderBottom: "none",
@@ -26,9 +27,7 @@ export const GridContainer = ({ children }) => {
                 },
                 "& .MuiDataGrid-columnHeader": {
                     backgroundColor: `${colors.blueAccent[900]} !important`,
-                    // color: headerRootColor,
                     borderBottom: "none",
-
                 },
                 "& .MuiDataGrid-columnHeaderTitle": {
                     fontSize: ".7rem",
@@ -42,18 +41,11 @@ export const GridContainer = ({ children }) => {
                     borderTop: "none",
                     backgroundColor: `${colors.blueAccent[900]} !important`,
                 },
-                "& .MuiTablePagination-root": {
-                    // color: headerRootColor,
-                },
-                "& .MuiSvgIcon-root-": {
-                    //TODO: No se ven el filtro de pagina, ni el ordenamiento en Control de Acceso.
-                }
-
+                "& .MuiTablePagination-root": {},
+                "& .MuiSvgIcon-root-": {},
             }}
-
         >
             {children}
         </Box>
-
-    )
-}
+    );
+};

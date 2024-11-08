@@ -26,7 +26,8 @@ export const columnsUsers = ({
         {
             field: 'accessRole',
             headerName: 'Rol',
-            width: 150,
+            flex: 1,
+            minWidth: 150,
             type: 'singleSelect',
             valueOptions: Object.values(INTERNAL_ROLES),
             renderCell: (params) => (
@@ -40,6 +41,7 @@ export const columnsUsers = ({
             field: 'fullName',
             headerName: 'Nombre',
             flex: 1,
+            minWidth: 150,
             renderCell: (params) => (
                 <Tooltip title={params.value}>
                     <span>{params.value}</span>
@@ -49,6 +51,8 @@ export const columnsUsers = ({
         {
             field: 'birthDate',
             headerName: 'Nacimiento',
+            flex: 1,
+            minWidth: 150,
             renderCell: (params) => (
                 <Tooltip title={params.value}>
                     <span>{params.value}</span>
@@ -60,6 +64,7 @@ export const columnsUsers = ({
             headerName: 'Email',
             type: 'String',
             flex: 1,
+            minWidth: 200,
             renderCell: (params) => (
                 <Tooltip title={params.value}>
                     <span>{params.value}</span>
@@ -71,6 +76,7 @@ export const columnsUsers = ({
             headerName: 'Teléfono',
             type: 'String',
             flex: 1,
+            minWidth: 150,
             renderCell: (params) => (
                 <Tooltip title={params.value}>
                     <span>{params.value}</span>
@@ -82,6 +88,7 @@ export const columnsUsers = ({
             headerName: 'Localidad',
             type: 'String',
             flex: 1,
+            minWidth: 150,
             renderCell: (params) => (
                 <Tooltip title={params.value}>
                     <span>{params.value}</span>
@@ -93,6 +100,7 @@ export const columnsUsers = ({
             headerName: 'Dirección',
             type: 'String',
             flex: 1,
+            minWidth: 150,
             renderCell: (params) => (
                 <Tooltip title={params.value}>
                     <span>{params.value}</span>
@@ -105,24 +113,28 @@ export const columnsUsers = ({
             headerName: 'Posición',
             type: 'String',
             flex: 1,
+            minWidth: 150,
         },
         {
             field: 'department',
             headerName: 'Departamento',
             type: 'String',
             flex: 1,
+            minWidth: 150,
         },
         {
             field: 'entryDate',
             headerName: 'Ingreso',
             // type: 'date',
-            width: 80,
+            flex: 1,
+            minWidth: 150,
         },
 
         ...(USER_PERMISSIONS?.DELETE_USER || USER_PERMISSIONS?.PUT_USER ? [{
             field: 'actions',
             headerName: 'Acciones',
-            width: 100,
+            flex: 1,
+            minWidth: 150,
             renderCell: (params) => (
                 <Box>
                     {params.row._id === editableRowId

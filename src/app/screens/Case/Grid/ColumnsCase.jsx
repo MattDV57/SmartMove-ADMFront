@@ -13,7 +13,8 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
     {
         field: 'timestamp',
         headerName: 'Fecha Emisión',
-        width: 150,
+        flex: 1,
+        minWidth: 150,
         type: 'date',
         valueGetter: value => new Date(value),
         editable: false,
@@ -32,7 +33,8 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
             {
                 field: 'priority',
                 headerName: 'Prioridad',
-                width: 150,
+                flex: 1,
+                minWidth: 150,
                 sortComparator: (v1, v2) => {
                     return LIST_PRIORITIES.indexOf(v1) - LIST_PRIORITIES.indexOf(v2);
                 },
@@ -60,7 +62,8 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
                 sortComparator: (v1, v2) => {
                     return LIST_STATUS.indexOf(v1) - LIST_STATUS.indexOf(v2);
                 },
-                width: 180,
+                flex: 1,
+                minWidth: 180,
                 renderCell: (params) => (
                     <Chip
                         label={params.value}
@@ -86,6 +89,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
             cellClassName: 'name-column--cell',
             type: 'string',
             flex: 1,
+            minWidth: 150,
             renderCell: (params) => (
                 params?.row?.assignedOperator ? params.row.assignedOperator : (
                     USER_PERMISSIONS?.PUT_CLAIM &&
@@ -106,6 +110,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
         {
             field: 'user', headerName: 'Reclamante',
             flex: 1,
+            minWidth: 170,
             renderCell: params => (
                 <Tooltip title={params?.row?.user?.username} arrow>
                     <span>{params?.row?.user?.username}</span>
@@ -119,6 +124,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
             {
                 field: 'counterParty', headerName: 'Reclamado',
                 flex: 1,
+                minWidth: 170,
                 renderCell: params => (
                     <Tooltip title={params.row.counterParty.username} arrow>
                         <span>{params.row.counterParty.username}</span>
@@ -129,6 +135,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
             {
                 field: 'category', headerName: 'Categoría'
                 , flex: 1,
+                minWidth: 170,
                 renderCell: params =>
                     <Tooltip title={params.row.category} arrow>
                         <span>{params.row.category}</span>
@@ -143,7 +150,8 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
         sortable: false,
         filterable: false,
         resizable: false,
-        width: [CASE_PATHS.MY_CLAIMS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath)
+        flex: 1,
+        minWidth: [CASE_PATHS.MY_CLAIMS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath)
             ? 200
             : 100,
         renderCell: (params) => (
@@ -189,7 +197,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
             {
                 field: "edit",
                 headerName: "Editar",
-                width: 100,
+                minWidth: 100,
                 sortable: false,
                 filterable: false,
                 resizable: false,

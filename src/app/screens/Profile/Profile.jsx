@@ -154,37 +154,37 @@ const Profile = () => {
                     <CardHeader title="Información General" id='perfil-informacion-general' />
                     <CardContent>
                         <div className='data-grid'>
-                            <Grid item xs={12} sm={6}>
+                            <Grid xs={12} sm={6}>
                                 <Typography variant="subtitle2">Nombre Completo</Typography>
                                 <Typography variant="body1" id="perfil-nombre">{auth.fullName}</Typography>
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid xs={12} sm={6}>
                                 <Typography variant="subtitle2">ID del Empleado</Typography>
                                 <Typography variant="body1" id="perfil-id">{auth.employeeId}</Typography>
                             </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <Box display="flex" alignItems="center" gap={1}>
+                            <Grid xs={12} sm={6}>
+                                <Box display="flex" aligns="center" gap={1}>
                                     <CalendarToday fontSize="small" />
                                     <Typography variant="subtitle2">Fecha de Nacimiento</Typography>
                                 </Box>
                                 <Typography variant="body1" id="perfil-fecha-nacimiento">{auth.birthDate}</Typography>
                             </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <Box display="flex" alignItems="center" gap={1}>
+                            <Grid xs={12} sm={6}>
+                                <Box display="flex" aligns="center" gap={1}>
                                     <CalendarToday fontSize="small" />
                                     <Typography variant="subtitle2">Fecha de Ingreso</Typography>
                                 </Box>
                                 <Typography variant="body1" id="perfil-fecha-ingreso">{auth.entryDate}</Typography>
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid xs={12} sm={6}>
                                 <Typography variant="subtitle2">Puesto</Typography>
                                 <Typography variant="body1" id="perfil-position">{auth.position}</Typography>
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid xs={12} sm={6}>
                                 <Typography variant="subtitle2">Departamento</Typography>
                                 <Typography variant="body1" id="perfil-department">{auth.department}</Typography>
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid xs={12}>
                                 <Typography variant="subtitle2">Rol de Acceso</Typography>
                                 <Chip label={auth.accessRole} color="primary" variant="outlined" id="perfil-rol" />
                             </Grid>
@@ -198,7 +198,7 @@ const Profile = () => {
                         {isEditing ? (
                             <form onSubmit={handleSubmitContact}>
                                 <div className='data-column'>
-                                    <Grid item xs={12}>
+                                    <Grid xs={12}>
                                         <TextField
                                             fullWidth
                                             label="Correo Electrónico"
@@ -211,7 +211,7 @@ const Profile = () => {
                                             error={inputErrors.email}
                                         />
                                     </Grid>
-                                    <Grid item xs={12}>
+                                    <Grid xs={12}>
                                         <TextField
                                             fullWidth
                                             label="Teléfono"
@@ -224,7 +224,7 @@ const Profile = () => {
                                             error={inputErrors.phone}
                                         />
                                     </Grid>
-                                    <Grid item xs={12}>
+                                    <Grid xs={12}>
                                         <TextField
                                             fullWidth
                                             label="Dirección"
@@ -236,7 +236,7 @@ const Profile = () => {
                                             error={inputErrors.address}
                                         />
                                     </Grid>
-                                    <Grid item xs={12}>
+                                    <Grid xs={12}>
                                         <TextField
                                             fullWidth
                                             label="Localidad"
@@ -260,31 +260,31 @@ const Profile = () => {
                             </form>
                         ) : (
                             <div className='data-column'>
-                                <Grid item xs={12}>
-                                    <Box display="flex" alignItems="center" gap={1}>
+                                <Grid xs={12}>
+                                    <Box display="flex" aligns="center" gap={1}>
                                         <Email fontSize="small" />
                                         <Typography id="perfil-email">{contactInfo.email}</Typography>
                                     </Box>
                                 </Grid>
-                                <Grid item xs={12}>
-                                    <Box display="flex" alignItems="center" gap={1}>
+                                <Grid xs={12}>
+                                    <Box display="flex" aligns="center" gap={1}>
                                         <Phone fontSize="small" />
                                         <Typography id="perfil-phone">{contactInfo.phone}</Typography>
                                     </Box>
                                 </Grid>
-                                <Grid item xs={12}>
-                                    <Box display="flex" alignItems="center" gap={1}>
+                                <Grid xs={12}>
+                                    <Box display="flex" aligns="center" gap={1}>
                                         <LocationOn fontSize="small" />
                                         <Typography id="perfil-address">{contactInfo.address}</Typography>
                                     </Box>
                                 </Grid>
-                                <Grid item xs={12}>
-                                    <Box display="flex" alignItems="center" gap={1}>
+                                <Grid xs={12}>
+                                    <Box display="flex" aligns="center" gap={1}>
                                         <LocationOn fontSize="small" />
                                         <Typography id="perfil-location">{contactInfo.location}</Typography>
                                     </Box>
                                 </Grid>
-                                <Grid item xs={12}>
+                                <Grid xs={12}>
                                     <Button variant="outlined" onClick={() => setIsEditing(true)} id="perfil-editar-contacto">
                                         Editar Información de Contacto
                                     </Button>
@@ -300,7 +300,7 @@ const Profile = () => {
                         {isChangingPassword ? (
                             <form onSubmit={handleSubmitPassword}>
                                 <div className='data-column'>
-                                    <Grid item xs={12}>
+                                    <Grid xs={12}>
                                         <TextField
                                             fullWidth
                                             label="Contraseña Actual"
@@ -312,7 +312,7 @@ const Profile = () => {
                                             id="perfil-editar-contrasena-actual"
                                         />
                                     </Grid>
-                                    <Grid item xs={12}>
+                                    <Grid xs={12}>
                                         <TextField
                                             fullWidth
                                             label="Nueva Contraseña"
@@ -324,7 +324,7 @@ const Profile = () => {
                                             id="perfil-editar-contrasena-nueva"
                                         />
                                     </Grid>
-                                    <Grid item xs={12}>
+                                    <Grid xs={12}>
                                         <TextField
                                             fullWidth
                                             label="Confirmar Nueva Contraseña"
@@ -360,7 +360,7 @@ const Profile = () => {
                 </Card>
 
                 <div
-                    style={{ display: 'flex', flexDirection: 'center', alignItems: 'center', justifyContent: 'center', marginTop: 24 }}
+                    style={{ display: 'flex', flexDirection: 'center', aligns: 'center', justifyContent: 'center', marginTop: 24 }}
                 >
                     <Button
                         color='error'

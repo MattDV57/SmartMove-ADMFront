@@ -85,6 +85,12 @@ export const GridUsers = ({ USER_PERMISSIONS, state, dispatch }) => {
                     disableRowSelectionOnClick
                     hideFooterSelectedRowCount
                     isCellEditable={(params) => params.row._id === state.editableRowId}
+                    sx={{
+                        '.MuiDataGrid-columnHeader': {
+                            wordWrap: 'break-word',
+                            whiteSpace: 'normal',
+                        },
+                    }}
                 />
 
             </GridContainer>

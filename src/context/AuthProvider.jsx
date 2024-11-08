@@ -10,44 +10,37 @@ export const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useState({})
     const [isLoading, setIsLoading] = useState(true)
 
+
     useEffect(() => {
         authenticateUser()
     }, [])
 
-
     const authenticateUser = async () => {
 
-        const token = localStorage.getItem('smartmove-token')
-        const userid = localStorage.getItem('smartmove-userid')
+        setIsLoading(true);
 
-
-        if (!token) {
-            setIsLoading(false)
-            return
-        }
+        const userId = localStorage.getItem('smartmove-userid');
 
         try {
 
-            const response = await fetch(`${import.meta.env.VITE_API_URL_BACKEND}${`/users/${userid}/profile`}` || '', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL_BACKEND}${`/users/${userId}/profile`}` || '', {
                 method: 'GET',
+                credentials: "include",
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
+                    'Content-Type': 'application/json'
                 }
-            }).then(async (resp) => {
-                return await resp.json()
-            }).catch((error) => {
-                console.log({ error })
-                return null
             });
+
+            if (!response.ok) throw new Error('Failed to authenticate');
+
+            const userData = await response.json();
 
 
             setAuth({
-                id: response._id,
-                ...response
-            })
-
+                ...userData,
+                _id: userData._id,
+            });
 
         } catch (error) {
 
@@ -62,9 +55,11 @@ export const AuthProvider = ({ children }) => {
 
     const logoutUser = () => {
         setAuth({})
-        localStorage.setItem('smartmove-token', '')
-        localStorage.setItem('smartmove-userid', '')
+        localStorage.removeItem('smartmove-userid', '')
+        localStorage.removeItem('smartmove-user-permissions')
     }
+
+    const localUserPermissions = localStorage.getItem('smartmove-user-permissions');
 
     return (
         <AuthContext.Provider
@@ -74,7 +69,8 @@ export const AuthProvider = ({ children }) => {
                 isLoading,
                 logoutUser,
                 authenticateUser,
-                USER_PERMISSIONS: localStorage.getItem('smartmove-token') ? jwtDecode(localStorage.getItem('smartmove-token')).USER_PERMISSIONS : {}
+                USER_PERMISSIONS: localUserPermissions ? JSON.parse(localUserPermissions) : {}
+
             }}
         >
             {children}
