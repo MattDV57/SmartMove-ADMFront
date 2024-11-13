@@ -54,32 +54,32 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
                     />
                 )
             },
-            {
-                field: 'status',
-                headerName: 'Estado',
-                type: 'singleSelect',
-                valueOptions: LIST_STATUS,
-                sortComparator: (v1, v2) => {
-                    return LIST_STATUS.indexOf(v1) - LIST_STATUS.indexOf(v2);
-                },
-                flex: 1,
-                minWidth: 180,
-                renderCell: (params) => (
-                    <Chip
-                        label={params.value}
-                        sx={{
-                            width: '70%',
-                            textAlign: 'center',
-                            color: '#0A0A0A',
-                        }}
-                        color={
-                            params.value === LIST_STATUS[0] ? 'success' :
-                                params.value === LIST_STATUS[1] ? 'info' :
-                                    'secondary'
-                        }
-                    />
-                )
-            },] : []),
+        ] : accessRole === 'Reclamante' ? [{
+            field: 'status',
+            headerName: 'Estado',
+            type: 'singleSelect',
+            valueOptions: LIST_STATUS,
+            sortComparator: (v1, v2) => {
+                return LIST_STATUS.indexOf(v1) - LIST_STATUS.indexOf(v2);
+            },
+            flex: 1,
+            minWidth: 180,
+            renderCell: (params) => (
+                <Chip
+                    label={params.value}
+                    sx={{
+                        width: '70%',
+                        textAlign: 'center',
+                        color: '#0A0A0A',
+                    }}
+                    color={
+                        params.value === LIST_STATUS[0] ? 'success' :
+                            params.value === LIST_STATUS[1] ? 'info' :
+                                'secondary'
+                    }
+                />
+            )
+        },] : []),
 
     ...(([CASE_PATHS.ALL_CLAIMS, CASE_PATHS.ALL_ARBITRATIONS].includes(casePath))
         && Object.values(INTERNAL_ROLES).includes(accessRole) ? [ // AllClaims and AllArbitrations columns only.

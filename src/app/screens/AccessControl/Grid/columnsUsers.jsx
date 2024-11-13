@@ -18,11 +18,17 @@ export const columnsUsers = ({
     isSavingSuccess = false,
     USER_PERMISSIONS
 }) => [
-        // {
-        //     field: 'employeeId',
-        //     headerName: 'ID',
-        //     width: 80,
-        // },
+        {
+            field: 'cuit',
+            headerName: 'CUIT',
+            flex: 1,
+            minWidth: 150,
+            renderCell: (params) => (
+                <Tooltip title={params.value}>
+                    <span>{params.value}</span>
+                </Tooltip>
+            ),
+        },
         {
             field: 'accessRole',
             headerName: 'Rol',
@@ -49,10 +55,11 @@ export const columnsUsers = ({
             ),
         },
         {
-            field: 'birthDate',
-            headerName: 'Nacimiento',
+            field: 'email',
+            headerName: 'Email',
+            type: 'String',
             flex: 1,
-            minWidth: 150,
+            minWidth: 200,
             renderCell: (params) => (
                 <Tooltip title={params.value}>
                     <span>{params.value}</span>
@@ -60,11 +67,10 @@ export const columnsUsers = ({
             ),
         },
         {
-            field: 'email',
-            headerName: 'Email',
-            type: 'String',
+            field: 'birthDate',
+            headerName: 'Nacimiento',
             flex: 1,
-            minWidth: 200,
+            minWidth: 150,
             renderCell: (params) => (
                 <Tooltip title={params.value}>
                     <span>{params.value}</span>

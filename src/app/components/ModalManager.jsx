@@ -2,7 +2,7 @@ import React from 'react';
 import { MODALS_TYPES } from '../../common/types';
 import { useModal } from '../../context/ModalProvider';
 import { DeleteUserModal } from '../screens/AccessControl/Modals/DeleteUserModal'
-import { ModalChat } from './Chat/ModalChat';
+import { ChatModal } from '../screens/Case/Modals/ChatModal';
 import { PutPostUserModal } from '../screens/AccessControl/Modals/PutPostUserModal';
 import { DetailsModal } from '../screens/Case/Modals/DetailsModal';
 import { OperatorAcceptModal } from '../screens/Case/Modals/OperatorAcceptModal';
@@ -20,11 +20,11 @@ const ModalManager = () => {
         case MODALS_TYPES.OPERATOR_ACCEPT_CASE:
             return <OperatorAcceptModal open={true} claim={modal.data} onClose={closeModal} onSave={modal.onSave} username={modal.username} />;
         case MODALS_TYPES.EDIT_CASE:
-            return <EditCaseModal isOpen={true} claim={modal.data} onClose={closeModal} onSave={modal.onSave} />
+            return <EditCaseModal isOpen={true} claim={modal.data} onClose={closeModal} onSave={modal.onSave} USER_PERMISSIONS={modal.USER_PERMISSIONS} accessRole={modal.accessRole} />
         case MODALS_TYPES.DELETE_USER:
             return <DeleteUserModal open={true} user={modal.data} onClose={closeModal} onSave={modal.onSave} />
         case MODALS_TYPES.CHAT:
-            return <ModalChat open={true} claim={modal.data} onClose={closeModal} userId={modal.userId} USER_PERMISSIONS={modal.USER_PERMISSIONS} />
+            return <ChatModal open={true} claim={modal.data} onClose={closeModal} userId={modal.userId} USER_PERMISSIONS={modal.USER_PERMISSIONS} />
         case MODALS_TYPES.PUT_POST_USER:
             return <PutPostUserModal open={true} onClose={closeModal} onSave={modal.onSave} user={modal.data} />
         default:

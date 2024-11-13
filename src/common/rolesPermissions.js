@@ -4,7 +4,7 @@ export const INTERNAL_ROLES = {
   SOPORTE: "Soporte"
 }
 
-export const OUTSIDER_ROLES = {
+export const EXTERNAL_ROLES = {
   RECLAMANTE: "Reclamante",
   ABOGADO: "Abogado",
 }

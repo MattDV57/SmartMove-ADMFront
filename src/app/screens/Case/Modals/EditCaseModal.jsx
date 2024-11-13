@@ -8,8 +8,9 @@ import moment from 'moment';
 import { orange } from '@mui/material/colors';
 import useEditCaseActions from '../../../../hooks/case/useEditCaseActions';
 import { LIST_PRIORITIES, LIST_STATUS } from '../../../../common/types';
+import { EXTERNAL_ROLES } from '../../../../common/rolesPermissions';
 
-export const EditCaseModal = ({ isOpen, onClose, claim, onSave }) => {
+export const EditCaseModal = ({ isOpen, onClose, claim, onSave, USER_PERMISSIONS, accessRole }) => {
 
     const { isLoading, handleEditCase } = useEditCaseActions({ claimId: claim._id });
 
@@ -29,7 +30,8 @@ export const EditCaseModal = ({ isOpen, onClose, claim, onSave }) => {
 
     const [abandonCase, setAbandonCase] = useState(false);
 
-
+    const isReclamante = accessRole === EXTERNAL_ROLES.RECLAMANTE;
+    const allowedStatusesForReclamante = ["Cerrado", "Resuelto"];
 
     const handleSave = async () => {
 
@@ -83,22 +85,25 @@ export const EditCaseModal = ({ isOpen, onClose, claim, onSave }) => {
 
             <DialogContent>
 
-                {/* Cambiar prioridad */}
-                <TextField
-                    select
-                    label="Prioridad"
-                    value={newPriority}
-                    onChange={(e) => setNewPriority(e.target.value)}
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    SelectProps={{ native: true }}
-                >
-                    {LIST_PRIORITIES.map((priority) => (
-                        <option key={priority} value={priority}>{priority}</option>
-                    ))}
-                </TextField>
-
+                {!isReclamante &&
+                    <>
+                        {/* Cambiar prioridad */}
+                        <TextField
+                            select
+                            label="Prioridad"
+                            value={newPriority}
+                            onChange={(e) => setNewPriority(e.target.value)}
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            SelectProps={{ native: true }}
+                        >
+                            {LIST_PRIORITIES.map((priority) => (
+                                <option key={priority} value={priority}>{priority}</option>
+                            ))}
+                        </TextField>
+                    </>
+                }
                 {/* Cambiar estado */}
                 <TextField
                     select
@@ -114,107 +119,117 @@ export const EditCaseModal = ({ isOpen, onClose, claim, onSave }) => {
                     margin="normal"
                     SelectProps={{ native: true }}
                 >
-                    {LIST_STATUS.map((status) => (
-                        <option key={status} value={status}>{status}</option>
-                    ))}
+                    {LIST_STATUS.map((status) => {
+
+                        return (
+                            <option
+                                key={status} value={status}
+                                disabled={isReclamante && !allowedStatusesForReclamante.includes(status)}
+                            >{status}</option>
+                        )
+                    }
+                    )}
                 </TextField>
 
-                {/* Botones para mostrar/ocultar campos de acción y historial */}
-                <Button
-                    variant="outlined"
-                    color={'info'}
-                    disabled={showActionFields || showResolutionFields}
-                    onClick={() => setShowHistoryActions(prev => !prev)}
-                    startIcon={<ListIcon />}
-                    sx={{ mt: 2, mb: showHistoryActions ? 2 : 0 }}
-                >
-                    {showHistoryActions ? 'Ocultar Acciones' : 'Ver Acciones'}
-                </Button>
-
-                {showHistoryActions && (
-                    <Box mb={1} sx={{
-                        border: '1px solid',
-                        borderColor: 'info.main',
-                        borderRadius: 1,
-                        padding: 1,
-                        backgroundColor: 'background.default',
-                        maxHeight: 140,
-                        overflowY: 'auto',
-                    }}>
-                        {historyActions.length > 0 ? (
-                            historyActions.map((history, index) => (
-                                <Typography key={index} variant="body2">
-                                    {moment(history.timestamp).format("llll")} - {history.action}
-                                </Typography>
-                            ))
-                        ) : (
-                            <Typography>No hay acciones registradas.</Typography>
-                        )}
-                    </Box>
-                )}
-
-                {/* Botones de acciones y resolución */}
-                <Box display={'flex'} justifyContent="space-between" mb={1}>
-                    <Button
-                        variant="outlined"
-                        color={showActionFields ? 'error' : 'primary'}
-                        onClick={toggleActionFields}
-                        disabled={showResolutionFields || showHistoryActions}
-                        startIcon={showActionFields ? <CancelIcon /> : <AddTaskIcon />}
-                        sx={{ mt: 1 }}
-                    >
-                        {showActionFields ? 'Eliminar Acción' : 'Registrar Acción'}
-                    </Button>
-
-                    <Button
-                        variant="outlined"
-                        color={showResolutionFields ? 'error' : 'warning'}
-                        onClick={toggleResolutionFields}
-                        disabled={showActionFields || showHistoryActions}
-                        startIcon={showResolutionFields ? <CancelIcon /> : <ChatIcon />}
-                        sx={{ mt: 1 }}
-                    >
-                        {showResolutionFields && !oldResolution
-                            ? 'Eliminar Resolución'
-                            : (oldResolution ? 'Modificar Resolución' : 'Establecer Resolución')}
-                    </Button>
-                </Box>
-
-                {/* Campos de acción */}
-                {showActionFields && (
+                {!isReclamante &&
                     <>
-                        <FormControlLabel
-                            color='error'
-                            control={<Checkbox checked={abandonCase} color='warning' onChange={(e) => setAbandonCase(e.target.checked)} />}
-                            label="Abandonar reclamo"
-                            sx={{ color: orange[500] }}
-                        />
-                        <TextField
-                            label="Acción realizada"
-                            value={actionTaken}
-                            onChange={(e) => setActionTaken(e.target.value)}
+                        {/* Botones para mostrar/ocultar campos de acción y historial */}
+                        <Button
                             variant="outlined"
-                            multiline
-                            rows={2}
-                            fullWidth
-                            margin="normal"
-                        />
-                    </>
-                )}
+                            color={'info'}
+                            disabled={showActionFields || showResolutionFields}
+                            onClick={() => setShowHistoryActions(prev => !prev)}
+                            startIcon={<ListIcon />}
+                            sx={{ mt: 2, mb: showHistoryActions ? 2 : 0 }}
+                        >
+                            {showHistoryActions ? 'Ocultar Acciones' : 'Ver Acciones'}
+                        </Button>
 
-                {showResolutionFields &&
-                    <TextField
-                        label="Detalles de resolución"
-                        color="warning"
-                        value={resolutionDetails}
-                        onChange={(e) => setResolutionDetails(e.target.value)}
-                        variant="outlined"
-                        multiline
-                        rows={3}
-                        fullWidth
-                        margin="normal"
-                    />
-                }
+                        {showHistoryActions && (
+                            <Box mb={1} sx={{
+                                border: '1px solid',
+                                borderColor: 'info.main',
+                                borderRadius: 1,
+                                padding: 1,
+                                backgroundColor: 'background.default',
+                                maxHeight: 140,
+                                overflowY: 'auto',
+                            }}>
+                                {historyActions.length > 0 ? (
+                                    historyActions.map((history, index) => (
+                                        <Typography key={index} variant="body2">
+                                            {moment(history.timestamp).format("llll")} - {history.action}
+                                        </Typography>
+                                    ))
+                                ) : (
+                                    <Typography>No hay acciones registradas.</Typography>
+                                )}
+                            </Box>
+                        )}
+
+                        {/* Botones de acciones y resolución */}
+                        <Box display={'flex'} justifyContent="space-between" mb={1}>
+                            <Button
+                                variant="outlined"
+                                color={showActionFields ? 'error' : 'primary'}
+                                onClick={toggleActionFields}
+                                disabled={showResolutionFields || showHistoryActions}
+                                startIcon={showActionFields ? <CancelIcon /> : <AddTaskIcon />}
+                                sx={{ mt: 1 }}
+                            >
+                                {showActionFields ? 'Eliminar Acción' : 'Registrar Acción'}
+                            </Button>
+
+                            <Button
+                                variant="outlined"
+                                color={showResolutionFields ? 'error' : 'warning'}
+                                onClick={toggleResolutionFields}
+                                disabled={showActionFields || showHistoryActions}
+                                startIcon={showResolutionFields ? <CancelIcon /> : <ChatIcon />}
+                                sx={{ mt: 1 }}
+                            >
+                                {showResolutionFields && !oldResolution
+                                    ? 'Eliminar Resolución'
+                                    : (oldResolution ? 'Modificar Resolución' : 'Establecer Resolución')}
+                            </Button>
+                        </Box>
+
+                        {/* Campos de acción */}
+                        {showActionFields && (
+                            <>
+                                <FormControlLabel
+                                    color='error'
+                                    control={<Checkbox checked={abandonCase} color='warning' onChange={(e) => setAbandonCase(e.target.checked)} />}
+                                    label="Abandonar reclamo"
+                                    sx={{ color: orange[500] }}
+                                />
+                                <TextField
+                                    label="Acción realizada"
+                                    value={actionTaken}
+                                    onChange={(e) => setActionTaken(e.target.value)}
+                                    variant="outlined"
+                                    multiline
+                                    rows={2}
+                                    fullWidth
+                                    margin="normal"
+                                />
+                            </>
+                        )}
+
+                        {showResolutionFields &&
+                            <TextField
+                                label="Detalles de resolución"
+                                color="warning"
+                                value={resolutionDetails}
+                                onChange={(e) => setResolutionDetails(e.target.value)}
+                                variant="outlined"
+                                multiline
+                                rows={3}
+                                fullWidth
+                                margin="normal"
+                            />
+                        }
+                    </>}
 
 
                 <DialogActions sx={{ mt: 2 }}>

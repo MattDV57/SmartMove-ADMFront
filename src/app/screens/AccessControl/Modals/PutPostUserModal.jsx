@@ -14,6 +14,7 @@ export const PutPostUserModal = ({ open, onClose, onSave, user = {} }) => {
     : usePostUserActions()
 
   const [formValues, setFormValues] = useState({
+    cuit: user.cuit || '',
     fullName: user.fullName || '',
     birthDate: user.birthDate || '',
     email: user.email || '',
@@ -62,6 +63,16 @@ export const PutPostUserModal = ({ open, onClose, onSave, user = {} }) => {
 
         <TextField
           margin="dense"
+          label="CUIT"
+          name="cuit"
+          value={formValues.cuit}
+          onChange={handleChange}
+          fullWidth
+          required
+        />
+
+        <TextField
+          margin="dense"
           label="Rol de Acceso"
           name="accessRole"
           value={formValues.accessRole}
@@ -103,7 +114,6 @@ export const PutPostUserModal = ({ open, onClose, onSave, user = {} }) => {
           onChange={handleChange}
           fullWidth
           InputLabelProps={{ shrink: true }}
-          required
         />
         <TextField
           margin="dense"
@@ -112,7 +122,6 @@ export const PutPostUserModal = ({ open, onClose, onSave, user = {} }) => {
           value={formValues.phone}
           onChange={handleChange}
           fullWidth
-          required
         />
         <TextField
           margin="dense"
@@ -121,7 +130,6 @@ export const PutPostUserModal = ({ open, onClose, onSave, user = {} }) => {
           value={formValues.address}
           onChange={handleChange}
           fullWidth
-          required
         />
         <TextField
           margin="dense"
@@ -130,7 +138,6 @@ export const PutPostUserModal = ({ open, onClose, onSave, user = {} }) => {
           value={formValues.location}
           onChange={handleChange}
           fullWidth
-          required
         />
         <TextField
           margin="dense"
@@ -139,7 +146,6 @@ export const PutPostUserModal = ({ open, onClose, onSave, user = {} }) => {
           value={formValues.position}
           onChange={handleChange}
           fullWidth
-          required
         />
         <TextField
           margin="dense"
@@ -148,7 +154,6 @@ export const PutPostUserModal = ({ open, onClose, onSave, user = {} }) => {
           value={formValues.department}
           onChange={handleChange}
           fullWidth
-          required
         />
 
       </DialogContent>

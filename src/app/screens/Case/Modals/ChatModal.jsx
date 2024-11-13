@@ -10,15 +10,15 @@ import {
   Typography,
   Avatar
 } from '@mui/material';
-
+import { useAuth } from "../../../../context/AuthProvider"
 import SendIcon from '@mui/icons-material/Send';
 
 import io from "socket.io-client";
 
 
-export const ModalChat = ({ open, onClose, claim, USER_PERMISSIONS }) => {
+export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
 
-
+  const { auth } = useAuth();
   const isAllowedToChat = USER_PERMISSIONS?.PUT_IN_CHAT;
 
 
@@ -40,17 +40,15 @@ export const ModalChat = ({ open, onClose, claim, USER_PERMISSIONS }) => {
   const messagesEndRef = useRef(null);
   const [socket, setSocket] = useState(null)
 
-  const roomId = '1234'
 
   const handleSendMessage = () => {
     if (newMessage.trim() !== '') {
       const message = {
-        id: Date.now(),
-        text: newMessage,
-        sender: 'user',
-        timestamp: new Date()
+        body: newMessage,
+        from: auth.username,
+        chatId: claim.relatedChat
       };
-      setMessages([...messages, message]);
+      socket.emit('chatMessage', message);
       setNewMessage('');
     }
   };
@@ -73,29 +71,39 @@ export const ModalChat = ({ open, onClose, claim, USER_PERMISSIONS }) => {
 
   useEffect(() => {
     if (socket) {
-      socket.on("receive_message", (data) => {
-        reciveMessage(data)
+      socket.on("message", (data) => {
+        receiveMessage(data)
       });
     }
-    // eslint-disable-next-line
   }, [socket]);
 
   useEffect(() => {
-    if (socket && roomId) {
-      socket.emit("join_room", roomId);
+    if (socket && claim) {
+      socket.emit("joinChat", claim.id);
     }
-    // eslint-disable-next-line
-  }, [socket, roomId]);
+  }, [socket, claim]);
 
-  const reciveMessage = (data) => {
-    console.log({ data })
-    // const { message, value, count, name, lastname, jwt } = data
-    // if (message === 'CANJEADO') {
-    // 	setNotMsg(`QR Escaneado (${count} ${value}) por ${name} ${lastname}`)
-    // 	setScanned(jwt === jwtLocal)
-    // }
-  }
+  // useEffect(() => {
+  //   const socketResponse = io.connect(import.meta.env.VITE_API_URL_BACKEND);
+  //   setSocket(socketResponse);
 
+  //   return () => {
+  //     socketResponse.disconnect();
+  //   };
+  // }, []);
+
+
+  const receiveMessage = (data) => {
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      {
+        id: Date.now(),
+        text: data,
+        sender: claim?.user?.username,
+        timestamp: new Date()
+      }
+    ]);
+  };
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="xl">
