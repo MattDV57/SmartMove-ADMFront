@@ -170,7 +170,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
                     VER
                 </Button>
 
-                {[CASE_PATHS.MY_CLAIMS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath) && ( // MyClaims and MyArbitrations columns only.
+                {([CASE_PATHS.MY_CLAIMS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath) || accessRole === 'Admin') && ( // MyClaims and MyArbitrations columns only. OR Admin
                     <Button
                         variant="contained"
                         color="warning"
@@ -191,9 +191,9 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
             </Box>
         )
     },
-    ...(([CASE_PATHS.MY_CLAIMS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath))
+    ...(([CASE_PATHS.MY_CLAIMS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath) || accessRole === 'Admin')
         && USER_PERMISSIONS?.PUT_CLAIM
-        ? [ // MyClaims and MyArbitrations columns only.
+        ? [ // MyClaims and MyArbitrations columns only. OR Admin
             {
                 field: "edit",
                 headerName: "Editar",
