@@ -43,6 +43,7 @@ export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
         body: newMessage,
         from: auth.username,
         chatId: claim.relatedChat,
+        sender: "user",
       };
       socket.emit("chatMessage", message);
       setNewMessage("");
@@ -93,8 +94,8 @@ export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
       ...prevMessages,
       {
         id: Date.now(),
-        text: data,
-        sender: claim?.user?.username,
+        text: data.body,
+        sender: data.sender != null ? data.sender : "other",
         timestamp: new Date(),
       },
     ]);
