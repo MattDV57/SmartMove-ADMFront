@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 import {
   Box,
   Paper,
@@ -8,78 +8,74 @@ import {
   TextField,
   Button,
   Typography,
-  Avatar
-} from '@mui/material';
-import { useAuth } from "../../../../context/AuthProvider"
-import SendIcon from '@mui/icons-material/Send';
+  Avatar,
+} from "@mui/material";
+import { useAuth } from "../../../../context/AuthProvider";
+import SendIcon from "@mui/icons-material/Send";
 
 import io from "socket.io-client";
 
-
 export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
-
   const { auth } = useAuth();
   const isAllowedToChat = USER_PERMISSIONS?.PUT_IN_CHAT;
-
 
   const [messages, setMessages] = useState([
     {
       id: Date.now(),
-      text: 'Hola',
-      sender: 'other',
-      timestamp: new Date()
+      text: "Hola",
+      sender: "other",
+      timestamp: new Date(),
     },
     {
       id: Date.now() + 1,
-      text: 'Hola',
-      sender: 'user',
-      timestamp: new Date()
+      text: "Hola",
+      sender: "user",
+      timestamp: new Date(),
     },
   ]);
-  const [newMessage, setNewMessage] = useState('');
+  const [newMessage, setNewMessage] = useState("");
   const messagesEndRef = useRef(null);
-  const [socket, setSocket] = useState(null)
-
+  const [socket, setSocket] = useState(null);
 
   const handleSendMessage = () => {
-    if (newMessage.trim() !== '') {
+    if (newMessage.trim() !== "") {
       const message = {
         body: newMessage,
         from: auth.username,
-        chatId: claim.relatedChat
+        chatId: claim.relatedChat,
       };
-      socket.emit('chatMessage', message);
-      setNewMessage('');
+      socket.emit("chatMessage", message);
+      setNewMessage("");
     }
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       handleSendMessage();
     }
   };
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   useEffect(() => {
     const socketResponse = io.connect(import.meta.env.VITE_API_URL_BACKEND);
-    setSocket(socketResponse)
-    console.log({ claim })
-  }, [])
+    setSocket(socketResponse);
+    console.log({ claim });
+  }, []);
 
   useEffect(() => {
     if (socket) {
       socket.on("message", (data) => {
-        receiveMessage(data)
+        receiveMessage(data);
       });
     }
   }, [socket]);
 
   useEffect(() => {
     if (socket && claim) {
-      socket.emit("joinChat", claim.id);
+      socket.emit("joinChat", claim.relatedChat);
     }
   }, [socket, claim]);
 
@@ -92,7 +88,6 @@ export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
   //   };
   // }, []);
 
-
   const receiveMessage = (data) => {
     setMessages((prevMessages) => [
       ...prevMessages,
@@ -100,31 +95,67 @@ export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
         id: Date.now(),
         text: data,
         sender: claim?.user?.username,
-        timestamp: new Date()
-      }
+        timestamp: new Date(),
+      },
     ]);
   };
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="xl">
       {/* <Dialog open={open} onClose={!isLoading ? onClose : null} maxWidth="sm"> */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', width: '100%', margin: 'auto' }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          height: "100vh",
+          width: "100%",
+          margin: "auto",
+        }}
+      >
         <Typography variant="h4" component="h1" gutterBottom sx={{ p: 2 }}>
           Chat
         </Typography>
 
-        <Paper elevation={3} sx={{ flex: 1, overflow: 'auto', mb: 2, p: 2 }}>
+        <Paper elevation={3} sx={{ flex: 1, overflow: "auto", mb: 2, p: 2 }}>
           <List>
             {messages.map((message) => (
-              <ListItem key={message.id} sx={{ justifyContent: message.sender === 'user' ? 'flex-end' : 'flex-start' }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: message.sender === 'user' ? 'flex-end' : 'flex-start', maxWidth: '70%' }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+              <ListItem
+                key={message.id}
+                sx={{
+                  justifyContent:
+                    message.sender === "user" ? "flex-end" : "flex-start",
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems:
+                      message.sender === "user" ? "flex-end" : "flex-start",
+                    maxWidth: "70%",
+                  }}
+                >
+                  <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
                     <Typography variant="body2" color="text.secondary">
                       {message.timestamp.toLocaleTimeString()}
                     </Typography>
                   </Box>
-                  <Paper elevation={1} sx={{ p: 1, bgcolor: message.sender === 'user' ? 'primary.light' : 'grey.100' }}>
-                    <Typography variant="body1" color={message.sender === 'user' ? 'white' : 'black'}>{message.text}</Typography>
+                  <Paper
+                    elevation={1}
+                    sx={{
+                      p: 1,
+                      bgcolor:
+                        message.sender === "user"
+                          ? "primary.light"
+                          : "grey.100",
+                    }}
+                  >
+                    <Typography
+                      variant="body1"
+                      color={message.sender === "user" ? "white" : "black"}
+                    >
+                      {message.text}
+                    </Typography>
                   </Paper>
                 </Box>
               </ListItem>
@@ -135,8 +166,7 @@ export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
 
         {/* Área de entrada de mensajes */}
         <Paper elevation={3} sx={{ p: 2 }}>
-
-          <Box sx={{ display: 'flex' }}>
+          <Box sx={{ display: "flex" }}>
             <TextField
               fullWidth
               disabled={!isAllowedToChat}
@@ -157,9 +187,8 @@ export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
               Enviar
             </Button>
           </Box>
-
         </Paper>
       </Box>
     </Dialog>
   );
-}
+};
