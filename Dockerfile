@@ -8,7 +8,6 @@ COPY package*.json ./
 
 RUN npm install
 
-
 COPY --chown=node:node . .
 
 ARG VITE_API_URL_BACKEND
