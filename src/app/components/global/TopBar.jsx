@@ -13,6 +13,7 @@ import { ColorModeContext, tokens } from '../../../styles/theme';
 import './TopBar.scss'
 import { useAuth } from '../../../context/AuthProvider';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { EXTERNAL_ROLES } from '../../../common/rolesPermissions';
 
 const CustomIconButton = ({ children, onClick, extraStyles }) => {
     const theme = useTheme();
@@ -43,6 +44,7 @@ const TopBar = ({ toggleSidebar }) => {
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const isExternalUser = Object.values(EXTERNAL_ROLES).includes(auth.accessRole);
 
     const mockNotifications = [
         'You have a new message.',
@@ -72,9 +74,13 @@ const TopBar = ({ toggleSidebar }) => {
             backgroundColor={colors.grey[400]}
             boxShadow={'0px 0px 5px 0px rgba(0,0,0,0.2)'}
         >
-            <CustomIconButton onClick={toggleSidebar}>
-                <MenuOutlinedIcon />
-            </CustomIconButton>
+            {!isExternalUser ?
+                <CustomIconButton onClick={toggleSidebar}>
+                    <MenuOutlinedIcon />
+                </CustomIconButton>
+                :
+                <Box></Box>
+            }
 
             <Box display='flex'>
 

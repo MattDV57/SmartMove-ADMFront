@@ -42,7 +42,7 @@ const ProtectedRoute = () => {
                     (
 
                         <Box width="100%" height="100%" display='flex' position='relative'>
-                            <SideBar USER_PERMISSIONS={USER_PERMISSIONS} />
+                            <SideBar USER_PERMISSIONS={USER_PERMISSIONS} accessRole={auth.accessRole} />
                             <Box width="100%" height="100%"
                                 sx={{
                                     paddingLeft: `${sidebarWidth}px`,

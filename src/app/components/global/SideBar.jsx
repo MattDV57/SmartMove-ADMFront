@@ -13,11 +13,11 @@ import Logo from '../../../assets/smarthome-logo.svg'
 import { tokens } from '../../../styles/theme';
 import { useGlobal } from '../../../context/global/globalContext';
 import { SIDEBAR_SIZE } from '../../../common/types';
-import { PATH_VIEWS, VIEWS_PATH } from '../../../common/rolesPermissions';
+import { EXTERNAL_ROLES, PATH_VIEWS, VIEWS_PATH } from '../../../common/rolesPermissions';
 
 
 
-const SideBar = ({ USER_PERMISSIONS }) => {
+const SideBar = ({ USER_PERMISSIONS, accessRole }) => {
     const { globalState, toggleSidebar } = useGlobal();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -30,14 +30,21 @@ const SideBar = ({ USER_PERMISSIONS }) => {
         return null;
     }
 
+    const isExternalUser = Object.values(EXTERNAL_ROLES).includes(accessRole)
+    let menuItems = [];
 
-    const menuItems = [
-        { title: "Dashboard", to: VIEWS_PATH.GET_DASHBOARD, icon: <HomeOutlinedIcon /> },
-        { title: "Reclamos", to: USER_PERMISSIONS && USER_PERMISSIONS["GET_MY_CLAIMS"] ? VIEWS_PATH.GET_MY_CLAIMS : VIEWS_PATH.GET_ALL_CLAIMS, icon: <BugReportOutlinedIcon /> },
-        { title: "Mediaciones", to: USER_PERMISSIONS && USER_PERMISSIONS["GET_MY_ARBITRATIONS"] ? VIEWS_PATH.GET_MY_ARBITRATIONS : VIEWS_PATH.GET_ALL_ARBITRATIONS, icon: <ErrorIcon /> },
-        { title: "Registros", to: VIEWS_PATH.GET_LOGS, icon: <ReceiptOutlinedIcon /> },
-        { title: "Control de acceso", to: VIEWS_PATH.GET_ALL_USERS, icon: <SecurityOutlinedIcon /> },
-    ];
+    // A los roles internos se les muestra las opciones.
+    if (!isExternalUser) {
+        menuItems = [
+            { title: "Dashboard", to: VIEWS_PATH.GET_DASHBOARD, icon: <HomeOutlinedIcon /> },
+            { title: "Reclamos", to: USER_PERMISSIONS && USER_PERMISSIONS["GET_MY_CLAIMS"] ? VIEWS_PATH.GET_MY_CLAIMS : VIEWS_PATH.GET_ALL_CLAIMS, icon: <BugReportOutlinedIcon /> },
+            // { title: "Mediaciones", to: USER_PERMISSIONS && USER_PERMISSIONS["GET_MY_ARBITRATIONS"] ? VIEWS_PATH.GET_MY_ARBITRATIONS : VIEWS_PATH.GET_ALL_ARBITRATIONS, icon: <ErrorIcon /> },
+            { title: "Registros", to: VIEWS_PATH.GET_LOGS, icon: <ReceiptOutlinedIcon /> },
+            { title: "Control de acceso", to: VIEWS_PATH.GET_ALL_USERS, icon: <SecurityOutlinedIcon /> },
+        ];
+    }
+
+
 
     return (
 
@@ -63,6 +70,7 @@ const SideBar = ({ USER_PERMISSIONS }) => {
                 {/* LOGO AND MENU ICON */}
                 <MenuItem
                     onClick={toggleSidebar}
+                    disabled={isExternalUser}
                     icon={globalState.sidebarOpen ? <img src={Logo} alt="SmartMove" height={'47px'} width={'70px'} /> : undefined}
                     style={{
                         margin: "10px 0 20px 0",
@@ -84,7 +92,6 @@ const SideBar = ({ USER_PERMISSIONS }) => {
 
                 <Box paddingLeft={globalState.sidebarOpen ? undefined : "1%"}>
                     {menuItems.map(({ title, to, icon }) => (
-
                         USER_PERMISSIONS[PATH_VIEWS[to]] && (
                             <MenuItem
                                 key={to}
