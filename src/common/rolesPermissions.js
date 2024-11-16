@@ -1,12 +1,12 @@
 export const INTERNAL_ROLES = {
   ADMIN: "Admin",
-  GERENTE: "Gerente",
+  GERENTE: "CEO",
   SOPORTE: "Soporte"
 }
 
 export const EXTERNAL_ROLES = {
-  RECLAMANTE: "Reclamante",
-  ABOGADO: "Abogado",
+  RECLAMANTE: "reclamante",
+  ABOGADO: "legales",
 }
 
 

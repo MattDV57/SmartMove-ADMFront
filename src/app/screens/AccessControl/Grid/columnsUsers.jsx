@@ -89,30 +89,30 @@ export const columnsUsers = ({
                 </Tooltip>
             ),
         },
-        {
-            field: 'location',
-            headerName: 'Localidad',
-            type: 'String',
-            flex: 1,
-            minWidth: 150,
-            renderCell: (params) => (
-                <Tooltip title={params.value}>
-                    <span>{params.value}</span>
-                </Tooltip>
-            ),
-        },
-        {
-            field: 'address',
-            headerName: 'Dirección',
-            type: 'String',
-            flex: 1,
-            minWidth: 150,
-            renderCell: (params) => (
-                <Tooltip title={params.value}>
-                    <span>{params.value}</span>
-                </Tooltip>
-            ),
-        },
+        // {
+        //     field: 'location',
+        //     headerName: 'Localidad',
+        //     type: 'String',
+        //     flex: 1,
+        //     minWidth: 150,
+        //     renderCell: (params) => (
+        //         <Tooltip title={params.value}>
+        //             <span>{params.value}</span>
+        //         </Tooltip>
+        //     ),
+        // },
+        // {
+        //     field: 'address',
+        //     headerName: 'Dirección',
+        //     type: 'String',
+        //     flex: 1,
+        //     minWidth: 150,
+        //     renderCell: (params) => (
+        //         <Tooltip title={params.value}>
+        //             <span>{params.value}</span>
+        //         </Tooltip>
+        //     ),
+        // },
 
         {
             field: 'position',

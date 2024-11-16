@@ -54,7 +54,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
                     />
                 )
             },
-        ] : accessRole === 'Reclamante' ? [{
+        ] : accessRole === 'reclamante' ? [{
             field: 'status',
             headerName: 'Estado',
             type: 'singleSelect',
@@ -108,7 +108,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
 
     ...(Object.values(INTERNAL_ROLES).includes(accessRole) ? [
         {
-            field: 'user', headerName: 'Reclamante',
+            field: 'user', headerName: 'reclamante',
             flex: 1,
             minWidth: 170,
             renderCell: params => (

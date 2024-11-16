@@ -30,8 +30,8 @@ export const EditCaseModal = ({ isOpen, onClose, claim, onSave, USER_PERMISSIONS
 
     const [abandonCase, setAbandonCase] = useState(false);
 
-    const isReclamante = accessRole === EXTERNAL_ROLES.RECLAMANTE;
-    const allowedStatusesForReclamante = ["Cerrado", "Resuelto"];
+    const isreclamante = accessRole === EXTERNAL_ROLES.RECLAMANTE;
+    const allowedStatusesForreclamante = ["Cerrado", "Resuelto"];
 
     const handleSave = async () => {
 
@@ -85,7 +85,7 @@ export const EditCaseModal = ({ isOpen, onClose, claim, onSave, USER_PERMISSIONS
 
             <DialogContent>
 
-                {!isReclamante &&
+                {!isreclamante &&
                     <>
                         {/* Cambiar prioridad */}
                         <TextField
@@ -124,14 +124,14 @@ export const EditCaseModal = ({ isOpen, onClose, claim, onSave, USER_PERMISSIONS
                         return (
                             <option
                                 key={status} value={status}
-                                disabled={isReclamante && !allowedStatusesForReclamante.includes(status)}
+                                disabled={isreclamante && !allowedStatusesForreclamante.includes(status)}
                             >{status}</option>
                         )
                     }
                     )}
                 </TextField>
 
-                {!isReclamante &&
+                {!isreclamante &&
                     <>
                         {/* Botones para mostrar/ocultar campos de acción y historial */}
                         <Button
