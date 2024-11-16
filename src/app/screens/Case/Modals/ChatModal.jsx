@@ -37,7 +37,7 @@ export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
         body: newMessage,
         from: auth.username,
         chatId: claim.relatedChat,
-        sender: "user",
+        sender: auth.username,
       };
       socket.emit("chatMessage", message);
       setNewMessage("");
@@ -57,7 +57,6 @@ export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
   useEffect(() => {
     const socketResponse = io.connect(import.meta.env.VITE_API_URL_BACKEND);
     setSocket(socketResponse);
-    console.log({ claim });
   }, []);
 
   useEffect(() => {
@@ -119,7 +118,9 @@ export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
                 key={message.id}
                 sx={{
                   justifyContent:
-                    message.sender === "user" ? "flex-end" : "flex-start",
+                    message.sender === auth.username
+                      ? "flex-end"
+                      : "flex-start",
                 }}
               >
                 <Box
@@ -127,7 +128,9 @@ export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
                     display: "flex",
                     flexDirection: "column",
                     alignItems:
-                      message.sender === "user" ? "flex-end" : "flex-start",
+                      message.sender === auth.username
+                        ? "flex-end"
+                        : "flex-start",
                     maxWidth: "70%",
                   }}
                 >
@@ -141,14 +144,16 @@ export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
                     sx={{
                       p: 1,
                       bgcolor:
-                        message.sender === "user"
+                        message.sender === auth.username
                           ? "primary.light"
                           : "grey.100",
                     }}
                   >
                     <Typography
                       variant="body1"
-                      color={message.sender === "user" ? "white" : "black"}
+                      color={
+                        message.sender === auth.username ? "white" : "black"
+                      }
                     >
                       {message.text}
                     </Typography>
