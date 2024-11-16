@@ -90,7 +90,8 @@ export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
         id: Date.now(),
         text: data.body,
         sender: data.sender != null ? data.sender : "other",
-        timestamp: new Date(),
+        timestamp:
+          data.timestamp != null ? new Date(data.timestamp) : new Date(),
       },
     ]);
   };
