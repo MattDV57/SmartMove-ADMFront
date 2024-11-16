@@ -17,9 +17,20 @@ jobs:
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build and push
-      uses: docker/build-push-action@v4
+      uses: nick-fields/retry@v2
       with:
-        push: true
-        tags: mattdv57/smartmovefront:latest
+        timeout_minutes: 10
+        max_attempts: 3
+        command: |
+            docker build \
+            -t mattdv57/smartmovefront \
+            --build-arg VITE_API_URL_BACKEND='${{ secrets.VITE_API_URL_BACKEND }}' .
+
+            docker tag smartmovefront mattdv57/smartmovefront:latest
+
+            docker push mattdv57/smartmovefront:latest
+
+
+
 
     
