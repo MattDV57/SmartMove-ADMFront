@@ -22,14 +22,8 @@ export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
   const [messages, setMessages] = useState([
     {
       id: Date.now(),
-      text: "Hola",
+      text: "Chat initialized at: " + claim.timestamp,
       sender: "other",
-      timestamp: new Date(),
-    },
-    {
-      id: Date.now() + 1,
-      text: "Hola",
-      sender: "user",
       timestamp: new Date(),
     },
   ]);
