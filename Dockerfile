@@ -10,7 +10,6 @@ RUN npm install
 
 COPY --chown=node:node . .
 
-
 ARG VITE_API_URL_BACKEND
 
 ENV VITE_API_URL_BACKEND=$VITE_API_URL_BACKEND
