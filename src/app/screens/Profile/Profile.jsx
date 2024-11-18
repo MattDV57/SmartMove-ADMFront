@@ -11,6 +11,7 @@ import {
     Card,
     CardContent,
     CardHeader,
+    LinearProgress,
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import {
@@ -22,6 +23,8 @@ import {
     FormatAlignJustify
 } from '@mui/icons-material';
 
+import { usePutUserActions } from '../../../hooks/user/usePutUserActions';
+
 import './Profile.scss'
 
 import { useAlert } from '../../../context/AlertProvider';
@@ -31,6 +34,10 @@ import { useAuth } from '../../../context/AuthProvider';
 const Profile = () => {
 
     const { auth, logoutUser } = useAuth()
+    const {
+        handleCallApi,
+        isLoading,
+    } = usePutUserActions({ userId: auth._id })
     const { showAlert } = useAlert();
     const [contactInfo, setContactInfo] = useState({
         email: auth.email,
@@ -64,7 +71,7 @@ const Profile = () => {
         setPassword({ ...password, [e.target.name]: e.target.value });
     };
 
-    const handleSubmitContact = (e) => {
+    const handleSubmitContact = async (e) => {
         e.preventDefault();
 
         if (!esEmailValido(contactInfo.email)) {
@@ -100,18 +107,24 @@ const Profile = () => {
             return null
         }
 
-        showAlert('Información de contacto modificada', 'success');
+        const response = await handleCallApi({
+            phone: contactInfo.phone,
+            address: contactInfo.address,
+            location: contactInfo.location,
+        }, true)
+
+        if(response.hasError){
+            showAlert('Ocurrió un error, por favor intente más tarde', 'error');
+        }else{
+            showAlert('Información de contacto modificada', 'success');
+        }
 
         setIsEditing(false);
+
     };
 
-    const handleSubmitPassword = (e) => {
+    const handleSubmitPassword = async (e) => {
         e.preventDefault();
-        // Aquí iría la lógica para cambiar la contraseña
-
-        //TODO: chequeo que la cotraseña que ingresa como actual sea válida
-
-        // TODO: modal de error para ambos casos
 
         if (password.new !== password.confirm) {
             showAlert('La nueva contraseña y la de confirmación tienen que coincidir', 'error');
@@ -122,7 +135,20 @@ const Profile = () => {
             return null
         }
 
-        //TODO: pegada al back para guardar la nueva contraseña
+        if (password.current!==auth.password) {
+            showAlert('La contraseña actual ingresada no es válida', 'error');
+            return null
+        }
+
+        const response = await handleCallApi({
+            password: password.new,
+        }, true)
+
+        if(response.hasError){
+            showAlert('Ocurrió un error, por favor intente más tarde', 'error');
+        }else{
+            showAlert('Contraseña modificada', 'success');
+        }
 
         setIsChangingPassword(false);
         setPassword({ current: '', new: '', confirm: '' });
@@ -135,6 +161,10 @@ const Profile = () => {
     function esTelefonoArgentinoValido(telefono) {
         const regexTelefono = /^(?:(?:\+?54\s?)?9?\s?(?:\d{2,4})\s?)?(\d{4})[\s-]?(\d{4})$/;
         return regexTelefono.test(telefono);
+    }
+
+    if (isLoading) {
+        return <LinearProgress />
     }
 
     return (
@@ -199,17 +229,10 @@ const Profile = () => {
                             <form onSubmit={handleSubmitContact}>
                                 <div className='data-column'>
                                     <Grid xs={12}>
-                                        <TextField
-                                            fullWidth
-                                            label="Correo Electrónico"
-                                            name="email"
-                                            type='email'
-                                            value={contactInfo.email}
-                                            onChange={handleContactChange}
-                                            required
-                                            id="perfil-edit-correo"
-                                            error={inputErrors.email}
-                                        />
+                                        <Box display="flex" aligns="center" gap={1}>
+                                            <Email fontSize="small" />
+                                            <Typography id="perfil-email">{contactInfo.email}</Typography>
+                                        </Box>
                                     </Grid>
                                     <Grid xs={12}>
                                         <TextField
