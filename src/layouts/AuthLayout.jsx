@@ -2,7 +2,7 @@ import React from 'react'
 import { Outlet, Navigate } from 'react-router-dom'
 import { LinearProgress } from '@mui/material';
 import { useAuth } from '../context/AuthProvider';
-import { INTERNAL_ROLES } from '../common/rolesPermissions';
+import { EXTERNAL_ROLES, INTERNAL_ROLES, VIEWS_PATH } from '../common/rolesPermissions';
 
 const AuthLayout = () => {
 
@@ -27,7 +27,9 @@ const AuthLayout = () => {
                         <Navigate to={
                             Object.values(INTERNAL_ROLES).includes(auth.accessRole)
                                 ? "/"
-                                : "/my-claims"
+                                : (auth.accessRole === EXTERNAL_ROLES.ABOGADO
+                                    ? VIEWS_PATH.GET_ALL_CLAIMS
+                                    : VIEWS_PATH.GET_MY_CLAIMS)
                         } />
                     )
             }

@@ -106,7 +106,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
         }
     ] : []),
 
-    ...(Object.values(INTERNAL_ROLES).includes(accessRole) ? [
+    ...(([...Object.values(INTERNAL_ROLES), EXTERNAL_ROLES.ABOGADO].includes(accessRole)) ? [
         {
             field: 'user', headerName: 'reclamante',
             flex: 1,
@@ -119,15 +119,15 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
         }
     ] : []),
 
-    ...([CASE_PATHS.ALL_ARBITRATIONS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath)
-        ? [ // Arbitrations column only.
+    ...(([...Object.values(INTERNAL_ROLES), EXTERNAL_ROLES.ABOGADO].includes(accessRole))
+        ? [ // Arbitrations column only.    
             {
-                field: 'counterParty', headerName: 'Reclamado',
+                field: 'infractor', headerName: 'Infractor',
                 flex: 1,
                 minWidth: 170,
                 renderCell: params => (
-                    <Tooltip title={params.row.counterParty.username} arrow>
-                        <span>{params.row.counterParty.username}</span>
+                    <Tooltip title={params.row?.infractor?.username} arrow>
+                        <span>{params.row?.infractor?.username}</span>
                     </Tooltip>
                 )
             }]
@@ -138,6 +138,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
                 minWidth: 170,
                 renderCell: params =>
                     <Tooltip title={params.row.category} arrow>
+                        {console.log([...Object.values(INTERNAL_ROLES), EXTERNAL_ROLES.ABOGADO], accessRole)}
                         <span>{params.row.category}</span>
                     </Tooltip>
             },]
@@ -151,9 +152,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
         filterable: false,
         resizable: false,
         flex: 1,
-        minWidth: [CASE_PATHS.MY_CLAIMS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath)
-            ? 200
-            : 100,
+        minWidth: 200,
         renderCell: (params) => (
             <Box
                 justifyContent='space-between'
@@ -170,7 +169,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
                     VER
                 </Button>
 
-                {([CASE_PATHS.MY_CLAIMS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath) || accessRole === INTERNAL_ROLES.ADMIN) && ( // MyClaims and MyArbitrations columns only. OR Admin
+                {([CASE_PATHS.MY_CLAIMS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath) || [INTERNAL_ROLES.ADMIN, EXTERNAL_ROLES.ABOGADO].includes(accessRole)) && ( // MyClaims and MyArbitrations columns only. OR Admin
                     <Button
                         variant="contained"
                         color="warning"

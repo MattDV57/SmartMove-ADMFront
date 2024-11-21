@@ -3,7 +3,6 @@ import { useEffect } from "react"
 import usePostLogin from "../../services/auth/usePostLogin"
 import { useAlert } from "../../context/AlertProvider"
 import { useAuth } from "../../context/AuthProvider"
-import { EXTERNAL_ROLES } from "../../common/rolesPermissions"
 
 const useLoginActions = () => {
 
