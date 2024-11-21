@@ -20,13 +20,14 @@ const useLoginActions = () => {
     useEffect(()=>{
         if (isError || !data || isLoading) return;
 
-        localStorage.setItem('smartmove-userid', data._id)
+        localStorage.setItem('smartmove-userid', data.user._id)
         localStorage.setItem('smartmove-user-permissions', JSON.stringify(data.USER_PERMISSIONS));
+
 
         setAuth({
             ...auth,
-            id: data._id,
-            ...data
+            id: data.user._id,
+            ...data.user
         })
 
         

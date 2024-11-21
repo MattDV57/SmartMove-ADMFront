@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }) => {
     const logoutUser = async () => {
         try {
             setAuth({})
-            localStorage.removeItem('smartmove-userid', '')
+            localStorage.removeItem('smartmove-userid')
             localStorage.removeItem('smartmove-user-permissions')
             fetch(`${import.meta.env.VITE_API_URL_BACKEND}${`/login/logout`}`, options('POST'));
         } catch (error) {

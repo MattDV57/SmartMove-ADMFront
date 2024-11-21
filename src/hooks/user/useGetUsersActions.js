@@ -9,7 +9,7 @@ export const useGetUsersActions = (userId, state, dispatch) => {
 
     const handleGetUsers = async () => {
         const {response, hasError} = await callApi({}, `?page=${state.paginationModel.page}&limit=${state.paginationModel.pageSize}`);
-        console.log(response.foundUsersPaginated)
+
         if(hasError){
             showAlert('Error al cargar los usuarios', 'error');
             return;

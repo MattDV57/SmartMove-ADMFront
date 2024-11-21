@@ -1,7 +1,7 @@
 export const INTERNAL_ROLES = {
-  ADMIN: "Admin",
-  GERENTE: "CEO",
-  SOPORTE: "Soporte"
+  ADMIN: "admin",
+  GERENTE: "ceo",
+  SOPORTE: "soporte"
 }
 
 export const EXTERNAL_ROLES = {

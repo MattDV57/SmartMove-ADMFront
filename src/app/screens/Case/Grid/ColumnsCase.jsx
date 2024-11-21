@@ -5,7 +5,7 @@ import AddTaskIcon from '@mui/icons-material/AddTask';
 import ChatIcon from '@mui/icons-material/Chat';
 import EditIcon from '@mui/icons-material/Edit';
 import moment from 'moment';
-import { INTERNAL_ROLES } from '../../../../common/rolesPermissions';
+import { EXTERNAL_ROLES, INTERNAL_ROLES } from '../../../../common/rolesPermissions';
 
 
 
@@ -54,7 +54,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
                     />
                 )
             },
-        ] : accessRole === 'reclamante' ? [{
+        ] : accessRole === EXTERNAL_ROLES.RECLAMANTE ? [{
             field: 'status',
             headerName: 'Estado',
             type: 'singleSelect',
@@ -170,7 +170,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
                     VER
                 </Button>
 
-                {([CASE_PATHS.MY_CLAIMS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath) || accessRole === 'Admin') && ( // MyClaims and MyArbitrations columns only. OR Admin
+                {([CASE_PATHS.MY_CLAIMS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath) || accessRole === INTERNAL_ROLES.ADMIN) && ( // MyClaims and MyArbitrations columns only. OR Admin
                     <Button
                         variant="contained"
                         color="warning"
@@ -191,7 +191,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
             </Box>
         )
     },
-    ...(([CASE_PATHS.MY_CLAIMS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath) || accessRole === 'Admin')
+    ...(([CASE_PATHS.MY_CLAIMS, CASE_PATHS.MY_ARBITRATIONS].includes(casePath) || accessRole === INTERNAL_ROLES.ADMIN)
         && USER_PERMISSIONS?.PUT_CLAIM
         ? [ // MyClaims and MyArbitrations columns only. OR Admin
             {
