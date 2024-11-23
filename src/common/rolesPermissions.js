@@ -4,6 +4,8 @@ export const INTERNAL_ROLES = {
   SOPORTE: "soporte"
 }
 
+export const CREATE_USER_ROLES= ["Admin", "CEO", "Soporte"]
+
 export const EXTERNAL_ROLES = {
   RECLAMANTE: "reclamante",
   ABOGADO: "legales",

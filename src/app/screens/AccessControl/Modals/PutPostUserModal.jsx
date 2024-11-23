@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, MenuItem } from "@mui/material";
 import { usePutUserActions } from '../../../../hooks/user/usePutUserActions'
 import { usePostUserActions } from '../../../../hooks/user/usePostUserActions'
-import { INTERNAL_ROLES } from "../../../../common/rolesPermissions";
+import { CREATE_USER_ROLES, INTERNAL_ROLES } from "../../../../common/rolesPermissions";
 
 export const PutPostUserModal = ({ open, onClose, onSave, user = {} }) => {
 
@@ -81,7 +81,7 @@ export const PutPostUserModal = ({ open, onClose, onSave, user = {} }) => {
           fullWidth
           required
         >
-          {Object.values(INTERNAL_ROLES).map(role => (
+          {CREATE_USER_ROLES.map(role => (
             <MenuItem key={role} value={role}>{role}</MenuItem>
           ))}
         </TextField>
