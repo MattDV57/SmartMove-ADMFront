@@ -30,6 +30,7 @@ export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
   const [newMessage, setNewMessage] = useState("");
   const messagesEndRef = useRef(null);
   const [socket, setSocket] = useState(null);
+  const [useInterval, setUseInterval] = useState(null);
 
   const handleSendMessage = () => {
     if (newMessage.trim() !== "") {
@@ -72,6 +73,27 @@ export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
       socket.emit("joinChat", claim.relatedChat);
     }
   }, [socket, claim]);
+
+  useEffect(() => {
+    if (socket && claim && claim.category == "WhatsApp") {
+      const getObject = {
+        chatId: claim.relatedChat,
+        message: messages.at(-1),
+      };
+      socket.emit("getLastMessage", getObject);
+    }
+  }, [useInterval]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setUseInterval(Date.now());
+    }, 5000);
+
+    // Cleanup the interval on unmount
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   // useEffect(() => {
   //   const socketResponse = io.connect(import.meta.env.VITE_API_URL_BACKEND);
