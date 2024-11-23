@@ -22,7 +22,6 @@ const useLoginActions = () => {
         localStorage.setItem('smartmove-userid', data.user._id)
         localStorage.setItem('smartmove-user-permissions', JSON.stringify(data.USER_PERMISSIONS));
 
-
         setAuth({
             ...auth,
             id: data.user._id,

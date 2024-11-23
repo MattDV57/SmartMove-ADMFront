@@ -48,6 +48,8 @@ export const AuthProvider = ({ children }) => {
                 ...userData,
             });
 
+
+
         } catch (error) {
 
             setAuth({})

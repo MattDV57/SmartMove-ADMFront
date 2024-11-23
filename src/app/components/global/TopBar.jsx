@@ -65,7 +65,8 @@ const TopBar = ({ toggleSidebar }) => {
     const [showNotifications, setShowNotifications] = useState(false);
 
     const isAllowedProfile = USER_PERMISSIONS?.GET_USER_PROFILE;
-    const isAllowedNotifications = USER_PERMISSIONS?.GET_NOTIFICATIONS;
+    // const isAllowedNotifications = USER_PERMISSIONS?.GET_NOTIFICATIONS;
+    const isAllowedNotifications = false;
 
 
 

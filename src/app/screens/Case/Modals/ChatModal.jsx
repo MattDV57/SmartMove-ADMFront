@@ -115,7 +115,7 @@ export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
           <List>
             {messages.map((message) => (
               <ListItem
-                key={message.id}
+                key={message._id}
                 sx={{
                   justifyContent:
                     message.sender === auth.username
