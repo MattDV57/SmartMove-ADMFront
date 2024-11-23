@@ -80,21 +80,14 @@ export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
         chatId: claim.relatedChat,
         message: messages.at(-1),
       };
-      socket.emit("getLastWhatsAppMessage", claim.relatedChat);
-      console.log("Getting last message");
-      const lastMessage = {
-        body: messages.at(-1).text,
-        sender: "other",
-        timestamp: new Date(),
-      };
-      receiveMessage(lastMessage);
+      socket.emit("getLastMessage", getObject);
     }
   }, [useInterval]);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setUseInterval(Date.now());
-    }, 2000);
+    }, 5000);
 
     // Cleanup the interval on unmount
     return () => {
