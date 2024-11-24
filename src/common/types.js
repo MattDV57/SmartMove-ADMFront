@@ -59,7 +59,7 @@ export const MODALS_TYPES = {
 }
 
 export const MODULE_URL = {
-    USERS: "http://usuarios.smartmove.com.ar/"
+    USERS: "http://usuarios.smartmove.com.ar/userProfile"
 }
 
 export const NEW_DEFAULT_USER = {
