@@ -7,13 +7,14 @@ import { useNavigate } from 'react-router-dom';
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import ErrorIcon from '@mui/icons-material/ErrorOutline';
+import GroupIcon from '@mui/icons-material/Group';
 import BugReportOutlinedIcon from '@mui/icons-material/BugReportOutlined';
 import { useTheme } from '@mui/material';
 import Logo from '../../../assets/smarthome-logo.svg'
 import { tokens } from '../../../styles/theme';
 import { useGlobal } from '../../../context/global/globalContext';
-import { SIDEBAR_SIZE } from '../../../common/types';
-import { EXTERNAL_ROLES, PATH_VIEWS, VIEWS_PATH } from '../../../common/rolesPermissions';
+import { MODULE_URL, SIDEBAR_SIZE } from '../../../common/types';
+import { EXTERNAL_ROLES, INTERNAL_ROLES, PATH_VIEWS, VIEWS_PATH } from '../../../common/rolesPermissions';
 
 
 
@@ -31,6 +32,7 @@ const SideBar = ({ USER_PERMISSIONS, accessRole }) => {
     }
 
     const isExternalUser = Object.values(EXTERNAL_ROLES).includes(accessRole)
+    const isAdmin = accessRole === INTERNAL_ROLES.ADMIN;
     let menuItems = [];
 
     // A los roles internos se les muestra las opciones.
@@ -112,6 +114,24 @@ const SideBar = ({ USER_PERMISSIONS, accessRole }) => {
                             </MenuItem>
                         )
                     ))}
+                </Box>
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        bottom: 0,
+                        width: '100%',
+                        backgroundColor: colors.grey[400],
+                    }}
+                >
+                    {isAdmin && <MenuItem
+                        onClick={() => window.location.href = MODULE_URL.USERS}
+                        style={{
+                            backgroundColor: 'transparent',
+                        }}
+                        icon={<GroupIcon color='warning' />}
+                    >
+                        <Typography color='warning'>Usuarios</Typography>
+                    </MenuItem>}
                 </Box>
             </Menu>
         </Sidebar>

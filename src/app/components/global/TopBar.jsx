@@ -6,14 +6,16 @@ import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNone
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import useGetNotificationsActions from '../../../hooks/notifications/useGetNotificationsActions'
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
 import { ColorModeContext, tokens } from '../../../styles/theme';
 import './TopBar.scss'
+
 import { useAuth } from '../../../context/AuthProvider';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { EXTERNAL_ROLES } from '../../../common/rolesPermissions';
+import { EXTERNAL_ROLES, INTERNAL_ROLES } from '../../../common/rolesPermissions';
+import { MODULE_URL } from '../../../common/types';
 
 const CustomIconButton = ({ children, onClick, extraStyles }) => {
     const theme = useTheme();
@@ -44,7 +46,8 @@ const TopBar = ({ toggleSidebar }) => {
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    const isExternalUser = Object.values(EXTERNAL_ROLES).includes(auth.accessRole);
+
+    const isExternalUser = [...Object.values(EXTERNAL_ROLES), INTERNAL_ROLES.GERENTE].includes(auth.accessRole);
 
     const mockNotifications = [
         'You have a new message.',
@@ -69,6 +72,9 @@ const TopBar = ({ toggleSidebar }) => {
     const isAllowedNotifications = false;
 
 
+    const handleGoToUsersModule = () => {
+        window.location.href = MODULE_URL.USERS;
+    }
 
     return (
         <Box display='flex' justifyContent='space-between' p={2}
@@ -118,6 +124,7 @@ const TopBar = ({ toggleSidebar }) => {
                     )}
                 </CustomIconButton>
 
+
                 {isAllowedProfile ?
                     <CustomIconButton
                         extraStyles={{ display: "flex", alignItems: "center", gap: "8px" }}
@@ -130,8 +137,10 @@ const TopBar = ({ toggleSidebar }) => {
 
                     </CustomIconButton>
                     :
-                    <CustomIconButton onClick={() => logoutUser()}>
-                        <LogoutIcon color='error' />
+                    <CustomIconButton onClick={handleGoToUsersModule}>
+                        <Box display={'flex'} gap={1}>
+                            <ExitToAppIcon color='warning' /><Typography color='warning'>Regresar</Typography>
+                        </Box>
                     </CustomIconButton>
                 }
             </Box>

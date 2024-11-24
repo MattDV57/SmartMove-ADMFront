@@ -28,7 +28,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
         }
     },
 
-    ...(Object.values(INTERNAL_ROLES).includes(accessRole)
+    ...([...Object.values(INTERNAL_ROLES), EXTERNAL_ROLES.ABOGADO].includes(accessRole)
         ? [
             {
                 field: 'priority',
@@ -56,7 +56,7 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
             },
         ] : []),
 
-    ...(Object.values(INTERNAL_ROLES).includes(accessRole) || accessRole === EXTERNAL_ROLES.RECLAMANTE ? [{
+    {
         field: 'status',
         headerName: 'Estado',
         type: 'singleSelect',
@@ -82,7 +82,6 @@ export const columnsCase = (openModal, priorityPalette, casePath, handleEditSave
             />
         )
     },
-    ] : []),
 
     {
         field: 'category', headerName: 'Categoría'

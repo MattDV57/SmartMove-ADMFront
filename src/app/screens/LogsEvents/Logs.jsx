@@ -83,7 +83,6 @@ export const Logs = () => {
                         >
                             <TableCell style={{ fontWeight: 'bold' }}>Fecha emisión</TableCell>
                             <TableCell style={{ fontWeight: 'bold' }}>Módulo emisor</TableCell>
-                            <TableCell style={{ fontWeight: 'bold' }}>Responsable</TableCell>
                             <TableCell style={{ fontWeight: 'bold' }}>Evento</TableCell>
 
                         </TableRow>
@@ -94,7 +93,6 @@ export const Logs = () => {
                             <TableRow key={log._id}>
                                 <TableCell>{new Date(log.timestamp).toUTCString()}</TableCell>
                                 <TableCell>{log?.moduleEmitter}</TableCell>
-                                <TableCell>{log?.performedBy}</TableCell>
                                 <TableCell>{log?.eventType}</TableCell>
                             </TableRow>
                         ))}

@@ -58,7 +58,9 @@ export const MODALS_TYPES = {
     CHAT: 'chat'
 }
 
-
+export const MODULE_URL = {
+    USERS: "http://usuarios.smartmove.com.ar/"
+}
 
 export const NEW_DEFAULT_USER = {
     fullName: '',
