@@ -91,7 +91,7 @@ export const Logs = () => {
 
                         {logs.map((log) => (
                             <TableRow key={log._id}>
-                                <TableCell>{new Date(log.timestamp).toUTCString()}</TableCell>
+                                <TableCell>{new Date(log.timestamp).toLocaleString()}</TableCell>
                                 <TableCell>{log?.moduleEmitter}</TableCell>
                                 <TableCell>{log?.eventType}</TableCell>
                             </TableRow>
