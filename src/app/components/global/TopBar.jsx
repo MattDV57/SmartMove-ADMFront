@@ -138,12 +138,15 @@ const TopBar = ({ toggleSidebar }) => {
 
                     </CustomIconButton>
                     :
-                    <CustomIconButton onClick={handleGoToUsersModule}>
-                        <Box display={'flex'} gap={1}>
-                            <ExitToAppIcon color='warning' /><Typography color='warning'>Regresar</Typography>
-                        </Box>
+                    <CustomIconButton onClick={handleGoToUsersModule} extraStyles={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                        <AccountCircleOutlinedIcon />
+                        {isMobile
+                            ? null
+                            : <Typography>{auth.username}</Typography>}
+
                     </CustomIconButton>
                 }
+
             </Box>
         </Box>
     )

@@ -50,7 +50,7 @@ const SideBar = ({ USER_PERMISSIONS, accessRole }) => {
 
     const handleGoToUsersModule = () => {
         removeCredentials()
-        window.location.href = MODULE_URL.USERS;
+        window.location.replace(MODULE_URL.USERS);
     }
 
 

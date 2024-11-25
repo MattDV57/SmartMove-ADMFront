@@ -8,9 +8,9 @@ export const LIST_PRIORITIES = ["Baja", "Normal", "Alta", "Urgente"]
 export const LIST_STATUS = ["Abierto", "En Proceso", "Resuelto", "Cerrado"]
 
 export const LIST_CATEGORIES = [
-    "Técnicos",
-    "Cobros/Pagos",
-    "Servicio",
+    "Problemas Técnicos",
+    "Cobros Incorrectos",
+    "Servicio Deficiente",
     "Mediaciones",
     "Información",
     "Perfil/Usuario",

@@ -56,6 +56,7 @@ export const AuthProvider = ({ children }) => {
             });
 
         } catch (error) {
+            removeCredentials();
             console.error(error);
         }
 
@@ -79,26 +80,29 @@ export const AuthProvider = ({ children }) => {
             }
 
         } catch (error) {
-            setAuth({})
+            removeCredentials();
+            console.error(error);
         }
 
     }
 
     const logoutUser = async () => {
         try {
-            setAuth({})
-            localStorage.removeItem('smartmove-userid')
-            localStorage.removeItem('smartmove-user-permissions')
+            removeCredentials();
             fetch(`${import.meta.env.VITE_API_URL_BACKEND}${`/login/logout`}`, options('POST'));
         } catch (error) {
             console.error(error)
         }
     }
 
-    const removeCredentials = () => {
-        setAuth({})
+    const removeLocalStorage = () => {
         localStorage.removeItem('smartmove-userid')
         localStorage.removeItem('smartmove-user-permissions')
+    }
+
+    const removeCredentials = () => {
+        removeLocalStorage();
+        setAuth({});
     }
 
 
@@ -111,7 +115,7 @@ export const AuthProvider = ({ children }) => {
                 isLoading,
                 logoutUser,
                 authenticateUser,
-                removeCredentials,
+                removeLocalStorage,
                 USER_PERMISSIONS: localUserPermissions ? JSON.parse(localUserPermissions) : {}
 
             }}

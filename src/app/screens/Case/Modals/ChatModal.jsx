@@ -38,12 +38,6 @@ export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
   const isAllowedToChat = USER_PERMISSIONS?.PUT_IN_CHAT;
 
   const [messages, setMessages] = useState([
-    {
-      id: Date.now(),
-      text: "Chat initialized at: " + claim.timestamp,
-      sender: "other",
-      timestamp: new Date(),
-    },
   ]);
   const [newMessage, setNewMessage] = useState("");
   const messagesEndRef = useRef(null);
@@ -142,7 +136,7 @@ export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          height: "100vh",
+          height: "90vh",
           width: "100%",
           margin: "auto",
         }}
@@ -217,7 +211,7 @@ export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
         </Paper>
 
         {/* Área de entrada de mensajes */}
-        <Paper elevation={3} sx={{ p: 2 }}>
+        <Paper elevation={3} sx={{ p: 2 }} >
           <Box sx={{ display: "flex" }}>
             <TextField
               fullWidth
