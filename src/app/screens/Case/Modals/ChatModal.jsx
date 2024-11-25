@@ -15,6 +15,24 @@ import SendIcon from "@mui/icons-material/Send";
 
 import io from "socket.io-client";
 
+const assignColorToUser = (() => {
+  const userColorMap = new Map();
+  const availableColors = [
+    "primary",
+    "info",
+    "warning",
+    "error",
+  ];
+
+  return (username) => {
+    if (!userColorMap.has(username)) {
+      const nextColor = availableColors[userColorMap.size % availableColors.length];
+      userColorMap.set(username, nextColor);
+    }
+    return userColorMap.get(username);
+  };
+})();
+
 export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
   const { auth } = useAuth();
   const isAllowedToChat = USER_PERMISSIONS?.PUT_IN_CHAT;
@@ -135,54 +153,65 @@ export const ChatModal = ({ open, onClose, claim, USER_PERMISSIONS }) => {
 
         <Paper elevation={3} sx={{ flex: 1, overflow: "auto", mb: 2, p: 2 }}>
           <List>
-            {messages.map((message) => (
-              <ListItem
-                key={message._id}
-                sx={{
-                  justifyContent:
-                    message.sender === auth.username
-                      ? "flex-end"
-                      : "flex-start",
-                }}
-              >
-                <Box
+            {messages.map((message) => {
+              // Determinar el color según el remitente
+              const senderColor =
+                message.sender === auth.username
+                  ? "primary.light"
+                  : assignColorToUser(message.sender);
+
+              const textColor =
+                message.sender === auth.username ? "white" : "black";
+
+              return (
+                <ListItem
+                  key={message.id}
                   sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems:
+                    justifyContent:
                       message.sender === auth.username
                         ? "flex-end"
                         : "flex-start",
-                    maxWidth: "70%",
                   }}
                 >
-                  <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                    <Typography variant="body2" color="text.secondary">
-                      {message.timestamp.toLocaleTimeString()}
-                    </Typography>
-                  </Box>
-                  <Paper
-                    elevation={1}
+                  <Box
                     sx={{
-                      p: 1,
-                      bgcolor:
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems:
                         message.sender === auth.username
-                          ? "primary.light"
-                          : "grey.100",
+                          ? "flex-end"
+                          : "flex-start",
+                      maxWidth: "70%",
                     }}
                   >
-                    <Typography
-                      variant="body1"
-                      color={
-                        message.sender === auth.username ? "white" : "black"
-                      }
+                    <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+                      <Typography variant="body2" color={senderColor}>
+                        {message.sender}
+                      </Typography>
+                    </Box>
+                    <Paper
+                      elevation={1}
+                      sx={{
+                        p: 1,
+                        bgcolor:
+                          message.sender === auth.username
+                            ? "primary.light"
+                            : "grey.100",
+                      }}
                     >
-                      {message.text}
-                    </Typography>
-                  </Paper>
-                </Box>
-              </ListItem>
-            ))}
+                      <Typography variant="body1" color={textColor}>
+                        {message.text}
+                      </Typography>
+                    </Paper>
+                    <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
+                      <Typography variant="body2" color="text.secondary">
+                        {message.timestamp.toLocaleTimeString()}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </ListItem>
+              );
+            })}
             <div ref={messagesEndRef} />
           </List>
         </Paper>
