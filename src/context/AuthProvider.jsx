@@ -115,7 +115,7 @@ export const AuthProvider = ({ children }) => {
                 isLoading,
                 logoutUser,
                 authenticateUser,
-                removeLocalStorage,
+                removeCredentials,
                 USER_PERMISSIONS: localUserPermissions ? JSON.parse(localUserPermissions) : {}
 
             }}
