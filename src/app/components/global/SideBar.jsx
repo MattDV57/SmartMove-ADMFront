@@ -15,10 +15,12 @@ import { tokens } from '../../../styles/theme';
 import { useGlobal } from '../../../context/global/globalContext';
 import { MODULE_URL, SIDEBAR_SIZE } from '../../../common/types';
 import { EXTERNAL_ROLES, INTERNAL_ROLES, PATH_VIEWS, VIEWS_PATH } from '../../../common/rolesPermissions';
+import { useAuth } from '../../../context/AuthProvider';
 
 
 
 const SideBar = ({ USER_PERMISSIONS, accessRole }) => {
+    const { removeCredentials } = useAuth();
     const { globalState, toggleSidebar } = useGlobal();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -45,6 +47,12 @@ const SideBar = ({ USER_PERMISSIONS, accessRole }) => {
             { title: "Control de acceso", to: VIEWS_PATH.GET_ALL_USERS, icon: <SecurityOutlinedIcon /> },
         ];
     }
+
+    const handleGoToUsersModule = () => {
+        removeCredentials()
+        window.location.href = MODULE_URL.USERS;
+    }
+
 
 
 
@@ -124,7 +132,7 @@ const SideBar = ({ USER_PERMISSIONS, accessRole }) => {
                     }}
                 >
                     {isAdmin && <MenuItem
-                        onClick={() => window.location.href = MODULE_URL.USERS}
+                        onClick={handleGoToUsersModule}
                         style={{
                             backgroundColor: 'transparent',
                         }}

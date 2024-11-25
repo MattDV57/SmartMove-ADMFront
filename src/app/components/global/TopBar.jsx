@@ -40,7 +40,7 @@ const CustomIconButton = ({ children, onClick, extraStyles }) => {
 
 
 const TopBar = ({ toggleSidebar }) => {
-    const { auth, logoutUser, USER_PERMISSIONS } = useAuth();
+    const { auth, removeCredentials, USER_PERMISSIONS } = useAuth();
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -73,6 +73,7 @@ const TopBar = ({ toggleSidebar }) => {
 
 
     const handleGoToUsersModule = () => {
+        removeCredentials()
         window.location.href = MODULE_URL.USERS;
     }
 

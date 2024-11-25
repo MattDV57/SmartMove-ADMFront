@@ -88,6 +88,12 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const removeCredentials = () => {
+        setAuth({})
+        localStorage.removeItem('smartmove-userid')
+        localStorage.removeItem('smartmove-user-permissions')
+    }
+
 
 
     return (
