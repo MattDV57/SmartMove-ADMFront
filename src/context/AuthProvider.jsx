@@ -74,9 +74,6 @@ export const AuthProvider = ({ children }) => {
 
             setAuth({ ...data.user, _id: data.user.userId });
 
-
-            console.log([INTERNAL_ROLES.ADMIN, INTERNAL_ROLES.SOPORTE].includes(data.user.accessRole), "GET PROFILE???")
-
             if ([INTERNAL_ROLES.ADMIN, INTERNAL_ROLES.SOPORTE].includes(data.user.accessRole)) {
                 await getUserProfile(data.user.userId)
             }
