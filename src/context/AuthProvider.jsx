@@ -1,6 +1,7 @@
 import { useState, useEffect, createContext, useContext } from 'react'
 import { jwtDecode } from 'jwt-decode';
 import { KeyboardReturnOutlined } from '@mui/icons-material';
+import { INTERNAL_ROLES } from '../common/rolesPermissions';
 const AuthContext = createContext();
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -36,6 +37,12 @@ export const AuthProvider = ({ children }) => {
             return;
         }
 
+        getUserProfile(userId)
+
+        setIsLoading(false)
+    }
+
+    const getUserProfile = async (userId) => {
         try {
 
             const response = await fetch(`${import.meta.env.VITE_API_URL_BACKEND}${`/users/${userId}/profile`}`, options());
@@ -48,15 +55,10 @@ export const AuthProvider = ({ children }) => {
                 ...userData,
             });
 
-
-
         } catch (error) {
-
-            setAuth({})
-
+            console.error(error);
         }
 
-        setIsLoading(false)
     }
 
 
@@ -71,6 +73,14 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem('smartmove-user-permissions', JSON.stringify(data.USER_PERMISSIONS));
 
             setAuth({ ...data.user, _id: data.user.userId });
+
+
+            console.log([INTERNAL_ROLES.ADMIN, INTERNAL_ROLES.SOPORTE].includes(data.user.accessRole), "GET PROFILE???")
+
+            if ([INTERNAL_ROLES.ADMIN, INTERNAL_ROLES.SOPORTE].includes(data.user.accessRole)) {
+                await getUserProfile(data.user.userId)
+            }
+
         } catch (error) {
             setAuth({})
         }
